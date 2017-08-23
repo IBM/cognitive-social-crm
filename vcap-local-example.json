@@ -1,0 +1,59 @@
+{
+  "cloudantNoSQLDB": [{
+    "credentials": {
+    },
+    "syslog_drain_url": null,
+    "label": "cloudantNoSQLDB",
+    "provider": null,
+    "plan": "Lite",
+    "name": "Cloudant NoSQL DB-social-crm",
+    "tags": [
+      "data_management",
+      "ibm_created",
+      "ibm_dedicated_public"
+    ]
+  }],
+  "conversation": [{
+    "credentials": {
+    },
+    "syslog_drain_url": null,
+    "label": "conversation",
+    "provider": null,
+    "plan": "free",
+    "name": "Conversation-social-crm",
+    "tags": [
+      "watson",
+      "ibm_created"
+    ]
+  }],
+  "natural-language-understanding": [{
+    "credentials": {
+    },
+    "syslog_drain_url": null,
+    "label": "natural-language-understanding",
+    "provider": null,
+    "plan": "free",
+    "name": "Natural Language Understanding-social-crm",
+    "tags": [
+      "watson",
+      "ibm_created"
+    ]
+  }],
+  "tone_analyzer": [
+    {
+      "credentials": {
+      },
+      "syslog_drain_url": null,
+      "label": "tone_analyzer",
+      "provider": null,
+      "plan": "lite",
+      "name": "Tone Analyzer-social-crm-v2",
+      "tags": [
+        "watson",
+        "ibm_created",
+        "ibm_dedicated_public",
+        "lite"
+      ]
+    }
+  ]
+}

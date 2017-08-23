@@ -1,0 +1,47 @@
+{
+  "name": "Twitter",
+  "plural": "Twitter",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "*"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "*"
+    }
+  ],
+  "methods": {
+    "listen": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      }
+    },
+    "status": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+:host .page {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/assets/img/twitter-1795652_1280.jpg");
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 0%;
+}
+
+.warning {
+  color: #ffffff;
+}
+
+input.form-control {
+  background-color: #cccccc;
+  color: #444249;
+  font-weight: bold;
+}
+
+.form-control:focus {
+    border-color: #49b0fb;
+}
+
+input.btn {
+  background-color: #49b0fb;
+  color: #ffffff;
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.50);
+}
+
+.input-group-addon {
+  background-color: #cccccc;
+}
+
+.panel-heading {
+  background-color: #444249;
+  color: #3784BC;
+}
+
+.panel {
+  width: 400px;
+  height: 260px;
+
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
+
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.30);
+
+  background-color: #444249;
+  border-color: #444249;
+}

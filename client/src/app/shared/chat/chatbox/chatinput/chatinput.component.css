@@ -1,0 +1,32 @@
+.form-control {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-top: 0px none;
+  border-bottom: 1px solid #ffffff;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-bottom-color: #49b0fb;
+  border-bottom-width: 2px;
+}
+
+.form-inline {
+  margin-top: 30px;
+}
+.form-group {
+  width: 100%;
+}
+.message-bar {
+  width: calc(100% - 70px);
+  float: left;
+}
+.message-send {
+  width: 60px;
+  float: right;
+  color: white;
+  background-color: #4178be;
+  border-color: #4178be;
+}

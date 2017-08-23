@@ -1,0 +1,16 @@
+<div class="row section" id="allocation-section">
+  <div class="col-sm-6">
+    <h3 class="section-header"><i class="fa fa-smile-o" aria-hidden="true"></i>  Emotional Tone<span> Overtime</span></h3>
+    <div class="card">
+      <div id="emotion-overtime-chart"></div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <h3 class="section-header"><i class="fa fa-key" aria-hidden="true"></i>  Keywords <span>mentioned</span></h3>
+    <div class="card">
+      <div>
+        <angular-tag-cloud [data]="keywordCloud" [width]="options.width" [height]="options.height" [overflow]="options.overflow"></angular-tag-cloud>
+      </div>
+    </div>
+  </div>
+</div>

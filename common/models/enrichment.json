@@ -1,0 +1,42 @@
+{
+  "name": "Enrichment",
+  "plural": "Enrichments",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "*"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "*"
+    }
+  ],
+  "methods": {
+    "test": {
+      "accepts": [
+        {
+          "arg": "text",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      }
+    }
+  }
+}

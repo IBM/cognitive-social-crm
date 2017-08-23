@@ -1,0 +1,51 @@
+<div class="page">
+<div *ngIf="isError" class="alert alert-danger">
+  <p>{{errorMsg}}</p>
+</div>
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <strong> Welcome to Cognitive Social CRM</strong>
+        </div>
+        <div class="panel-body">
+          <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+            <fieldset>
+              <div class="row">
+                <div class="col-sm-12 col-md-10  col-md-offset-1 ">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                      <i class="glyphicon glyphicon-user"></i>
+                    </span>
+                      <input class="form-control" formControlName="username" placeholder="Username" id="username" name="username" type="text" autofocus>
+                    </div>
+                    <small [hidden]="loginForm.controls.username.valid || (loginForm.controls.username.pristine && !submitted)" class="warning">
+                      Username is required.
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-lock"></i>
+                      </span>
+                      <input class="form-control" formControlName="password" placeholder="Password" id="password" name="password" type="password" value="">
+                    </div>
+                    <small [hidden]="loginForm.controls.password.valid || (loginForm.controls.password.pristine && !submitted)" class="warning">
+                      Password is required.
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in" [disabled]="!loginForm.valid">
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
