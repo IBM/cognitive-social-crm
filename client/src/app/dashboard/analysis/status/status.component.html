@@ -1,0 +1,71 @@
+<div class="row section" id="status-section">
+  <div class="col-sm-7">
+    <h3 class="section-header"><i class="fa fa-comment-o" aria-hidden="true"></i>  Tweet <span>mentions</span></h3>
+    <div class="card">
+      <div class="row" style="padding-left:25px;padding-bottom:20px">
+        <div class="col-sm-3">
+          <div class="insight-box insight-box--positive">
+            <div class="span-top">
+                <div class="count" id="tweets-positive">{{positiveTweets}}</div>
+              </div>
+              <div class="span-bottom">
+              Positive Tweets
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="insight-box insight-box--negative">
+            <div class="span-top">
+              <div class="count" id="tweets-negative">{{negativeTweets}}</div>
+            </div>
+            <div class="span-bottom">
+              Negative Tweets
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="insight-box" [ngClass]="currentTrendInsightStyle">
+            <div class="span-top">
+                <span class="small">Trend</span>
+            </div>
+            <div class="span-bottom trend">
+              <i class="fa" [ngClass]="currentTrendIcon" aria-hidden="true"></i> {{sentimentTrend}}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="insight-box">
+            <div class="span-top" *ngIf="receiverStatus">
+                <span class="small">{{receiverStatus.listening}}</span>
+            </div>
+            <div class="span-bottom trend" *ngIf="listenerState">
+              <i class="fa" [ngClass]="currentReceiverStateIcon" aria-hidden="true"></i> {{listenerState}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <table class="tweets-received-table table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Recent Tweets</th>
+            <th>Tone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tweet of recentTweets">
+            <td class="small">{{tweet.post_date | date:'medium'}} {{tweet.text}}</td>
+            <td class="text-center" [innerHTML]="getTone(tweet)"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <h3 class="section-header"><i class="fa fa-user-circle" aria-hidden="true"></i>  Tweets <span>response assignment</span></h3>
+    <div class="card">
+      <div id="tweet-allocation-chart"></div>
+    </div>
+  </div>
+</div>

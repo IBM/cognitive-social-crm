@@ -1,0 +1,50 @@
+{
+  "name": "ConversationState",
+  "plural": "ConversationState",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "_rev": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "context": {
+      "type": "object"
+    },
+    "started_at": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "*"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "*"
+    }
+  ],
+  "methods": {
+    "destroyExpiredConversations": {
+      "accepts": [
+      ],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      }
+    }
+  }
+}

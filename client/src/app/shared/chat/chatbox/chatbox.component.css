@@ -1,0 +1,62 @@
+.chatbox {
+  border-style: none;
+  border-width: 1px;
+  border-radius: 5px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.scrolling-box {
+  padding: 0px 5px;
+  height: calc(100vh - 150px);
+  max-height: 700px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: static;
+}
+
+@media (min-width: 768px) {
+  .scrolling-box {
+    padding: 0px 5px;
+    height: calc(100vh - 320px);
+    max-height: 700px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: static;
+  }
+}
+
+.message-box {
+  margin: 20px 0px;
+  overflow: hidden;
+}
+.to-watson {
+  margin-left: 30%;
+}
+.to-watson-icon {
+  float: right;
+  font-size: 40px;
+  max-height: 50px;
+}
+.to-watson-inner {
+  padding: 0px 20px;
+  border-radius: 20px;
+  float: right;
+  max-width: calc(100% - 60px);
+}
+
+.from-watson {
+  max-width: 70%;
+}
+.from-watson-icon {
+  float: left;
+}
+.from-watson-inner {
+  background: #ef5841;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 20px;
+  float: left;
+  max-width: calc(100% - 60px);
+}

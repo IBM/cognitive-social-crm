@@ -1,0 +1,149 @@
+{
+  "name": "Analysis",
+  "plural": "Analysis",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "*"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "*"
+    }
+  ],
+  "methods": {
+    "listByPostDate": {
+      "accepts": [
+        {
+          "arg": "skip",
+          "type": "number"
+        },
+        {
+          "arg": "limit",
+          "type": "number"
+        }
+      ],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "sentimentSummary": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "sentimentOvertime": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "classificationSummary": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "emotionalToneSummary": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "emotionalToneOvertime": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "entitiesSummary": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "keywordsSummary": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "sentimentTrend": {
+      "accepts": [],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      },
+      "http": {
+        "verb": "get"
+      }
+    },
+    "deleteBefore": {
+      "accepts": [
+        {
+          "arg": "before",
+          "type": "string"
+        }
+      ],
+      "returns": {
+        "arg": "body",
+        "type": "object",
+        "root": true
+      }
+    }
+  }
+}

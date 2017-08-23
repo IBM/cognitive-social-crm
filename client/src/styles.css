@@ -1,0 +1,191 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*IBM Custom Fonts */
+@font-face {
+    font-family: HelveticaNeueIBMRoman;
+    src: url('assets/fonts/IBMFONTS/HelvNeueRomanforIBM.woff') format('woff'), url('assets/fonts/IBMFONTS/HelvNeueRomanforIBM.ttf') format('ttf'), url('assets/fonts/IBMFONTS/HelvNeueRomanforIBM.otf') format('otf');
+}
+@font-face {
+    font-family: HelveticaNeueIBMLight;
+    src: url('assets/fonts/IBMFONTS/HelvNeueLightforIBM.woff') format('woff'), url('assets/fonts/IBMFONTS/HelvNeueLightforIBM.ttf') format('ttf'), url('assets/fonts/IBMFONTS/HelvNeueLightforIBM.otf') format('otf');
+}
+@font-face {
+    font-family: HelveticaNeueIBMItalic;
+    src: url('assets/fonts/IBMFONTS/HelvNeueMediumItalicforIBM.woff') format('woff'), url('assets/fonts/IBMFONTS/HelvNeueMediumItalicforIBM.ttf') format('ttf')
+}
+
+html body {
+  font-family:HelveticaNeueIBMLight;
+  background-color: #ffffff;
+}
+
+h3.section-header {
+  color: #0090c1;
+  font-weight: 900;
+  font-size: 32px;
+}
+
+h3.section-header span {
+  font-size: 12px;
+}
+
+h3.section-header i {
+  color: #b4b4b2;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #add7f6;
+  color: #ffffff;
+}
+
+.card {
+  padding: 10px;
+  padding-top: 25px;
+  margin-bottom: 10px;
+  border-top: solid 3px #49b0fb;
+  border-radius: 3px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+}
+
+.section {
+  height: 700px;
+  padding-top: 90px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  background-color: #DADAD9;
+  color: #7F898A;
+}
+
+.insight-box {
+  width: 90%;
+  height: 120px;
+  background: #7cc6fe;
+  color: #183446;
+  border-radius: 8px;
+  box-shadow: outset 0px 0px 10px 10px #000000;
+  padding: 5px;
+  -webkit-box-shadow: 2px 2px 2px 0px rgba(169,169,169,1);
+  -moz-box-shadow: 2px 2px 2px 0px rgba(169,169,169,1);
+  box-shadow: 2px 2px 2px 0px rgba(169,169,169,1);
+}
+
+.insight-box--negative {
+  background-color: #FF3C38;
+  color: #183446;
+}
+
+.insight-box--positive {
+  background-color: #C5D86D;
+  color: #183446;
+}
+
+.insight-box-outline--negative {
+  border-color: #FF3C38;
+  border-width: 0px;
+  border-style: solid;
+  color: #183446;
+  -webkit-box-shadow: 2px 2px 2px 0px rgba(255,60,56,1);
+  -moz-box-shadow: 2px 2px 2px 0px rgba(255,60,56,1);
+  box-shadow: 2px 2px 2px 0px rgba(255,60,56,1);
+}
+
+.insight-box-outline--positive {
+  border-color: #c5d86d;
+  border-width: 1px;
+  border-style: solid;
+  color: #183446;
+}
+
+.insight-box .span-top {
+  font-size: 2.44141em;
+  height: 1.2em;
+  text-align: center;
+}
+
+.insight-box .span-bottom {
+  font-size: 12px;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  line-height: 1.3em;
+  height: 4em;
+  text-align:center;
+}
+
+@media screen and (max-width: 1024px) {
+  .insight-box {
+    height: 60px;
+  }
+  .insight-box .span-top {
+    font-size: 1em;
+    height: 1.2em;
+    text-align: center;
+  }
+  .insight-box .span-bottom {
+    font-size: 8px;
+  }
+}
+
+
+.fa-thumbs-o-down {
+  color: #ff3c38;
+}
+
+.fa-hand-o-left {
+  color: #49b0fb;
+}
+
+.fa-thumbs-o-up {
+  color: #c5d86d;
+}
+
+.badge {
+  padding: 1px 9px 2px;
+  font-size: 12.025px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #999999;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+.badge:hover {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.badge-error {
+  background-color: #b94a48 !important;
+}
+.badge-error:hover {
+  background-color: #953b39;
+}
+.badge-warning {
+  background-color: #f89406 !important;
+}
+.badge-warning:hover {
+  background-color: #c67605;
+}
+.badge-success {
+  background-color: #468847 !important;
+}
+.badge-success:hover {
+  background-color: #356635;
+}
+.badge-info {
+  background-color: #3a87ad !important;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+.badge-inverse {
+  background-color: #333333 !important;
+}
+.badge-inverse:hover {
+  background-color: #1a1a1a;
+}

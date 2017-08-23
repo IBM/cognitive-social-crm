@@ -1,0 +1,18 @@
+<div *ngIf="showMessage" class="message-box" [ngClass]="{'adjacent': adjacent === 'true'}" [@flyInOut]="direction === 'to-watson' ? 'inRight' : 'inLeft'" (@flyInOut.done)="animationDone($event)">
+  <div class="{{ direction }}">
+    <div class=" {{direction+'-icon'}}" >
+      <div *ngIf="direction === 'from-watson'" class="from-watson-icon" [ngClass]="{'adjacent': adjacent === 'true'}"  >
+        <img src='assets/img/watson-globe.png' style='width:50px'>
+      </div>
+    </div>
+    <div class="{{direction+'-inner'}}" [ngClass]="{'adjacent': adjacent === 'true'}" >
+      <div *ngIf="type === 'indicator'" class="waiting-indicator">
+        <span class="waiting-animation-1">.</span>
+        <span class="waiting-animation-2">.</span>
+        <span class="waiting-animation-3">.</span>
+      </div>
+      <div *ngIf="type === 'text'" [innerHTML]="message | linky:{newWindow: true, className: 'link'}">
+      </div>
+    </div>
+  </div>
+</div>

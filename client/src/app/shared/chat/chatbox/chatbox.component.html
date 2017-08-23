@@ -1,0 +1,9 @@
+<div class="chatbox">
+  <div class="scrolling-box" id='scrolling-chat-box'>
+    <wcga-chatbubble *ngFor='let message of messages; let i = index' direction="{{message.direction}}" message="{{message.message}}" type="{{message.type}}" [enrichment]="message.enrichment" adjacent="{{i >= 1 && messages[i-1].direction === message.direction}}"> </wcga-chatbubble>
+    <wcga-chatbubble direction="from" message="..." type="indicator" [showMessage]="awaitingIndicator" (animateEnd)="indicatorAnimationCompleteHandler($event)" adjacent="{{messages.length > 0 && messages[messages.length-1].direction === 'from'}}"> </wcga-chatbubble>
+  </div>
+  <wcga-chatinput
+    (sendMessage)="postMessage($event)">
+  </wcga-chatinput>
+</div>

@@ -1,0 +1,128 @@
+a {
+  color: ##c0e6ff;
+  font-size: 600;
+  font-decoration: underline;
+}
+
+.message-box {
+  margin-top: 20px;
+  overflow: hidden;
+  will-change: transform;
+}
+.to-watson {
+  margin-left: 20%;
+  position:relative;
+}
+.to-watson-icon {
+  float: right;
+  font-size: 40px;
+}
+.to-watson-inner {
+  padding: 0px 20px;
+  border-radius: 20px;
+  float: right;
+  max-width: calc(100% - 60px);
+}
+
+.waiting-indicator{
+  min-width: 25px;
+}
+
+.waiting-animation-1 {
+  font-weight: 900;
+  display: inline-block;
+  animation-name: waitBounce;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.waiting-animation-2 {
+  font-weight: 900;
+  display: inline-block;
+  animation-name: waitBounce;
+  animation-duration: .3s;
+  animation-delay: .1s;
+  animation-timing-function: ease-in-out;;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.waiting-animation-3 {
+  font-weight: 900;
+  display: inline-block;
+  animation-name: waitBounce;
+  animation-duration: .3s;
+  animation-delay: .2s;
+  animation-timing-function: ease-in-out;;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.adjacent.message-box {
+  margin-top: 2px;
+}
+
+.from-watson {
+  max-width: 90%;
+  position:relative;
+}
+
+.from-watson-icon {
+  display: none;
+}
+
+.adjacent.from-watson-icon {
+  display: none;
+}
+
+.adjacent.from-watson-inner {
+  float: left;
+}
+
+.from-watson-inner {
+  background: #4178be;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 20px;
+  float: left;
+}
+
+@media (min-width: 500px) {
+  .from-watson-icon {
+    display: inherit;
+    float: left;
+  }
+
+  .adjacent.from-watson-icon {
+    display: none;
+  }
+
+  .adjacent.from-watson-inner {
+    position: relative;
+    left: 50px;
+  }
+  .from-watson-inner {
+    background: #4178be;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    float: left;
+    max-width: calc(100% - 60px);
+  }
+  .from-watson {
+    max-width: 80%;
+    position:relative;
+  }
+}
+
+@keyframes waitBounce {
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}

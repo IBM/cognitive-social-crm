@@ -1,0 +1,49 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory",
+    "file": "mem_db.json"
+  },
+  "analysis-db": {
+    "url": "${CLOUDANT_CONNECTION_URL}",
+    "database": "${CLOUDANT_ANALYSIS_DB_NAME}",
+    "name": "analysis-db",
+    "connector": "cloudant"
+  },
+  "conversation-state-db": {
+    "url": "${CLOUDANT_CONNECTION_URL}",
+    "database": "${CLOUDANT_CONVERSATION_STATE_DB_NAME}",
+    "name": "conversation-state-db",
+    "connector": "cloudant"
+  },
+  "watson-conversation": {
+    "name": "watson-conversation",
+    "connector": "rest",
+    "operations": [
+      {
+        "template": {
+          "method": "POST",
+          "url": "${CONVERSATION_API_URL}",
+          "body": "{input='':any}",
+          "responsePath": "$"
+        },
+        "functions": {
+          "message": [
+            "input"
+          ]
+        }
+      }
+    ],
+    "crud": false,
+    "options": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json"
+      }
+    },
+    "auth": {
+      "user": "${CONVERSATION_API_USER}",
+      "password": "${CONVERSATION_API_PASSWORD}"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "rulesDirectory": [
+    "node_modules/codelyzer"
+  ],
+  "extends": "tslint:recommended",
+  "rules": {
+
+    "trailing-comma": [false,
+        {
+            "multiline": "always",
+            "singleline": "never"
+        }
+    ],
+    "max-line-length": [false, 120],
+    "quotemark": [true, "single", "avoid-escape"],
+    "object-literal-sort-keys": false,
+    "no-console": false,
+    "ordered-imports": false,
+    "only-arrow-functions": false,
+    "member-ordering": false,
+    "member-access": false,
+    "semicolon": [true, "never"],
+    "object-literal-shorthand": false,
+    "arrow-parens": false,
+    "no-unused-variable": true,
+
+    "directive-selector": [true, "attribute", ["wsl"], "camelCase"],
+    "component-selector": [true, "element", ["wsl"], "kebab-case"],
+
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "no-attribute-parameter-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-forward-ref": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+
+    "component-class-suffix": [true, "Component"],
+    "directive-class-suffix": [true, "Directive"],
+    "import-destructuring-spacing": true,
+    "templates-use-public": true,
+    "no-access-missing-member": true,
+    "invoke-injectable": true
+  }
+}

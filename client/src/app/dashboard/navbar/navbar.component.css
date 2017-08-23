@@ -1,0 +1,52 @@
+/*
+ * Start Bootstrap - Logo Nav (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+ :host {
+   font-family:HelveticaNeueIBMLight;
+ }
+
+.container {
+  margin-left: 30px;
+}
+
+.bs-logo-nav-container {
+  padding-top: 70px;
+  /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+}
+
+ul.nav.navbar-nav {
+  padding-top: 20px !important;
+}
+
+.navbar-fixed-top .nav {
+  padding: 15px 0;
+}
+
+.navbar-fixed-top .navbar-brand {
+  padding: 0 15px;
+}
+
+.app-title {
+  padding-top: 5px;
+  padding-right: 30px;
+  text-align: center;
+}
+
+.app-title h3 {
+  color: #49b0fb;
+  font-size: 38px;
+  font-weight: bolder;
+}
+
+@media(min-width:768px) {
+   .bs-logo-nav-container {
+    padding-top: 100px;
+    /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+  }
+  .navbar-fixed-top .navbar-brand {
+    padding: 15px 0;
+  }
+}
