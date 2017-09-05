@@ -5,7 +5,7 @@ describe('cloudant configuration:', () => {
   let response = null
   beforeAll((done) => {
     genericRequestRawPromise({
-      url: `${process.env.CLOUDANT_CONNECTION_URL}/${process.env.CLOUDANT_DB_NAME}`,
+      url: `${process.env.CLOUDANT_CONNECTION_URL}/${process.env.CLOUDANT_ANALYSIS_DB_NAME}`,
       method: 'GET',
       json: true
     })
@@ -23,7 +23,7 @@ describe('cloudant configuration:', () => {
   })
   it('should expect a response that is in the expected format', () => {
     // Just test the basics of the response
-    expect(response.db_name).toEqual(process.env.CLOUDANT_DB_NAME)
+    expect(response.db_name).toEqual(process.env.CLOUDANT_ANALYSIS_DB_NAME)
     expect(response.sizes).toEqual(jasmine.any(Object))
   })
 })
