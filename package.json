@@ -1,6 +1,6 @@
 {
-  "name": "social-crm-starter-demo-app",
-  "version": "2.0.0",
+  "name": "cognitive-social-crm",
+  "version": "1.0.0",
   "main": "server/server.js",
   "engines": {
     "node": "7.8.0",
@@ -16,13 +16,14 @@
     "watch:client": "(cd ./client && npm run develop)",
     "watch:server": "nodemon --watch ./server --watch ./common",
     "init": "npm install",
-    "postinstall": "path-exists client && (cd ./client && npm install) || echo 'client dependencies are skipped in production'",
+    "postinstall": "path-exists client && (cd ./client && npm install) && (cd .. && npm run build:client) || echo 'client dependencies are skipped in production'",
     "develop": "concurrently \"npm run watch:client\" \"npm run watch:server\" \"sleep 20 && npm run browsersync\"; exit 0",
     "test": "jasmine",
     "setup": "node ./setup/social-crm-setup.js"
   },
   "dependencies": {
     "body-parser": "1.15.2",
+    "cf-deployment-tracker-client": "^0.1.3",
     "cfenv": "1.0.3",
     "cloudant": "1.8.0",
     "compression": "1.0.3",

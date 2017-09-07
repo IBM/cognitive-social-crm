@@ -1,8 +1,42 @@
+declared-services:
+  crm-conversation-service:
+    label: conversation
+    plan: free
+  crm-cloudantNoSQLDB-service:
+    label: cloudantNoSQLDB
+    plan: Lite
+  crm-natural-language-understanding:
+    label: natural-language-understanding
+    plan: free
+  crm-tone-analyzer:
+    label: tone-analyzer
+    plan: Lite
+
 applications:
 - path: .
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: social-crm-starter-demo-app
-  host: social-crm-starter-demo-app
+  name: cognitive-social-crm
+  host: cognitive-social-crm
   disk_quota: 1024M
+  services:
+  - crm-conversation-service
+  - crm-cloudantNoSQLDB-service
+  - crm-natural-language-understanding
+  - crm-tone-analyzer
+env:
+  CLOUDANT_ANALYSIS_DB_NAME: analysis-db
+  CLOUDANT_CONVERSATION_STATE_DB_NAME: conversation-state-db
+  TWITTER_CONSUMER_KEY: placeholder
+  TWITTER_CONSUMER_SECRET: placeholder
+  TWITTER_ACCESS_TOKEN: placeholder
+  TWITTER_ACCESS_SECRET: placeholder
+  TWITTER_LISTEN_FOR: placeholder
+  TWITTER_FILTER_CONTAINING: 
+  TWITTER_PROCESS_RETWEETS: false,
+  TWITTER_RECEIVER_START_AT_BOOT: true,
+  TWITTER_CHATBOT_SCREENNAME: placeholder
+  TWITTER_CHATBOT_START_AT_BOOT: true
+
+ 

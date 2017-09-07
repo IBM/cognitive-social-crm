@@ -1,3 +1,4 @@
+require("cf-deployment-tracker-client").track();
 require('./utils/wsl-env')
 
 var loopback = require('loopback')
