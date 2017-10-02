@@ -7,6 +7,18 @@ Capture and analyze social media for a specified Twitter handle or hashtag and l
 
 ![](./accelerator/images/Social_CRM_Starter_Application.png)
 
+# Flow
+
+![](./doc/source/images/architecture.png)
+
+1. Tweets are pushed out by Twitter.
+2. The Cognitive Social CRM app (server.js) processes the tweet.
+3. The Watson Tone Analyzer Service performs analysis of sentiment and emotional tone.
+4. The Watson Natural Language Understanding Service pulls out keywords and entities.
+5. The Watson Conversation Service extracts the intents (verbs) from the tweets.
+6. Tweets and metadata are stored in Cloudant
+7. The Web UI displays charts and graphs as well as the tweets.
+
 # Description
 
 This Accelerator will subscribe to Twitter screen names or hashtags and analyze the content with Tone, Sentiment and Entity extraction and use the Conversation API to classify (Intents) the tweets.  The enriched meta data is then saved to a Cloudant database where Map Reduce functions are used to provide a high level insight into the data.
