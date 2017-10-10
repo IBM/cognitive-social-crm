@@ -3,6 +3,7 @@ WORK IN PROGRESS - Complete code coming soon!
 # Monitor Twitter feeds to better understand customer sentiment using Watson Conversation, Tone Analyzer, and Natural Language Understanding
 
 In this journey, our server application subscribes to a Twitter feed as configured by the user. Each tweet received will be analyzed for emotional tone and sentiment, and the intent of the tweet will be determined by the Watson Conversation service. All data is stored in a Cloudant database, with the opportunity to store historical data as well. The resulting analysis is presented in a Web UI as a series of graphs and charts.
+Credit goes to [Werner Vanzyl](https://www.linkedin.com/in/werner-vanzyl-326a589) as the author of the original code and documents.
 
 When the reader has completed this journey, they will understand how to:
 
