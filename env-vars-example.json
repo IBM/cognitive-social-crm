@@ -1,18 +1,26 @@
+# Replace the credentials here with your own.
+# Rename this file to env-vars.json before starting the app.
+# Place each item in quotes as you add
+
 {
-  "CLOUDANT_CONNECTION_URL": {"expr": "Cloudant.*", "field": "credentials.url"},
-  "CLOUDANT_USERNAME": {"expr": "Cloudant.*", "field": "credentials.username"},
-  "CLOUDANT_PASSWORD": {"expr": "Cloudant.*", "field": "credentials.password"},
+
+  "CLOUDANT_CONNECTION_URL": <add_cloudant_connection_URL>,
+  "CLOUDANT_USERNAME": <add_cloudant_username>,
+  "CLOUDANT_PASSWORD": <add_cloudant_password>,
   "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
   "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
-  "CONVERSATION_API_URL": {"expr": "Conversation.*", "field": "credentials.url"},
-  "CONVERSATION_API_USER": {"expr": "Conversation.*", "field": "credentials.username"},
-  "CONVERSATION_API_PASSWORD": {"expr": "Conversation.*", "field": "credentials.password"},
-  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": "",
-  "CONVERSATION_CHATBOT_WORKSPACE_ID": "",
-  "NLU_API_USER": {"expr": "Natural.*", "field": "credentials.username"},
-  "NLU_API_PASSWORD": {"expr": "Natural.*", "field": "credentials.password"},
-  "TONE_ANALYZER_USER": {"expr": "Tone.*", "field": "credentials.username"},
-  "TONE_ANALYZER_PASSWORD": {"expr": "Tone.*", "field": "credentials.password"},
+
+  "CONVERSATION_API_URL": <add_conversation_API_url>,
+  "CONVERSATION_API_USER": <add_conversation_username>,
+  "CONVERSATION_API_PASSWORD": <add_conversation_password>,
+  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": <add_conversation_password>,
+
+  "NLU_API_USER": <add_NLU_username>,
+  "NLU_API_PASSWORD": <add_NLU_password>,
+
+  "TONE_ANALYZER_USER": <add_tone_analyzer_username>,
+  "TONE_ANALYZER_PASSWORD": <add_tone_analyzer_password>,
+
   "TWITTER_CONSUMER_KEY": "",
   "TWITTER_CONSUMER_SECRET": "",
   "TWITTER_ACCESS_TOKEN": "",

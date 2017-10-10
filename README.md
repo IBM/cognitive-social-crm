@@ -1,13 +1,18 @@
-# Social CRM Accelerator
 WORK IN PROGRESS - Complete code coming soon!
 
-## Overview
+# Monitor Twitter feeds to better understand customer sentiment using Watson Conversation, Tone Analyzer, and Natural Language Understanding
 
-Capture and analyze social media for a specified Twitter handle or hashtag and let Watson analyze the content.
+In this journey, our server application subscribes to a Twitter feed as configured by the user. Each tweet received will be analyzed for emotional tone and sentiment, and the intent of the tweet will be determined by the Watson Conversation service. All data is stored in a Cloudant database, with the opportunity to store historical data as well. The resulting analysis is presented in a Web UI as a series of graphs and charts.
 
-![](./accelerator/images/Social_CRM_Starter_Application.png)
+When the reader has completed this journey, they will understand how to:
 
-# Flow
+* Run an application that monitors a Twitter feed.
+* Send the tweets to Watson Tone Analyzer, Conversation, and Natural Language Understanding for processing and analysis.
+* Store the information in a Cloudant database.
+* Present the information in a Node.js web UI.
+* Capture and analyze social media for a specified Twitter handle or hashtag and let Watson analyze the content.
+
+## Flow
 
 ![](./doc/source/images/architecture.png)
 
@@ -19,152 +24,219 @@ Capture and analyze social media for a specified Twitter handle or hashtag and l
 6. Tweets and metadata are stored in Cloudant
 7. The Web UI displays charts and graphs as well as the tweets.
 
-# Description
+## With Watson
 
-This Accelerator will subscribe to Twitter screen names or hashtags and analyze the content with Tone, Sentiment and Entity extraction and use the Conversation API to classify (Intents) the tweets.  The enriched meta data is then saved to a Cloudant database where Map Reduce functions are used to provide a high level insight into the data.
+Want to take your Watson app to the next level? Looking to leverage Watson Brand assets? Join the [With Watson](https://www.ibm.com/watson/with-watson) program which provides exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
-The Accelerator provides you with the Twitter listener, a Dashboard that can be extended and a Chatbot, accessible from this web application or from Twitter.
+## Included components
 
-Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
+* [Watson Conversation](https://www.ibm.com/watson/services/conversation): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
+* [Watson Tone Analyzer](https://www.ibm.com/watson/services/tone-analyzer): Uses linguistic analysis to detect communication tones in written text.
+* [Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding): Natural language processing for advanced text analysis.
+* [IBM Cloudant](https://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant): A managed NoSQL database service that moves application data closer to all the places it needs to be — for uninterrupted data access, offline or on.
+* [Cloud Foundry](http://cloudfoundry.org/): Build, deploy, and run applications on an open source cloud platform.
 
-# Required Services
+## Featured technologies
 
-This Accelerator requires 4 services to be created.  You can reuse services by binding existing services to this application.
+* [Artificial Intelligence](https://medium.com/ibm-data-science-experience): Artificial intelligence can be applied to disparate solution spaces to deliver disruptive technologies.
+* [Databases](https://en.wikipedia.org/wiki/IBM_Information_Management_System#.22Full_Function.22_databases): Repository for storing and managing collections of data.
+* [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
 
-![](./accelerator/images/Social_CRM_Starter_Services.png)
+# Watch the Video
 
-- Cloudant NoSql DB
-- Watson Tone Analyzer
-- Watson Natural Language Understanding
-- Conversation (For Custom Implementations)
+# Steps
 
-## Prerequisites
+The setup is done in 3 primary steps.  You will download the code, setup the application and then deploy the code to Bluemix.  If you would like to run the code locally, there will be one more step to configure the credentials locally.
+
+1. [Clone the repo](#1-clone-the-repo)
+2. [Install Dependencies](#2-install-dependencies)
+3. [Twitter Requirements](#3-twitter-requirements)
+4. [Create Watson services with IBM Bluemix](#4-create-watson-services-with-ibm-bluemix)
+5. [Import the Conversation workspace](#5-import-the-conversation-workspace)
+6. [Configure credentials](#6-configure-credentials)
+7. [Run the application](#7-run-the-application)
+
+### 1. Clone the repo
+
+Clone the `cognitive-social-CRM` locally. In a terminal, run:
+
+```
+$ git clone https://github.com/IBM/cognitive-social-crm
+$ cd cognitive-social-crm
+```
+
+We’ll be using the file [`data/conversation/workspaces/workspace-social-crm-airline-classification.json`](data/conversation/workspaces/workspace-social-crm-airline-classification.json) to configure our Watson Conversation workspace.
+
+### 2. Install dependencies
 
 The application requires the following software to be installed locally.
 
-1. Node (6.9+) Application runtime environment
-2. NPM (3.10+) Server side dependency management
+1. [Node (6.9+)](https://nodejs.org) Application runtime environment
+2. [NPM (3.10+)](https://www.npmjs.com/get-npm) Server-side dependency management
 3. Angular CLI (1.0.0) `npm install -g @angular/cli`
 
 > If you have Angular CLI already installed.  Please read the upgrade instructions for Angular CLI when you upgrade the software.
 
-# Setup Instructions
-
-The setup is done in 3 primary steps.  You will download the code, setup the application and then deploy the code to Bluemix.  If you would like to run the code locally, there will be one more step to configure the credentials locally.
-
-## Downloading the code
-
-1. Clone the app to your local environment from your terminal using the following command:
-
-  ```
-  git clone https://github.ibm.com/Watson-Solutions-Lab/social-crm-starter-app.git
-  ```
-2. `cd` into this newly created directory
-
-# Twitter requirements
-
-To implement the Watson Chatbot and subscribe to Tweets from a specific handle or hashtag in this application, it is required to create a Twitter account with an application.
-
-The Twitter account will be used as the Chatbot account that receives the messages from other Twitter users as well as the owner of the application, required by Twitter, to receive Tweets.
-
-You can create a normal Twitter account on [Twitter](https://twitter.com/signup).  It is required to provide a unique email id that isn't already associated with an existing Twitter account as well as a phone number to verify the account.  You can use a email service like gmail or yahoo to create email accounts for each Twitter account.  Although a phone number is not required when creating the account, it is required when you create an application.
-
-Once you have the Twitter account created and verified, log in to [Twitter Dev](https://apps.twitter.com/) and create an application.  Select the Keys and Access Tokens tab and generate a Consumer Key and Secret.
-
-Keep this page open as you will need to use these tokens into setup procedure in the application later on.
-
-## Setting up Bluemix
-
-> Explanation: You will create a placeholder application in Bluemix that connects to all the required services first.
-
-1. If you do not already have a Bluemix account, [sign up here](https://console.ng.bluemix.net/registration).
-2. Download and install the [Cloud Foundry CLI](https://console.ng.bluemix.net/docs/cli/index.html#cli) tool.
-3. Log into Bluemix with our account.
-4. From the Application Dashboard, Create a new Application.
-  - On the left, select Apps > Cloudfoundry Apps.
-  - On the right, select SDK for Node.js.
-  - Provide a unique name for your application.
-5. Once the application is created, go into the application and select Connections.
-6. Create the required services and bind them to the newly created application.
-7. Leave the Connections page open, as you will reference the credentials in the subsequent setup step.
-
-## Load/Create the Conversation API workspaces
-
-> Note: Although we do provide you with a sample classification workspace and dialog workspace.  The idea is that you create your own that is relevant to your domain.
-
-> Note: This Accelerator uses Watson Conversation Intent detection as classification method for the tweets, and not NLC.
-
-1. Log into Bluemix with our account.
-2. Navigate to the newly created Social CRM application.
-3. From the Connections Panel, select the Conversation Instance.
-4. Click the Launch Tool button.
-5. Click the Import Workspace Button.
-6. Select the Choose file button and navigate to the application folder /accelerator/wcs
-7. Select the `workspace-social-crm-airline-classification.json` file.
-8. Import everything.
-9. Do the same for the `workspace-social-crm-airline-dialog.json` file.
-
-## Configuration files
-
-There are 2 sample configuration files that are required by the application.
-
-The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on Bluemix or locally.
-
-The `vcap-local-example.json` file should be copied to `vcap-local.json` before the application is executed locally.  This file contains your service credentials required to run the application locally.  If the app is run on Bluemix, the app will use the VCAP service information on Bluemix.  The sample file is a skeleton of what is required, but, you have to fill in the details.
-
-> The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up the parameters in this file, but you can come back and modify them at any time.
-
-## Installing the dependencies
-
-The server dependencies are controlled and defined in [the main package.json](./package.json).
-
-The client dependencies are controlled and defined in [the client package.json](./client/package.json).
-
 Run the following command, from the application folder, to install both the client and server dependencies.
 
 ```
-npm install
+$ npm install-
 ```
 
-## Configuring the application
+### 3. Twitter requirements
+
+To subscribe to Tweets from a specific handle or hashtag in this application, it is required to create a Twitter account and a Twitter application.
+The Twitter account will be used as the account that receives the messages from other Twitter users as well as the owner of the application, required by Twitter, to receive Tweets.
+* You can create a normal Twitter account on [Twitter](https://twitter.com/signup) or use an existing account.  It is required to provide a unique email id that isn't already associated with an existing Twitter account as well as a phone number to verify the account.
+* Once you have the Twitter account created and verified, log in to [Twitter Dev](https://apps.twitter.com/) and create an application.  
+* Select the Keys and Access Tokens tab and generate a Consumer Key and Secret.
+Keep this page open as you will need to use these tokens into setup procedure in the application later on.
+
+### 4. Create Watson services with IBM Bluemix
+
+Either Setup the Bluemix Deployment or Setup Local Deployment.
+
+#### Setting up Bluemix Deployment
+
+> Explanation: You will create a placeholder application in Bluemix that connects to all the required services first.
+
+1. If you do not already have a Bluemix account, [sign up for Bluemix](https://console.bluemix.net/registration).
+2. Download and install the [Cloud Foundry CLI](https://console.bluemix.net/docs/cli/index.html#cli) tool.
+3. Log into Bluemix with your account.
+4. From the `Application Dashboard`, create a new `Application`.
+  - On the left, select `Apps > Cloudfoundry Apps`.
+  - On the right, select `SDK for Node.js`.
+  - Provide a unique name for your application.
+5. Once the application is created, go into the application and select `Connections`.
+6. Create the required services and bind them to the newly created application: `Watson Conversation`, `Natural Lanuguage Understanding`, `Tone Analyzer`, and `Cloudant NoSQL DB`.
+7. Leave the `Connections` page open, as you will reference the credentials in the next step.
+
+#### Setup local Deployment
+
+> Explanation: You will create the  Bluemix services and configure them to use on a locally running server app.
+
+If you do not already have a Bluemix account, [sign up for Bluemix](https://console.bluemix.net/registration).
+Create the following services:
+
+* [**Watson Conversation**](https://console.bluemix.net/catalog/services/conversation)
+* [**Watson Tone Analyzer**](https://console.bluemix.net/catalog/services/tone-analyzer)
+* [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
+* [**IBM Cloudant DB**](https://console.bluemix.net/catalog/services/cloudant-nosql-db)
+
+### 5. Import the Conversation workspace
+
+Launch the **Watson Conversation** tool. Use the **import** icon button on the right
+
+Find the local version of [`data/conversation/workspaces/workspace-social-crm-airline-classification.json`](data/conversation/workspaces/workspace-social-crm-airline-classification.json) and select
+**Import**. Find the **Workspace ID** by clicking on the context menu of the new
+workspace and select **View details**. Save this ID for later.
+
+### 5. Configure credentials
+
+The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on Bluemix or locally.
+
+> The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up the parameters in this file, but you can come back and modify them at any time.
+
+#### Run Setup application
 
 The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application.
 
 In the directory where to code is located (previously downloaded and cd'ed into) run the following command
 
 ```
-npm run setup
+$ npm run setup
 ```
 
 The setup utility consist of a number of actions that should be performed.
 
-### Cloudant
+#### Cloudant
 
 This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in Bluemix.
 
-### Twitter
+#### Twitter
 
 This action will update the configuration with the parameters needed to connect to Twitter as well as subscribe to tweets.  You need to have the Consumer Key (API Key), Consumer Secret (API Secret), Access Token and Access Token Secret from dev.twitter.com available.
 
-At this point you should have decided what Twitter handle you will be "listening" to.  The Twitter handle would be something other people would tweet to, for example `@united`, `@AmericanAir`, `@JetBlue` (Please note that these are CASE SENSITIVE) etc.  This value is what Twitter would use as trigger to send you the tweets.
+At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Conversation Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
 
-When you selected the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Then the screen name you are listening to, the Conversation API workspace id for the classifications and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
+NOTE: 
+Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
 
-The chatbot screen name is your own Twitter account.  DO NOT USE THE SAME TWITTER SCREEN NAME YOU USED TO LISTEN TO.  This way, when you want to chat to the Chatbot via Twitter, you can use your own screen name for example `@mysuperbot blah blah blah` to send messages to your bot.
+When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Conversation API workspace id for the classifications, and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
 
-If you don't want to implement a Chatbot, then leave this blank, and the Chatbot won't be started.
-
-### Testing Twitter
+##### Testing Twitter
 
 The next option is to test out the Twitter parameters.  When you select this option from the setup utility's main menu, the listener will be started and you will see tweets being received and displayed on the console.  If some of the parameters are incorrect, then you should see the error.
 
-### Searching for Tweets
+##### Searching for Tweets
 
 > Note: If you want to leverage this feature, you have to complete the local setup.
 
 You sometimes want to populate your database with previous Tweets.  This Accelerator provides you with the ability to go back 7 days to search for tweets that match your "listen to" screen name.  It will do the enrichment and place the tweets into the database.
 
-## Running the app on Bluemix
+#### Configure service credentials to run locally
+
+The credentials for Bluemix services (Conversation, Tone Analyzer,
+Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in Bluemix,
+by selecting the ``Service Credentials`` option for each service.
+
+The other setting for Conversation was collected during the
+earlier setup steps (``WORKSPACE_ID``).
+
+Copy the [`env-vars-example.json`](env-vars-example.json) to `env-vars.json`.
+
+```
+$ cp env-vars-example.json env-vars.json
+```
+Edit the `env-vars.json` file with the necessary settings.
+The Cloudant and Twitter settings were populated when you performed `npm run setup`. These setups could be hand edited if you wish.
+
+#### `env-vars-example.json:`
+
+```
+# Replace the credentials here with your own.
+# Rename this file to env-vars.json before starting the app.
+# Place each item in quotes as you add
+
+{
+
+  "CLOUDANT_CONNECTION_URL": <populated by `npm run setup`>,
+  "CLOUDANT_USERNAME": <populated by `npm run setup`>,
+  "CLOUDANT_PASSWORD": <populated by `npm run setup`>,
+  "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
+  "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
+
+  "CONVERSATION_API_URL": <add_conversation_API_url>,
+  "CONVERSATION_API_USER": <add_conversation_username>,
+  "CONVERSATION_API_PASSWORD": <add_conversation_password>,
+  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": <add_conversation_password>,
+
+  "NLU_API_USER": <add_NLU_username>,
+  "NLU_API_PASSWORD": <add_NLU_password>,
+
+  "TONE_ANALYZER_USER": <add_tone_analyzer_username>,
+  "TONE_ANALYZER_PASSWORD": <add_tone_analyzer_password>,
+
+  "TWITTER_CONSUMER_KEY": <populated by `npm run setup`>,
+  "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
+  "TWITTER_ACCESS_TOKEN": <populated by `npm run setup`>,
+  "TWITTER_ACCESS_SECRET": <populated by `npm run setup`>,
+  "TWITTER_LISTEN_FOR": "populated by `npm run setup`",
+  "TWITTER_FILTER_FROM": "populated by `npm run setup`",
+  "TWITTER_FILTER_CONTAINING": "populated by `npm run setup`",
+  "TWITTER_PROCESS_RETWEETS": false,
+  "TWITTER_RECEIVER_START_AT_BOOT": true,
+  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`,
+  "TWITTER_CHATBOT_START_AT_BOOT": true
+}
+
+```
+
+### 6. Run the application
+
+Either `Run the app on Bluemix` or `Run the app locally`.
+
+#### Running the app on Bluemix
 
 Use the name of the application you created previously to update the configuration files locally.
 
@@ -189,56 +261,13 @@ Use the name of the application you created previously to update the configurati
 
 6. The application is secured with a username and password. See the end of this README for details.
 
-## Running the app locally
+#### Running the app locally
 
-To run the application locally (your own computer), you have to install additional Node.js modules and configure the application with some credentials that is provisioned on Bluemix.
-
-### Starting the application
-
-There are a few quick steps required to stand up the application. In general, the required tasks are.
-
-1. Install the server and client dependencies
-2. Commission the required services
-3. Configure the environment variables in manifest.yml (cloud deployment) or .env (local deployment)
-4. Build and run or deploy
-
-## The Local VCAP file
-
-The vcap-local.json file consist of your Bluemix service credentials when you run the application locally.
-
-This file must be updated with your service credentials before the application can be executed.
-
-1. On the Bluemix Application page, select the Connections option on the left.
-2. Select each of the services you provisioned earlier and view the credentials.
-3. Copy the credentials using the 'copy' icon.
-4. Edit the vcap-local.json file.
-5. Paste the content of the clipboard into the vcap.local file.
-6. The structure of this file consist of a service name and a json object, but the pasted value is wrapped in another ```{ }``` that should be removed.
-7. A sample of what it should look like below;
+Once all the credentials are in place, the application can be started with:
 
 ```
-{
-  "cloudantNoSQLDB": [
-    {
-      "credentials": {
-        ...
-      },
-      "syslog_drain_url": null,
-      "label": "cloudantNoSQLDB",
-      "provider": null,
-      "plan": "Lite",
-      "name": "Cloudant NoSQL DB-xx",
-      "tags": [
-        "data_management",
-        "ibm_created",
-        "ibm_dedicated_public"
-      ]
-    }
-  ]
-}
+$ npm run develop
 ```
-
-8. Once all the credentials are in place, the application can be starter with `npm run develop`.
 
 ## Accessing the Application
 
