@@ -156,8 +156,7 @@ module.exports = (function () {
         _path.forEach(function (field) {
           if (cur[field]) {
             cur = cur[field]
-          } else {
-          }
+          } 
         })
 
         return cur
