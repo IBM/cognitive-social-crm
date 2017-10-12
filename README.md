@@ -1,4 +1,4 @@
-WORK IN PROGRESS - Complete code coming soon!
+[![Build Status](https://travis-ci.org/IBM/cognitive-social-crm.svg?branch=master)](https://travis-ci.org/IBM/cognitive-social-crm)
 
 # Monitor Twitter feeds to better understand customer sentiment using Watson Conversation, Tone Analyzer, and Natural Language Understanding
 
@@ -81,7 +81,7 @@ The application requires the following software to be installed locally.
 Run the following command, from the application folder, to install both the client and server dependencies.
 
 ```
-$ npm install-
+$ npm install
 ```
 
 ### 3. Twitter requirements
