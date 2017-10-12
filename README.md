@@ -132,7 +132,7 @@ Find the local version of [`data/conversation/workspaces/workspace-social-crm-ai
 **Import**. Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
-### 5. Configure credentials
+### 6. Configure credentials
 
 The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on Bluemix or locally.
 
