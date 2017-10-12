@@ -136,46 +136,12 @@ workspace and select **View details**. Save this ID for later.
 
 The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on Bluemix or locally.
 
-> The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up the parameters in this file, but you can come back and modify them at any time.
+> The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up some of the parameters in this file, but you can come back and modify them at any time.
 
-#### Run Setup application
-
-The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application.
-
-In the directory where to code is located (previously downloaded and cd'ed into) run the following command
-
-```
-$ npm run setup
-```
-
-The setup utility consist of a number of actions that should be performed.
-
-#### Cloudant
-
-This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in Bluemix.
-
-#### Twitter
-
-This action will update the configuration with the parameters needed to connect to Twitter as well as subscribe to tweets.  You need to have the Consumer Key (API Key), Consumer Secret (API Secret), Access Token and Access Token Secret from dev.twitter.com available.
-
-At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Conversation Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
-
-NOTE: 
-Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
-
-When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Conversation API workspace id for the classifications, and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
-
-##### Testing Twitter
-
-The next option is to test out the Twitter parameters.  When you select this option from the setup utility's main menu, the listener will be started and you will see tweets being received and displayed on the console.  If some of the parameters are incorrect, then you should see the error.
-
-##### Searching for Tweets
-
-> Note: If you want to leverage this feature, you have to complete the local setup.
-
-You sometimes want to populate your database with previous Tweets.  This Accelerator provides you with the ability to go back 7 days to search for tweets that match your "listen to" screen name.  It will do the enrichment and place the tweets into the database.
 
 #### Configure service credentials to run locally
+
+Skip this step if you are running a Cloud Foundry application on Bluemix. In that case, the VCAP credentials will be used to gain access to the services.
 
 The credentials for Bluemix services (Conversation, Tone Analyzer,
 Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in Bluemix,
@@ -232,6 +198,43 @@ The Cloudant and Twitter settings were populated when you performed `npm run set
 }
 
 ```
+
+#### Run Setup application for Bluemix or local install
+
+The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application.
+
+In the directory where to code is located (previously downloaded and cd'ed into) run the following command
+
+```
+$ npm run setup
+```
+
+The setup utility consist of a number of actions that should be performed.
+
+#### Cloudant
+
+This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in Bluemix.
+
+#### Twitter
+
+This action will update the configuration with the parameters needed to connect to Twitter as well as subscribe to tweets.  You need to have the Consumer Key (API Key), Consumer Secret (API Secret), Access Token and Access Token Secret from dev.twitter.com available.
+
+At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Conversation Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
+
+NOTE: 
+Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
+
+When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Conversation API workspace id for the classifications, and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
+
+##### Testing Twitter
+
+The next option is to test out the Twitter parameters.  When you select this option from the setup utility's main menu, the listener will be started and you will see tweets being received and displayed on the console.  If some of the parameters are incorrect, then you should see the error.
+
+##### Searching for Tweets
+
+> Note: If you want to leverage this feature, you have to complete the local setup.
+
+You sometimes want to populate your database with previous Tweets.  This Accelerator provides you with the ability to go back 7 days to search for tweets that match your "listen to" screen name.  It will do the enrichment and place the tweets into the database.
 
 ### 6. Run the application
 
