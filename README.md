@@ -139,9 +139,7 @@ The `env-vars-example.json` file should be copied to `env-vars.json` before the 
 > The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up some of the parameters in this file, but you can come back and modify them at any time.
 
 
-#### Configure service credentials to run locally
-
-Skip this step if you are running a Cloud Foundry application on Bluemix. In that case, the VCAP credentials will be used to gain access to the services.
+#### Configure service credentials
 
 The credentials for Bluemix services (Conversation, Tone Analyzer,
 Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in Bluemix,
@@ -156,15 +154,11 @@ Copy the [`env-vars-example.json`](env-vars-example.json) to `env-vars.json`.
 $ cp env-vars-example.json env-vars.json
 ```
 Edit the `env-vars.json` file with the necessary settings.
-The Cloudant and Twitter settings were populated when you performed `npm run setup`. These setups could be hand edited if you wish.
+The Cloudant and Twitter settings will be populated when you execute `npm run setup` in the next step. These variables could be hand edited if you wish, but the setup utility is required to create the Cloudant documents.
 
 #### `env-vars-example.json:`
 
 ```
-# Replace the credentials here with your own.
-# Rename this file to env-vars.json before starting the app.
-# Place each item in quotes as you add
-
 {
 
   "CLOUDANT_CONNECTION_URL": <populated by `npm run setup`>,
@@ -173,16 +167,16 @@ The Cloudant and Twitter settings were populated when you performed `npm run set
   "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
   "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
 
-  "CONVERSATION_API_URL": <add_conversation_API_url>,
-  "CONVERSATION_API_USER": <add_conversation_username>,
-  "CONVERSATION_API_PASSWORD": <add_conversation_password>,
-  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": <add_conversation_password>,
+  "CONVERSATION_API_URL": "",
+  "CONVERSATION_API_USER": "",
+  "CONVERSATION_API_PASSWORD": "",
+  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": "",
 
-  "NLU_API_USER": <add_NLU_username>,
-  "NLU_API_PASSWORD": <add_NLU_password>,
+  "NLU_API_USER": "",
+  "NLU_API_PASSWORD": "",
 
-  "TONE_ANALYZER_USER": <add_tone_analyzer_username>,
-  "TONE_ANALYZER_PASSWORD": <add_tone_analyzer_password>,
+  "TONE_ANALYZER_USER": "",
+  "TONE_ANALYZER_PASSWORD": "",
 
   "TWITTER_CONSUMER_KEY": <populated by `npm run setup`>,
   "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
@@ -199,9 +193,9 @@ The Cloudant and Twitter settings were populated when you performed `npm run set
 
 ```
 
-#### Run Setup application for Bluemix or local install
+#### Run Setup application
 
-The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application.
+The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application and create the Cloudant DB documents. It will also allow you to test Twitter and query the database.
 
 In the directory where to code is located (previously downloaded and cd'ed into) run the following command
 
