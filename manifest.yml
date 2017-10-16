@@ -3,6 +3,6 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: social-crm-starter-demo-app
-  host: social-crm-starter-demo-app
+  name: scottda-crm-1
+  host: scottda-crm-1
   disk_quota: 1024M
