@@ -45,6 +45,8 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 # Watch the Video
 
+[![](http://img.youtube.com/vi/aWKi4f6gytc/0.jpg)](https://youtu.be/aWKi4f6gytc)
+
 # Steps
 
 The setup is done in 3 primary steps.  You will download the code, setup the application and then deploy the code to Bluemix.  If you would like to run the code locally, there will be one more step to configure the credentials locally.
