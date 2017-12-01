@@ -30,7 +30,7 @@ export class ChatboxComponent implements OnInit {
           this.messages.push(new ChatMessage(event.data as string, 'to', 'text', false, {}))
 
           scrollToBottomOfChat()
-          
+
           this.dispatcher.showIndicatorStatus(true)
         }
         if (event.subType === AppCommService.subTypeEnum.conversationSent.external) {
