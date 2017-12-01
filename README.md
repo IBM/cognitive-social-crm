@@ -91,7 +91,7 @@ $ npm install
 To subscribe to Tweets from a specific handle or hashtag in this application, it is required to create a Twitter account and a Twitter application.
 The Twitter account will be used as the account that receives the messages from other Twitter users as well as the owner of the application, required by Twitter, to receive Tweets.
 * You can create a normal Twitter account on [Twitter](https://twitter.com/signup) or use an existing account.  It is required to provide a unique email id that isn't already associated with an existing Twitter account as well as a phone number to verify the account.
-* Once you have the Twitter account created and verified, log in to [Twitter Dev](https://apps.twitter.com/) and create an application.  
+* Once you have the Twitter account created and verified, log in to [Twitter Dev](https://apps.twitter.com/) and create an application.
 * Select the Keys and Access Tokens tab and generate a Consumer Key and Secret.
 Keep this page open as you will need to use these tokens into setup procedure in the application later on.
 
@@ -217,7 +217,7 @@ This action will update the configuration with the parameters needed to connect 
 
 At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Conversation Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
 
-NOTE: 
+NOTE:
 Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
 
 When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Conversation API workspace id for the classifications, and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
