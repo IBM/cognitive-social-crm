@@ -21,7 +21,7 @@ function SocialCrmSetup () {
   console.log('* Welcome to the Social Crm Accelerator Setup Utility.')
   console.log('* This Utility assist you in Creating the Cloudant Database and walking you through the steps')
   console.log('* to configure, test and search Twitter.  Credentials can be obtained from the connections')
-  console.log('* page on Bluemix and the Twitter Application Page.')
+  console.log('* page on IBM Cloud and the Twitter Application Page.')
   console.log('***********************************************************************************************')
   console.log('')
   mainMenuHandler()

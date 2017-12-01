@@ -13,12 +13,12 @@
 
 /*
  * This module solves the following problems.
- * 1. Local VCAP vs Bluemix VCAP.
+ * 1. Local VCAP vs IBM Cloud VCAP.
  * 2. Local Environment variables.
  * 3. Loopback requires environment variables that comes from VCAP.
  *
  * The module provides the following functionality.
- * 1. The VCAP is either loaded from Bluemix or locally from the vcap-local.json file.
+ * 1. The VCAP is either loaded from IBM Cloud or locally from the vcap-local.json file.
  * 2. The environment variables are loaded from the env-vars.json file and the following is done.
  *  2.1 The field names in the env-vars.json file are made process.env fields.
  *  2.2 If the value for the field is not an object, then the process.env value for the field is set to the value in the file.
