@@ -49,12 +49,12 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 # Steps
 
-The setup is done in 3 primary steps.  You will download the code, setup the application and then deploy the code to Bluemix.  If you would like to run the code locally, there will be one more step to configure the credentials locally.
+The setup is done in 3 primary steps.  You will download the code, setup the application and then deploy the code to IBM Cloud.  If you would like to run the code locally, there will be one more step to configure the credentials locally.
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Install Dependencies](#2-install-dependencies)
 3. [Twitter Requirements](#3-twitter-requirements)
-4. [Create Watson services with IBM Bluemix](#4-create-watson-services-with-ibm-bluemix)
+4. [Create Watson services with IBM Cloud](#4-create-watson-services-with-ibm-cloud)
 5. [Import the Conversation workspace](#5-import-the-conversation-workspace)
 6. [Configure credentials](#6-configure-credentials)
 7. [Run the application](#7-run-the-application)
@@ -95,17 +95,17 @@ The Twitter account will be used as the account that receives the messages from 
 * Select the Keys and Access Tokens tab and generate a Consumer Key and Secret.
 Keep this page open as you will need to use these tokens into setup procedure in the application later on.
 
-### 4. Create Watson services with IBM Bluemix
+### 4. Create Watson services with IBM Cloud
 
-Either Setup the Bluemix Deployment or Setup Local Deployment.
+Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 
-#### Setting up Bluemix Deployment
+#### Setting up IBM Cloud Deployment
 
-> Explanation: You will create a placeholder application in Bluemix that connects to all the required services first.
+> Explanation: You will create a placeholder application in IBM Cloud that connects to all the required services first.
 
-1. If you do not already have a Bluemix account, [sign up for Bluemix](https://console.bluemix.net/registration).
+1. If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
 2. Download and install the [Cloud Foundry CLI](https://console.bluemix.net/docs/cli/index.html#cli) tool.
-3. Log into Bluemix with your account.
+3. Log into IBM Cloud with your account.
 4. From the `Application Dashboard`, create a new `Application`.
   - On the left, select `Apps > Cloudfoundry Apps`.
   - On the right, select `SDK for Node.js`.
@@ -116,9 +116,9 @@ Either Setup the Bluemix Deployment or Setup Local Deployment.
 
 #### Setup local Deployment
 
-> Explanation: You will create the  Bluemix services and configure them to use on a locally running server app.
+> Explanation: You will create the  IBM Cloud services and configure them to use on a locally running server app.
 
-If you do not already have a Bluemix account, [sign up for Bluemix](https://console.bluemix.net/registration).
+If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
 Create the following services:
 
 * [**Watson Conversation**](https://console.bluemix.net/catalog/services/conversation)
@@ -136,15 +136,15 @@ workspace and select **View details**. Save this ID for later.
 
 ### 6. Configure credentials
 
-The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on Bluemix or locally.
+The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on IBM Cloud or locally.
 
 > The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up some of the parameters in this file, but you can come back and modify them at any time.
 
 
 #### Configure service credentials
 
-The credentials for Bluemix services (Conversation, Tone Analyzer,
-Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in Bluemix,
+The credentials for IBM Cloud services (Conversation, Tone Analyzer,
+Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in IBM Cloud,
 by selecting the ``Service Credentials`` option for each service.
 
 The other setting for Conversation was collected during the
@@ -209,7 +209,7 @@ The setup utility consist of a number of actions that should be performed.
 
 #### Cloudant
 
-This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in Bluemix.
+This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in IBM Cloud.
 
 #### Twitter
 
@@ -217,8 +217,8 @@ This action will update the configuration with the parameters needed to connect 
 
 At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Conversation Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
 
-NOTE:
-Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to Bluemix.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
+NOTE: 
+Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to IBM Cloud.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
 
 When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Conversation API workspace id for the classifications, and finally the Chatbot screen name and Conversation API workspace for the Dialog implementation.
 
@@ -234,30 +234,30 @@ You sometimes want to populate your database with previous Tweets.  This Acceler
 
 ### 6. Run the application
 
-Either `Run the app on Bluemix` or `Run the app locally`.
+Either `Run the app on IBM Cloud` or `Run the app locally`.
 
-#### Running the app on Bluemix
+#### Running the app on IBM Cloud
 
 Use the name of the application you created previously to update the configuration files locally.
 
-1. Open the `manifest.yml` file and change the `name` AND `host` value to the unique application name you created on Bluemix previously.
+1. Open the `manifest.yml` file and change the `name` AND `host` value to the unique application name you created on IBM Cloud previously.
 
 2. Compile the Angular 2 client code using the following command.
 
   ```
   $ npm run build:client
   ```
-3. Connect to Bluemix in the command line tool and follow the prompts to log in
+3. Connect to IBM Cloud in the command line tool and follow the prompts to log in
 
   ```
   $ cf login -a https://api.ng.bluemix.net
   ```
-4. Push the app to Bluemix.
+4. Push the app to IBM Cloud.
 
   ```
   $ cf push
   ```
-5. The application should now be running on Bluemix and listening to Tweets.  You can access the application URL using the application name you defined in the manifest.yml file with a '.mybluemix.net' appended to it.
+5. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the manifest.yml file with a '.mybluemix.net' appended to it.
 
 6. The application is secured with a username and password. See the end of this README for details.
 

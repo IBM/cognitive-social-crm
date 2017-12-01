@@ -6,12 +6,12 @@ var cloudantConfig = require('./config/cloudant-config.json')
 
 var cloudantMenu = [
   {
-    message: 'What is the Cloudant Username? (You can find this on the connection page of your Bluemix application dashboard)',
+    message: 'What is the Cloudant Username? (You can find this on the connection page of your IBM Cloud application dashboard)',
     name: 'username',
     validate: required
   },
   {
-    message: 'What is the Cloudant Password? (You can find this on the connection page of your Bluemix application dashboard)',
+    message: 'What is the Cloudant Password? (You can find this on the connection page of your IBM Cloud application dashboard)',
     name: 'password',
     type: 'password',
     validate: required
