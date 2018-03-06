@@ -37,7 +37,7 @@
     "loopback-component-explorer": "2.4.0",
     "loopback-connector-cloudant": "1.2.4",
     "loopback-connector-rest": "2.1.0",
-    "moment": "2.18.1",
+    "moment": "2.19.3",
     "multer": "1.2.0",
     "node-schedule": "1.2.3",
     "options": "0.0.6",
