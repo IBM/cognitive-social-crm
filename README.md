@@ -105,11 +105,11 @@ Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 2. Download and install the [Cloud Foundry CLI](https://console.bluemix.net/docs/cli/index.html#cli) tool.
 3. Log into IBM Cloud with your account.
 4. From the `Application Dashboard`, create a new `Application`.
-  - On the left, select `Apps > Cloudfoundry Apps`.
+  - On the left, select `Apps` > `Cloudfoundry Apps`.
   - On the right, select `SDK for Node.js`.
   - Provide a unique name for your application.
 5. Once the application is created, go into the application and select `Connections`.
-6. Create the required services and bind them to the newly created application: `Watson Assistant`, `Natural Lanuguage Understanding`, `Tone Analyzer`, and `Cloudant NoSQL DB`.
+6. Create the required services and bind them to the newly created application: `Watson Assistant`, `Natural Language Understanding`, `Tone Analyzer`, and `Cloudant NoSQL DB`.
 7. Leave the `Connections` page open, as you will reference the credentials in the next step.
 
 #### Setup local Deployment
@@ -254,7 +254,7 @@ Use the name of the application you created previously to update the configurati
   ```
   $ cf push
   ```
-5. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the manifest.yml file with a '.mybluemix.net' appended to it.
+5. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the `manifest.yml` file with a '.mybluemix.net' appended to it.
 
 6. The application is secured with a username and password. See the end of this README for details.
 
@@ -270,7 +270,7 @@ $ npm run develop
 
 There is only 1 user required for this application.  This user is `watson` with a password of `p@ssw0rd`
 
-The user names and passwords can be modified in the /server/boot/init-access.js file.
+The user names and passwords can be modified in the `/server/boot/init-access.js` file.
 
 ## Customization
 
