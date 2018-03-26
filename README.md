@@ -72,9 +72,8 @@ We’ll be using the file [`data/conversation/workspaces/workspace-social-crm-ai
 
 The application requires the following software to be installed locally.
 
-1. [Node (6.9+)](https://nodejs.org) Application runtime environment
-2. [NPM (3.10+)](https://www.npmjs.com/get-npm) Server-side dependency management
-3. Angular CLI (1.0.0) `npm install -g @angular/cli`
+1. [Node (6.9+)](https://nodejs.org): Application runtime environment, download and install the package.
+1. [Angular CLI (1.0.0)](https://www.npmjs.com/package/@angular/cli): A CLI for Angular applications, installed with: `npm install -g @angular/cli`.
 
 > If you have Angular CLI already installed.  Please read the upgrade instructions for Angular CLI when you upgrade the software.
 
