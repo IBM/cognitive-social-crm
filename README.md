@@ -278,6 +278,16 @@ There are some customization what can be done in the application apart from usin
 1. The server component is configured with the `env-vars.json` file.
 2. The client has some configuration that can be modified in the `client/src/app/shared/config.service.ts` file.
 
+## Sample Output
+
+You will see informations about Tweets:
+
+![](doc/source/images/tweets.png)
+
+as well as Classification of live tweets, Sentiment over time, Emotional Tone over time, and Keywords mentioned:
+
+![](doc/source/images/classSentToneKey.png)
+
 # Links
 * [Watson Assistant](https://www.ibm.com/watson/services/conversation/)
 * [Watson Tone Analyzer](https://www.ibm.com/watson/services/tone-analyzer/)
