@@ -155,6 +155,10 @@ $ cp env-vars-example.json env-vars.json
 Edit the `env-vars.json` file with the necessary settings.
 The Cloudant and Twitter settings will be populated when you execute `npm run setup` in the next step. These variables could be hand edited if you wish, but the setup utility is required to create the Cloudant documents.
 
+* If the service credentials from IBM Watson Assistant is username/password based as below populate the conversation url, username, password and workspace_id. 
+
+![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/WatsonAssistantCredentials.png)
+
 #### `env-vars-example.json:`
 
 ```
@@ -181,15 +185,51 @@ The Cloudant and Twitter settings will be populated when you execute `npm run se
   "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
   "TWITTER_ACCESS_TOKEN": <populated by `npm run setup`>,
   "TWITTER_ACCESS_SECRET": <populated by `npm run setup`>,
-  "TWITTER_LISTEN_FOR": "populated by `npm run setup`",
-  "TWITTER_FILTER_FROM": "populated by `npm run setup`",
-  "TWITTER_FILTER_CONTAINING": "populated by `npm run setup`",
+  "TWITTER_LISTEN_FOR": "<populated by `npm run setup`>",
+  "TWITTER_FILTER_FROM": "<populated by `npm run setup`>",
+  "TWITTER_FILTER_CONTAINING": "<populated by `npm run setup`>",
   "TWITTER_PROCESS_RETWEETS": false,
   "TWITTER_RECEIVER_START_AT_BOOT": true,
-  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`,
+  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`>,
   "TWITTER_CHATBOT_START_AT_BOOT": true
 }
 
+```
+
+* If the service credentials from IBM Watson Assistant is IAM based as below, populate the IAM apikey, url, and workspace_id in below JSON and replace the existing content of `env-vars.json` with this one.
+![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/watson_assistant_api_key.png)
+
+```
+{
+  "CLOUDANT_CONNECTION_URL": <populated by `npm run setup`>,
+  "CLOUDANT_USERNAME": <populated by `npm run setup`>,
+  "CLOUDANT_PASSWORD": <populated by `npm run setup`>,
+  "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
+  "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
+
+  "CONVERSATION_API_URL": "<Use URL here>",
+  "CONVERSATION_API_USER": "apikey",
+  "CONVERSATION_API_PASSWORD": "<Use APIKEY here>",
+  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": "",
+
+  "NLU_API_USER": "",
+  "NLU_API_PASSWORD": "",
+
+  "TONE_ANALYZER_USER": "",
+  "TONE_ANALYZER_PASSWORD": "",
+
+  "TWITTER_CONSUMER_KEY": <populated by `npm run setup`>,
+  "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
+  "TWITTER_ACCESS_TOKEN": <populated by `npm run setup`>,
+  "TWITTER_ACCESS_SECRET": <populated by `npm run setup`>,
+  "TWITTER_LISTEN_FOR": "<populated by `npm run setup`>",
+  "TWITTER_FILTER_FROM": "<populated by `npm run setup`>",
+  "TWITTER_FILTER_CONTAINING": "<populated by `npm run setup`>",
+  "TWITTER_PROCESS_RETWEETS": false,
+  "TWITTER_RECEIVER_START_AT_BOOT": true,
+  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`>,
+  "TWITTER_CHATBOT_START_AT_BOOT": true
+  }
 ```
 
 #### Run Setup application

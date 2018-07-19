@@ -19,7 +19,7 @@ module.exports = function (app, done) {
     saveType: 'cloudant'
   }
   TwitterChatbot.init(options, () => {
-    if (process.env.TWITTER_CHATBOT_START_AT_BOOT === 'true') {
+    if (process.env.TWITTER_CHATBOT_START_AT_BOOT === 'true') {      
       TwitterChatbot.startListener()
       done()
     } else {
