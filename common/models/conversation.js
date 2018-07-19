@@ -2,7 +2,7 @@
 
 var app = require('../../server/server')
 var moment = require('moment')
-var ConversationV1 = require('watson-developer-cloud/conversation/v1')
+var AssistantV1 = require('watson-developer-cloud/assistant/v1')
 
 var winston = require('winston')
 var LOGGER = new (winston.Logger)({
@@ -11,11 +11,11 @@ var LOGGER = new (winston.Logger)({
   ]
 })
 
-var conversation = new ConversationV1({
-  username: process.env.CONVERSATION_API_USER,
-  password: process.env.CONVERSATION_API_PASSWORD,
-  version_date: '2017-05-26'
-})
+const conversation = new AssistantV1({ 
+  version: '2018-02-16',
+  iam_apikey: process.env.CONVERSATION_API_PASSWORD,
+  url: process.env.CONVERSATION_API_URL  
+});
 
 var conversationParams = {
   workspace_id: process.env.CONVERSATION_CHATBOT_WORKSPACE_ID
@@ -25,7 +25,7 @@ module.exports = function (Conversation) {
   Conversation.disableRemoteMethodByName('invoke', true)
   Conversation.send = function (req, cb) {
     try {
-      let conversationState = app.models.ConversationState
+      let conversationState = app.models.ConversationState      
       let text = req.body.input.text
       LOGGER.info('Received a chatbot message from the Web Client.')
       let user = req.body.input.user
@@ -49,15 +49,16 @@ module.exports = function (Conversation) {
           conversationParams.input.text = text
           let state = { userId: user, started_at: moment().valueOf() }
           // Call the conversation api
-          conversation.message(conversationParams, (err, success) => {
-            if (err) {
+          conversation.message(conversationParams, (err, success) => {            
+            if (err) {              
               return cb(err)
             }
             LOGGER.debug('Return with conversation response: ' + success.output.text[0])
             state.context = success.context
             // Save the updated conversation context back to the datasource
-            conversationState.replaceOrCreate(state, (err, saved) => {
-              if (err) return cb(err)
+            conversationState.replaceOrCreate(state, (err, saved) => {              
+              LOGGER.info("Error::: "+err)
+              if (err) return cb(err)                
               cb(null, { text: success.output.text[0] })
             })
           })
@@ -75,9 +76,11 @@ module.exports = function (Conversation) {
               conversationParams.context = existing[0].context
               state = existing[0]
             }
+
             // Call the conversation api
-            conversation.message(conversationParams, (err, success) => {
+            conversation.message(conversationParams, (err, success) => {              
               if (err) {
+                LOGGER.info(err)
                 return cb(err)
               }
               LOGGER.debug('Return with conversation response: ' + success.output.text[0])

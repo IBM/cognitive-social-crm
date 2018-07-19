@@ -1,7 +1,8 @@
 'use strict'
 
 var Twitter = require('twit')
-var ConversationV1 = require('watson-developer-cloud/conversation/v1')
+//var ConversationV1 = require('watson-developer-cloud/conversation/v1')
+var AssistantV1 = require('watson-developer-cloud/assistant/v1')
 var ChatbotStateStorage = require('./chatbot-state-storage')
 
 var winston = require('winston')
@@ -27,11 +28,12 @@ TwitterChatbot.prototype.init = function (options, cb) {
     timeout_ms: 60 * 1000  // optional HTTP request timeout to apply to all requests.
   })
   // Initialize the Conversation Instance the chatbot will be using.
-  this.conversation = new ConversationV1({
-    username: options.conversation_username,
-    password: options.conversation_password,
-    version_date: '2017-05-26'
-  })
+const conversation = new AssistantV1({ 
+  version: '2018-02-16',
+  iam_apikey: options.conversation_password,
+  url: "https://gateway-wdc.watsonplatform.net/assistant/api"
+});
+
   this.conversationParams = {
     workspace_id: options.conversation_workspace_id
   }
