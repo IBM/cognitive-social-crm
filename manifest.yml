@@ -3,6 +3,6 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: Cognitive-Social-CRM-demo
-  host: Cognitive-Social-CRM-demo
+  name: cognitive-social-crm
+  host: cognitive-social-crm
   disk_quota: 1024M

@@ -1,0 +1,61 @@
+<div bsModal #tweetModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="tweetModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title pull-left section-header"><i class="fa fa-cogs" aria-hidden="true"></i>  Tweet <span>enrichments</span></h3>
+        <button type="button" class="close pull-right" (click)="tweetModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-7">
+            <h3>General</h3>
+            <dl *ngIf="selectedTweet">
+              <dt>Tweet ID</dt>
+              <dd>{{selectedTweet.tweet_id}}</dd>
+              <dt>Tweeted By</dt>
+              <dd>{{selectedTweet.post_by}}</dd>
+              <dt>Tweeted On</dt>
+              <dd>{{selectedTweet.post_date}}</dd>
+              <dt>Tweet Text</dt>
+              <dd>{{selectedTweet.text}}</dd>
+            </dl>
+            <dl *ngIf="selectedTweet">
+              <dt>Keywords</dt>
+              <div *ngFor="let k of selectedTweet.doc.enrichments.nlu.keywords">
+                <dd>{{k.text}} <span class="badge badge-info">{{k.relevance}}</span></dd>
+              </div>
+              <dt>Entities</dt>
+              <div *ngFor="let e of selectedTweet.doc.enrichments.nlu.entities">
+                <dd>{{e.type}} -> {{e.text}} <span class="badge badge-info">{{e.relevance}}</span></dd>
+              </div>
+            </dl>
+          </div>
+          <div class="col-sm-5">
+            <h3>Analysis</h3>
+            <dl *ngIf="selectedTweet">
+              <dt>Sentiment</dt>
+              <dd>{{selectedTweet.doc.enrichments.nlu.sentiment.document.label}} <span class="badge badge-info">{{selectedTweet.doc.enrichments.nlu.sentiment.document.score}}</span></dd>
+              <dt>Emotions</dt>
+              <div *ngFor="let e of getEmotionsAsArray(selectedTweet)">
+                <dd>{{e.emotion}} <span class="badge badge-info">{{e.score}}</span></dd>
+              </div>
+              <dt>Tone</dt>
+              <div *ngFor="let t of selectedTweet.doc.enrichments.tone.document_tone.tone_categories[0].tones">
+                <dd>{{t.tone_name}} <span class="badge badge-info">{{ t.score }}</span></dd>
+              </div>
+              <dt>Intent/Classification</dt>
+              <dd>{{selectedTweet.doc.enrichments.intents[0].intent}} <span class="badge badge-info">{{selectedTweet.doc.enrichments.intents[0].confidence}}</span> </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <button class="btn btn-primary pull right" (click)="tweetModal.hide()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
