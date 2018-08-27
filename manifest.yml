@@ -2,16 +2,16 @@
 declared-services:
   crm-conversation-service:
     label: conversation
-    plan: lite
+    plan: free
   crm-natural-language-understanding-service:
     label: natural-language-understanding
-    plan: lite
+    plan: free
   crm-tone-analyzer-service:
     label: tone_analyzer
     plan: lite
   crm-cloudantNoSQLDB-service:
     label: cloudantNoSQLDB
-    plan: lite
+    plan: Lite
 applications:
 - services:
     - crm-conversation-service
