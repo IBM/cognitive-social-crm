@@ -4,7 +4,7 @@
   "description": "Cognitive Social CRM  App",
   "main": "app.js",
   "scripts": {
-    "app-install": "npm install && npm run install:client && npm run install:server",    
+    "install": "npm run install:client && npm run install:server",
     "install:client": "cd client && npm install",
     "install:server": "cd server && npm install",
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
