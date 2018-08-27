@@ -13,7 +13,7 @@ declared-services:
     label: cloudantNoSQLDB
     plan: Lite
 applications:
-  - services:
+- services:
     - crm-conversation-service
     - crm-tone-analyzer-service
     - crm-natural-language-understanding-service
