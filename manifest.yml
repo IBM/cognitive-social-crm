@@ -24,7 +24,8 @@ applications:
   name: cs-crm
   disk_quota: 256M
   random-route: false
-  timeout: 180  
+  timeout: 180
+  command: npm run start:prod
   env:    
     LOGGING: true
     LOG_LEVEL: info
