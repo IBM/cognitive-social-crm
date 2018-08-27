@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Tweet Data</h3>
+      <div class="card">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-hover">
+              <thead class="thead-dark"><tr><th>Received</th><th>Text</th><th>Tone</th></tr></thead>
+              <tbody>
+                <tr style="cursor:context-menu;" *ngFor="let tweet of tweets; let i = index" (click)="selectTweet($event, i)" class="small">
+                  <td>{{tweet.doc.post_date | date:'medium'}}</td>
+                  <td>{{tweet.doc.text}}</td>
+                  <td>{{getTopEmotion(tweet)}} {{getEmojiIconCode(getTopEmotion(tweet))}}</td>            
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            There is a total of {{totalTweets}} Tweets Received
+          </div>
+          <div class="col-md-6">
+            <div class="pull-right">
+              <pagination [totalItems]="totalTweets" [(ngModel)]="currentPage" [maxSize]="5" class="pagination-sm"
+                  [boundaryLinks]="true" (pageChanged)="pageChanged($event)"></pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-tweet-details [selectedTweet]="selectedTweet"></app-tweet-details>

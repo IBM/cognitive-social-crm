@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row mt-3 text-center ">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-primary">
+        <div class="card-body pb-0">
+          <h4 class="mb-0">{{positiveTweets}}</h4>
+          <p>Positive Tweets</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-danger">
+        <div class="card-body pb-0">
+          <h4 class="mb-0">{{negativeTweets}}</h4>
+          <p>Negative Tweets</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white" [ngClass]="currentTrendInsightStyle">
+        <div class="card-body pb-0">
+          <h4 class="mb-0">Trend</h4>
+          <p><span [innerHtml]="currentTrendIcon"></span>&nbsp;<span>{{sentimentTrend}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-white bg-info">
+        <div class="card-body pb-0" *ngIf="receiverStatus">
+          <h4 class="mb-0">@{{receiverStatus.listening}}</h4>
+          <p>{{receiverStatus.state}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-9">
+      <table class="table mt-3 text-left">
+        <thead class="thead-dark">
+          <tr>            
+            <th>Recent Tweets</th>
+            <th >Tone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tweet of recentTweets">          
+            <td>{{tweet.doc.post_date | date:'medium'}} {{tweet.doc.text}}</td>
+            <td [innerHTML]="getTone(tweet)"></td>
+          </tr>          
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-3">
+      <canvas width="300px" height="400px" id="responseAssignmentChart">{{ responseAssignmentChart }}</canvas>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-sm-6"><canvas id="classificationSummaryBarChart" width="800" height="450">{{classificationSummaryBarChart}}</canvas></div>
+    <div class="col-sm-6"><canvas id="sentimentOverTimeLineChart" width="800" height="450">{{sentimentOverTimeLineChart}}</canvas></div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-sm-6"><canvas id="emotionalToneOverTimeChart" width="800" height="450">{{emotionalToneOverTimeChart}}</canvas></div>
+    <div class="col-sm-6"><angular-tag-cloud [data]="keywordCloud" [width]="options.width" [height]="options.height" [overflow]="options.overflow"></angular-tag-cloud></div>
+  </div>
+</div>

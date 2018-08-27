@@ -4,25 +4,22 @@
 
 # Monitor Twitter feeds to better understand customer sentiment using Watson Assistant, Tone Analyzer, and Natural Language Understanding
 
-> Watson Conversation is now Watson Assistant. Although some images in this code pattern may show the service as Watson Conversation, the steps and processes will still work.
+In this code pattern, our server application subscribes to a Twitter feed as configured by the user. Each tweet received will be analyzed for emotional tone and sentiment, and the intent of the tweet will be determined by the Watson Assistant service. All data is stored in a Cloudant database, with the opportunity to store historical data as well. The resulting analysis is presented in a Web UI as a series of graphs and charts.
 
-In this journey, our server application subscribes to a Twitter feed as configured by the user. Each tweet received will be analyzed for emotional tone and sentiment, and the intent of the tweet will be determined by the Watson Assistant service. All data is stored in a Cloudant database, with the opportunity to store historical data as well. The resulting analysis is presented in a Web UI as a series of graphs and charts.
-Credit goes to [Werner Vanzyl](https://www.linkedin.com/in/werner-vanzyl-326a589) as the author of the original code and documents.
-
-When the reader has completed this journey, they will understand how to:
+When the reader has completed this code pattern, they will understand how to:
 
 * Run an application that monitors a Twitter feed.
 * Send the tweets to Watson Tone Analyzer, Assistant, and Natural Language Understanding for processing and analysis.
 * Store the information in a Cloudant database.
-* Present the information in a Node.js web UI.
+* Present the information in a Angular and nodejs web UI.
 * Capture and analyze social media for a specified Twitter handle or hashtag and let Watson analyze the content.
 
 ## Flow
 
-![](./doc/source/images/architecture.png)
+![](doc/source/images/architecture.png)
 
 1. Tweets are pushed out by Twitter.
-2. The Cognitive Social CRM app (server.js) processes the tweet.
+2. The Cognitive Social CRM app processes the tweet.
 3. The Watson Tone Analyzer Service performs analysis of sentiment and emotional tone.
 4. The Watson Natural Language Understanding Service pulls out keywords and entities.
 5. The Watson Assistant Service extracts the intents (verbs) from the tweets.
@@ -31,7 +28,7 @@ When the reader has completed this journey, they will understand how to:
 
 ## Included components
 
-* [Watson Assistant](https://www.ibm.com/watson/services/conversation): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
+* [Watson Assistant](https://www.ibm.com/watson/services/conversation/): Watson Assistant is a robust platform that allows developers and non-technical users to collaborate on building conversational AI solution.
 * [Watson Tone Analyzer](https://www.ibm.com/watson/services/tone-analyzer): Uses linguistic analysis to detect communication tones in written text.
 * [Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding): Natural language processing for advanced text analysis.
 * [IBM Cloudant](https://www.ibm.com/analytics/us/en/technology/cloud-data-services/cloudant): A managed NoSQL database service that moves application data closer to all the places it needs to be — for uninterrupted data access, offline or on.
@@ -41,7 +38,9 @@ When the reader has completed this journey, they will understand how to:
 
 * [Artificial Intelligence](https://medium.com/ibm-data-science-experience): Artificial intelligence can be applied to disparate solution spaces to deliver disruptive technologies.
 * [Databases](https://en.wikipedia.org/wiki/IBM_Information_Management_System#.22Full_Function.22_databases): Repository for storing and managing collections of data.
+* [Angular](https://angular.io/): A framework to build UI for mobile and desktop application.
 * [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
+* [Express](https://expressjs.com/): Fast, unopinionated, minimalist web framework for Node.js
 
 # Watch the Video
 
@@ -68,21 +67,21 @@ $ git clone https://github.com/IBM/cognitive-social-crm
 $ cd cognitive-social-crm
 ```
 
-We’ll be using the file [`data/conversation/workspaces/workspace-social-crm-airline-classification.json`](data/conversation/workspaces/workspace-social-crm-airline-classification.json) to configure our Watson Assistant workspace.
-
 ### 2. Install dependencies
 
 The application requires the following software to be installed locally.
 
 1. [Node (6.9+)](https://nodejs.org): Application runtime environment, download and install the package.
-1. [Angular CLI (1.0.0)](https://www.npmjs.com/package/@angular/cli): A CLI for Angular applications, installed with: `npm install -g @angular/cli`.
+1. [Angular CLI (6.1.1)](https://www.npmjs.com/package/@angular/cli): A CLI for Angular applications, installed with: `npm install -g @angular/cli`.
+1. [Angular (6.1.0)](https://angular.io): Angular will be added as a dependency of client in `package.json` when setting up client using `Angular cli`.
+1. [Express (4.16.3)](https://expressjs.com): Express will be added as a dependency in `package.json` for server.
 
 > If you have Angular CLI already installed.  Please read the upgrade instructions for Angular CLI when you upgrade the software.
 
 Run the following command, from the application folder, to install both the client and server dependencies.
 
 ```
-$ npm install
+$ npm run app-install
 ```
 
 ### 3. Twitter requirements
@@ -98,20 +97,9 @@ Keep this page open as you will need to use these tokens into setup procedure in
 
 Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 
-#### Setting up IBM Cloud Deployment
+#### Deploy to IBM Cloud
 
-> Explanation: You will create a placeholder application in IBM Cloud that connects to all the required services first.
-
-1. If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
-2. Download and install the [Cloud Foundry CLI](https://console.bluemix.net/docs/cli/index.html#cli) tool.
-3. Log into IBM Cloud with your account.
-4. From the `Application Dashboard`, create a new `Application`.
-  - On the left, select `Apps` > `Cloudfoundry Apps`.
-  - On the right, select `SDK for Node.js`.
-  - Provide a unique name for your application.
-5. Once the application is created, go into the application and select `Connections`.
-6. Create the required services and bind them to the newly created application: `Watson Assistant`, `Natural Language Understanding`, `Tone Analyzer`, and `Cloudant NoSQL DB`.
-7. Leave the `Connections` page open, as you will reference the credentials in the next step.
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/cognitive-social-crm)
 
 #### Setup local Deployment
 
@@ -120,7 +108,6 @@ Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
 Create the following services:
 
-* [**Watson Assistant**](https://console.bluemix.net/catalog/services/conversation)
 * [**Watson Tone Analyzer**](https://console.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
 * [**IBM Cloudant DB**](https://console.bluemix.net/catalog/services/cloudant-nosql-db)
@@ -129,148 +116,81 @@ Create the following services:
 
 Launch the **Watson Assistant** tool. Use the **import** icon button on the right
 
-Find the local version of [`data/conversation/workspaces/workspace-social-crm-airline-classification.json`](data/conversation/workspaces/workspace-social-crm-airline-classification.json) and select
+Find the local version of [`data/assistant/workspace-social-crm-airline-classification.json`](data/assistant/workspace-social-crm-airline-classification.json) and select
 **Import**. Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
 ### 6. Configure credentials
 
-The `env-vars-example.json` file should be copied to `env-vars.json` before the application is executed on IBM Cloud or locally.
+The `env.sample` file should be copied to `.env` before the application is executed on IBM Cloud or locally. The `.env` file resides on the `server` folder as it is required by the server code.
 
-> The `env-vars.json` file is where all the parameters of this application is kept.  The setup utility, explained later, will guide you through setting up some of the parameters in this file, but you can come back and modify them at any time.
-
+> The `.env` file is where all the parameters like credentials, log settings and other constants required by this application is kept.
 
 #### Configure service credentials
 
-The credentials for IBM Cloud services (Assistant, Tone Analyzer,
-Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in IBM Cloud,
-by selecting the ``Service Credentials`` option for each service.
+The credentials for IBM Cloud services (Tone Analyzer, Natural Language Understanding, and Cloudant), can be found in the ``Services`` menu in IBM Cloud, by selecting the ``Service Credentials`` option for each service.
 
-The other setting for Assistant was collected during the
-earlier setup steps (``WORKSPACE_ID``).
+From the root of the project, go to `server` folder (`cd server`) and 
 
-Copy the [`env-vars-example.json`](env-vars-example.json) to `env-vars.json`.
+Copy the [`env.sample`](server/env.sample) to `.env`.
 
 ```
-$ cp env-vars-example.json env-vars.json
-```
-Edit the `env-vars.json` file with the necessary settings.
-The Cloudant and Twitter settings will be populated when you execute `npm run setup` in the next step. These variables could be hand edited if you wish, but the setup utility is required to create the Cloudant documents.
-
-* If the service credentials from IBM Watson Assistant is username/password based as below populate the conversation url, username, password and workspace_id. 
-
-![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/WatsonAssistantCredentials.png)
-
-#### `env-vars-example.json:`
-
-```
-{
-
-  "CLOUDANT_CONNECTION_URL": <populated by `npm run setup`>,
-  "CLOUDANT_USERNAME": <populated by `npm run setup`>,
-  "CLOUDANT_PASSWORD": <populated by `npm run setup`>,
-  "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
-  "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
-
-  "CONVERSATION_API_URL": "",
-  "CONVERSATION_API_USER": "",
-  "CONVERSATION_API_PASSWORD": "",
-  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": "",
-
-  "NLU_API_USER": "",
-  "NLU_API_PASSWORD": "",
-
-  "TONE_ANALYZER_USER": "",
-  "TONE_ANALYZER_PASSWORD": "",
-
-  "TWITTER_CONSUMER_KEY": <populated by `npm run setup`>,
-  "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
-  "TWITTER_ACCESS_TOKEN": <populated by `npm run setup`>,
-  "TWITTER_ACCESS_SECRET": <populated by `npm run setup`>,
-  "TWITTER_LISTEN_FOR": "<populated by `npm run setup`>",
-  "TWITTER_FILTER_FROM": "<populated by `npm run setup`>",
-  "TWITTER_FILTER_CONTAINING": "<populated by `npm run setup`>",
-  "TWITTER_PROCESS_RETWEETS": false,
-  "TWITTER_RECEIVER_START_AT_BOOT": true,
-  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`>,
-  "TWITTER_CHATBOT_START_AT_BOOT": true
-}
-
+$ cd server
+$ cp env.sample .env
 ```
 
-* If the service credentials from IBM Watson Assistant is IAM based as below, populate the IAM apikey, url, and workspace_id in below JSON and replace the existing content of `env-vars.json` with this one.
-![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/watson_assistant_api_key.png)
+Add all the credentials that you have saved from creating the services, as explained earlier, in the `.env` file. 
+
+#### `env.sample`
 
 ```
-{
-  "CLOUDANT_CONNECTION_URL": <populated by `npm run setup`>,
-  "CLOUDANT_USERNAME": <populated by `npm run setup`>,
-  "CLOUDANT_PASSWORD": <populated by `npm run setup`>,
-  "CLOUDANT_ANALYSIS_DB_NAME": "analysis-db",
-  "CLOUDANT_CONVERSATION_STATE_DB_NAME": "conversation-state-db",
+# Copy this file to .env and replace the credentials with 
+# your own before starting the app.
 
-  "CONVERSATION_API_URL": "<Use URL here>",
-  "CONVERSATION_API_USER": "apikey",
-  "CONVERSATION_API_PASSWORD": "<Use APIKEY here>",
-  "CONVERSATION_CLASSIFICATION_WORKSPACE_ID": "",
+CLOUDANT_USERNAME=<use cloudant username>
+CLOUDANT_PASSWORD=<use cloudant password>
+CLOUDANT_ANALYSIS_DB_NAME=analysis_db
 
-  "NLU_API_USER": "",
-  "NLU_API_PASSWORD": "",
+## Un-comment and use either username+password or IAM apikey.
+# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<use natural language understanding username>
+# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<use natural language understanding password>
+NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<use natural language understanding iam API key>
+NATURAL_LANGUAGE_UNDERSTANDING_URL=<use natural language understanding URL>
 
-  "TONE_ANALYZER_USER": "",
-  "TONE_ANALYZER_PASSWORD": "",
+## Un-comment and use either username+password or IAM apikey.
+# TONE_ANALYZER_USERNAME=<use tone analyzer username>
+# TONE_ANALYZER_PASSWORD=<use tone analyzer password>
+TONE_ANALYZER_IAM_APIKEY=<use tone analyzer iam API key>
+TONE_ANALYZER_URL=<use tone analyzer url>
 
-  "TWITTER_CONSUMER_KEY": <populated by `npm run setup`>,
-  "TWITTER_CONSUMER_SECRET": <populated by `npm run setup`>,
-  "TWITTER_ACCESS_TOKEN": <populated by `npm run setup`>,
-  "TWITTER_ACCESS_SECRET": <populated by `npm run setup`>,
-  "TWITTER_LISTEN_FOR": "<populated by `npm run setup`>",
-  "TWITTER_FILTER_FROM": "<populated by `npm run setup`>",
-  "TWITTER_FILTER_CONTAINING": "<populated by `npm run setup`>",
-  "TWITTER_PROCESS_RETWEETS": false,
-  "TWITTER_RECEIVER_START_AT_BOOT": true,
-  "TWITTER_CHATBOT_SCREENNAME": <populated by `npm run setup`>,
-  "TWITTER_CHATBOT_START_AT_BOOT": true
-  }
+## Un-comment and use either username+password or IAM apikey.
+# ASSISTANT_USERNAME=<use assistant username>
+# ASSISTANT_PASSWORD=<use assistant password>
+ASSISTANT_IAM_APIKEY=<use assistant iam apikey>
+ASSISTANT_URL=<use assistant url>
+
+ASSISTANT_CLASSIFICATION_WORKSPACE_ID=<use assistant workspace id>
+
+# Configuration from you twitter account
+TWITTER_CONSUMER_KEY=<use twitter consumer key>
+TWITTER_CONSUMER_SECRET=<use twitter consumer secret>
+TWITTER_ACCESS_TOKEN=<use twitter access token>
+TWITTER_ACCESS_SECRET=<use twitter access secret>
+#TWITTER_LISTEN_FOR=<use twitter hashtag or keyword or @tag>
+TWITTER_LISTEN_TO=<use your @tag>
+TWITTER_FILTER_CONTAINING=<use keyword you want to filter in tweets>
+TWITTER_PROCESS_RETWEETS=true
+
+# App level configuration
+LOGGING=true
+LOG_LEVEL=info
+OUTPUT_TYPE=json
+SAVE_TYPE=cloudant
+
 ```
 
-#### Run Setup application
 
-The Social CRM application consist of a Setup utility that you can run that will update the configuration files required by the application and create the Cloudant DB documents. It will also allow you to test Twitter and query the database.
-
-In the directory where to code is located (previously downloaded and cd'ed into) run the following command
-
-```
-$ npm run setup
-```
-
-The setup utility consist of a number of actions that should be performed.
-
-#### Cloudant
-
-This action will create the databases required to run the application as well as load all the design documents and indexes.  You need to have the Cloudant username and password handy, which you can find in the credentials of your Cloudant service in IBM Cloud.
-
-#### Twitter
-
-This action will update the configuration with the parameters needed to connect to Twitter as well as subscribe to tweets.  You need to have the Consumer Key (API Key), Consumer Secret (API Secret), Access Token and Access Token Secret from dev.twitter.com available.
-
-At this point you should have decided what Twitter handle you will be "listening" to.  The [Watson Assistant Intents](https://console.bluemix.net/docs/services/conversation/intents.html#defining-intents) for this journey are configured to work with a Twitter account for an airline, but you could create relevant intents for whichever business domain you wish. The Twitter handle would be something other people would tweet to, for example [`@aircanada`](https://twitter.com/AirCanada).  This value is what Twitter would use as trigger to send you the tweets.
-
-> NOTE: Due to the potential for a large volume of API calls, this Accelerator will work best with a paid subscription to IBM Cloud.  If you try and use this accelerator on an screen name that produces a lot of tweets, then you take the risk of using up your free allocation of API calls very quickly.  The Accelerator will suspend for 15 minutes listening to tweets if there are errors returned from the enrichment pipeline.  When the receiver on the UI is paused, it usually means you have exceeded your limit for the day.
-
-When you select the `Twitter` option on the main menu of the setup utility, you will be required to enter the Twitter Tokens first.  Continue to enter the screen name you are listening to, the Assistant API workspace id for the classifications, and finally the Chatbot screen name and Assistant API workspace for the Dialog implementation.
-
-##### Testing Twitter
-
-The next option is to test out the Twitter parameters.  When you select this option from the setup utility's main menu, the listener will be started and you will see tweets being received and displayed on the console.  If some of the parameters are incorrect, then you should see the error.
-
-##### Searching for Tweets
-
-> Note: If you want to leverage this feature, you have to complete the local setup.
-
-You sometimes want to populate your database with previous Tweets.  This Accelerator provides you with the ability to go back 7 days to search for tweets that match your "listen to" screen name.  It will do the enrichment and place the tweets into the database.
-
-### 6. Run the application
+### 7. Run the application
 
 Either `Run the app on IBM Cloud` or `Run the app locally`.
 
@@ -280,10 +200,10 @@ Use the name of the application you created previously to update the configurati
 
 1. Open the `manifest.yml` file and change the `name` AND `host` value to the unique application name you created on IBM Cloud previously.
 
-2. Compile the Angular 2 client code using the following command.
+2. Compile the Angular client code and Express server code using the following command.
 
   ```
-  $ npm run build:client
+  $ npm run build
   ```
 3. Connect to IBM Cloud in the command line tool and follow the prompts to log in
 
@@ -297,38 +217,31 @@ Use the name of the application you created previously to update the configurati
   ```
 5. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the `manifest.yml` file with a '.mybluemix.net' appended to it.
 
-6. The application is secured with a username and password. See the end of this README for details.
 
 #### Running the app locally
 
 Once all the credentials are in place, the application can be started with:
 
 ```
-$ npm run develop
+$ npm run start
 ```
 
-## Accessing the Application
+The server runs on port `3000` and the `client` runs on port `4200`. You can access the UI by accessing the following URL in the browser:
 
-There is only 1 user required for this application.  This user is `watson` with a password of `p@ssw0rd`
+`http://localhost:4200`
 
-The user names and passwords can be modified in the `/server/boot/init-access.js` file.
-
-## Customization
-
-There are some customization what can be done in the application apart from using your own Twitter screen name to monitor and the conversation workspaces you provide.
-
-1. The server component is configured with the `env-vars.json` file.
-2. The client has some configuration that can be modified in the `client/src/app/shared/config.service.ts` file.
 
 ## Sample Output
 
 You will see informations about Tweets:
 
-![](doc/source/images/tweets.png)
+![](doc/source/images/crm_ss_2.png)
 
 as well as Classification of live tweets, Sentiment over time, Emotional Tone over time, and Keywords mentioned:
 
-![](doc/source/images/classSentToneKey.png)
+![](doc/source/images/crm_ss_1.png)
+
+![](doc/source/images/crm_ss_3.png)
 
 # Links
 * [Watson Assistant](https://www.ibm.com/watson/services/conversation/)

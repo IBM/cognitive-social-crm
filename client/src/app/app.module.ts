@@ -1,34 +1,43 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { NgModule } from '@angular/core';
-import { PathLocationStrategy, LocationStrategy } from '@angular/common';
-
-import {} from 'jasmine';
-
-import { AuthModule } from './auth/auth.module';
-import { AppRoutingModule } from './app-routing.module';
-
-import { SharedModule } from './shared/shared.module'
-
-import { AlertService } from './utils/alert.service'
-
+import { CrmRouterModule } from './crm-router/crm-router.module';
 import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { HttpClientModule } from '@angular/common/http';
+import { AnalysisService } from './service/analysis.service';
+import { TweeterService } from './service/tweeter.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UIConfiguration } from './constant/UIConfiguration';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { TweetDetailsComponent } from './components/tweets/tweets-details/tweets-details.component';
+import { AlertModule, CollapseModule, BsDropdownModule, ButtonsModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
+import {TweetsComponent} from './components/tweets/tweets.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    NavbarComponent,
+    DashboardComponent,
+    TweetsComponent,
+    TweetDetailsComponent,
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    AuthModule,
-    SharedModule
+    CrmRouterModule,
+    SlimLoadingBarModule,
+    HttpClientModule,
+    TagCloudModule,
+    FormsModule,
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    AlertModule.forRoot(),
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
   ],
-  providers: [{provide: LocationStrategy, useClass: PathLocationStrategy}, AlertService],
-  bootstrap: [AppComponent]
+  providers: [AnalysisService, TweeterService, UIConfiguration],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
