@@ -1,19 +1,38 @@
 {
+    "extends": [
+        "tslint:recommended",
+        "tslint-eslint-rules"
+    ],
     "rules": {
-        "extends": [
-            "tslint:recommended",
-            "tslint-eslint-rules"
-        ],
-        "ter-indent" :[
+        "ter-indent": [
             true,
             2
         ],
-        "class-name": true,
+        "no-empty": [true, "allow-empty-catch", "allow-empty-functions"],
+        "ordered-imports": false,
         "object-literal-sort-keys": false,
+        "class-name": true,
+        "max-line-length": [
+            true,
+            {
+                "limit": 120,
+                "ignore-pattern": "^import |^export {(.*?)}|text: *|map: *"
+            }
+        ],
+        "no-shadowed-variable": [
+            true,
+            {
+                "temporalDeadZone": false
+            }
+        ],
         "comment-format": [
             true,
             "check-space"
         ],
+        "interface-name": [
+            false
+        ],
+        "no-namespace": false,
         "indent": [
             true,
             "spaces"
@@ -64,5 +83,5 @@
         "no-null-keyword": true,
         "prefer-const": true,
         "jsdoc-format": true
-    }    
+    }
 }

@@ -6,7 +6,7 @@ import {
   NavigationEnd,
   NavigationError,
   NavigationStart,
-  Router
+  Router,
 } from '@angular/router';
 
 import fontawesome from '@fortawesome/fontawesome';
@@ -15,7 +15,7 @@ import far from '@fortawesome/fontawesome-free-regular';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'cognitive-social-crm';

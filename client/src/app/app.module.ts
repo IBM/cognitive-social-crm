@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     DashboardComponent,
     TweetsComponent,
-    TweetDetailsComponent
+    TweetDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,9 +35,9 @@ import { FormsModule } from '@angular/forms';
     AlertModule.forRoot(),
     CollapseModule.forRoot(),
     BsDropdownModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
   ],
   providers: [AnalysisService, TweeterService, UIConfiguration],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

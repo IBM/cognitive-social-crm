@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AnalysisService {
 
@@ -39,7 +39,7 @@ export class AnalysisService {
     return this.http.get(`${this.uri}/listByPostDate`, {
       params: new HttpParams()
       .set('skip', skip)
-      .set('limit', limit)
+      .set('limit', limit),
     });
   }
 }

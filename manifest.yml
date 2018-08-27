@@ -1,8 +1,39 @@
+---
+declared-services:
+  crm-conversation-service:
+    label: conversation
+    plan: lite
+  crm-natural-language-understanding-service:
+    label: natural-language-understanding
+    plan: lite
+  crm-tone-analyzer-service:
+    label: tone_analyzer
+    plan: lite
+  crm-cloudantNoSQLDB-service:
+    label: cloudantNoSQLDB
+    plan: lite
 applications:
-- path: .
-  memory: 256M
+- services:
+    - crm-conversation-service
+    - crm-tone-analyzer-service
+    - crm-natural-language-understanding-service
+    - crm-cloudantNoSQLDB-service
+  path: .
+  memory: 1024M
   instances: 1
-  domain: mybluemix.net
-  name: cognitive-social-crm
-  host: cognitive-social-crm
-  disk_quota: 1024M
+  name: cs-crm
+  disk_quota: 256M
+  random-route: false
+  timeout: 180  
+  env:    
+    LOGGING: true
+    LOG_LEVEL: info
+    ASSISTANT_CLASSIFICATION_WORKSPACE_ID: placeholder
+    TWITTER_CONSUMER_KEY: placeholder
+    TWITTER_CONSUMER_SECRET: placeholder
+    TWITTER_ACCESS_TOKEN: placeholder
+    TWITTER_ACCESS_SECRET: placeholder
+    #TWITTER_LISTEN_FOR: placeholder
+    TWITTER_LISTEN_TO: placeholder
+    TWITTER_FILTER_CONTAINING: placeholder
+    TWITTER_PROCESS_RETWEETS: true   

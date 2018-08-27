@@ -23,5 +23,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "concurrently": "^3.6.1"
+  },
+  "devDependencies": {
+    "tslint-eslint-rules": "^5.4.0"
   }
 }

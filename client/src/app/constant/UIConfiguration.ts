@@ -28,7 +28,7 @@ export class UIConfiguration {
     anger: emoji.get('rage'),
     sadness: emoji.get('frowning'),
     fear: emoji.get('fearful'),
-    joy: emoji.get('smile')
+    joy: emoji.get('smile'),
   };
 
   // The Classification that will be allocated to Watson.  This drives the

@@ -1,16 +1,11 @@
-import { Request, Response, NextFunction } from "express";
-import * as express from "express";
+import { NextFunction, Request, Response } from 'express';
+import * as express from 'express';
 
 export class MiddleWare {
 
-    constructor() {
-
-    }
-
-    appMiddleware(app: express.Application) {
-        return (req: Request, res: Response, next: NextFunction) => {
-            next();
-        };
-    }
+  public appMiddleware(app: express.Application) {
+    return (req: Request, res: Response, next: NextFunction) => {
+      next();
+    };
+  }
 }
-

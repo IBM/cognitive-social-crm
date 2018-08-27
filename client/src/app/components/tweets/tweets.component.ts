@@ -3,11 +3,10 @@ import { AnalysisService } from '../../service/analysis.service';
 import { TweetDetailsComponent } from './tweets-details/tweets-details.component';
 import * as emoji from 'node-emoji';
 
-
 @Component({
   selector: 'app-tweets',
   templateUrl: './tweets.component.html',
-  styleUrls: ['./tweets.component.css']
+  styleUrls: ['./tweets.component.css'],
 })
 export class TweetsComponent implements AfterViewInit {
 
@@ -58,18 +57,18 @@ export class TweetsComponent implements AfterViewInit {
 
   getEmojiIconCode(emotion: string): string {
     switch (emotion) {
-      case 'sadness':
-        return emoji.get('frowning');
-      case 'fear':
-        return emoji.get('fearful');
-      case 'joy':
-        return emoji.get('smile');
-      case 'anger':
-        return emoji.get('rage');
-      case 'disgust':
-        return emoji.get('nauseated_face');
-      default:
-        return 'unknown';
+    case 'sadness':
+      return emoji.get('frowning');
+    case 'fear':
+      return emoji.get('fearful');
+    case 'joy':
+      return emoji.get('smile');
+    case 'anger':
+      return emoji.get('rage');
+    case 'disgust':
+      return emoji.get('nauseated_face');
+    default:
+      return 'unknown';
     }
   }
 }

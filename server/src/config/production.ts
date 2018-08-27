@@ -1,3 +1,3 @@
 export const config = {
-    logging: false
+  logging: false,
 };

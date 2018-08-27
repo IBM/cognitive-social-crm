@@ -97,20 +97,9 @@ Keep this page open as you will need to use these tokens into setup procedure in
 
 Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 
-#### Setting up IBM Cloud Deployment
+#### Deploy to IBM Cloud
 
-> Explanation: You will create a placeholder application in IBM Cloud that connects to all the required services first.
-
-1. If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
-2. Download and install the [Cloud Foundry CLI](https://console.bluemix.net/docs/cli/index.html#cli) tool.
-3. Log into IBM Cloud with your account.
-4. From the `Application Dashboard`, create a new `Application`.
-  - On the left, select `Apps` > `Cloudfoundry Apps`.
-  - On the right, select `SDK for Node.js`.
-  - Provide a unique name for your application.
-5. Once the application is created, go into the application and select `Connections`.
-6. Create the required services and bind them to the newly created application: `Natural Language Understanding`, `Tone Analyzer`, and `Cloudant NoSQL DB`.
-7. Leave the `Connections` page open, as you will reference the credentials in the next step.
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/cognitive-social-crm)
 
 #### Setup local Deployment
 

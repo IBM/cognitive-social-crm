@@ -4,7 +4,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-tweet-details',
   templateUrl: './tweets-details.component.html',
-  styleUrls: ['./tweets-details.component.css']
+  styleUrls: ['./tweets-details.component.css'],
 })
 export class TweetDetailsComponent implements OnInit {
 

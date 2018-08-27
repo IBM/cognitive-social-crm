@@ -10,7 +10,7 @@ import { TweeterService } from '../../service/tweeter.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
 
@@ -36,13 +36,13 @@ export class DashboardComponent implements OnInit {
   public sentimentOverTimeLineChart: Chart;
   public emotionalToneOverTimeChart: Chart;
   public keywordCloud: CloudData[] = [
-    { text: 'Initialiazing keywords', weight: 4 }
+    { text: 'Initialiazing keywords', weight: 4 },
   ];
   public options: CloudOptions;
 
   constructor(private analysisService: AnalysisService,
-    private tweeterService: TweeterService,
-    private uiConfiguration: UIConfiguration) { }
+              private tweeterService: TweeterService,
+              private uiConfiguration: UIConfiguration) { }
 
   ngOnInit() {
 
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     this.analysisService.getSentimentTrend().subscribe((trend) => {
       const tweets = trend.rows;
       const response = {
-        trend: ''
+        trend: '',
       };
       let positive = 0;
       let negative = 0;
@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit {
     this.analysisService.getClassificatonSummary().subscribe((classifications) => {
       const allocation = {
         Watson: 0,
-        Agent: 0
+        Agent: 0,
       };
       let i = 0;
       for (const c of classifications) {
@@ -151,16 +151,16 @@ export class DashboardComponent implements OnInit {
           {
             label: 'Response Assignment',
             backgroundColor: ['#3e95cd', '#8e5ea2'],
-            data: [tweetAllocation.Watson, tweetAllocation.Agent]
-          }
-        ]
+            data: [tweetAllocation.Watson, tweetAllocation.Agent],
+          },
+        ],
       },
       options: {
         title: {
           display: true,
-          text: 'Tweets Response Assignment'
-        }
-      }
+          text: 'Tweets Response Assignment',
+        },
+      },
     });
 
   }
@@ -192,17 +192,17 @@ export class DashboardComponent implements OnInit {
           {
             label: 'Tweets',
             backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f', '#e8c3b9', '#c45850'],
-            data: y
-          }
-        ]
+            data: y,
+          },
+        ],
       },
       options: {
         legend: { display: false },
         title: {
           display: true,
-          text: 'Live Tweets Classification'
-        }
-      }
+          text: 'Live Tweets Classification',
+        },
+      },
     });
   }
 
@@ -216,26 +216,26 @@ export class DashboardComponent implements OnInit {
           data: sentiments.positive,
           label: 'Positive',
           borderColor: '#3e95cd',
-          fill: false
+          fill: false,
         }, {
           data: sentiments.neutral,
           label: 'Neutral',
           borderColor: '#8e5ea2',
-          fill: false
+          fill: false,
         }, {
           data: sentiments.negative,
           label: 'Negative',
           borderColor: '#3cba9f',
-          fill: false
-        }
-        ]
+          fill: false,
+        },
+        ],
       },
       options: {
         title: {
           display: true,
-          text: 'Sentiment over time'
-        }
-      }
+          text: 'Sentiment over time',
+        },
+      },
     });
   }
 
@@ -264,7 +264,7 @@ export class DashboardComponent implements OnInit {
 
   loadKeywordSummary() {
     const changedData$: Observable<CloudData[]> = of(this.keywordCloud);
-    changedData$.subscribe(res => this.keywordCloud = res);
+    changedData$.subscribe((res) => this.keywordCloud = res);
     this.analysisService.getKeywordsSummary().pipe(map((res) => {
       const keywordsForCloud = [];
       for (const k of res.data) {
@@ -285,31 +285,31 @@ export class DashboardComponent implements OnInit {
           data: sentiments.anger,
           label: 'Anger',
           borderColor: '#DC3545',
-          fill: false
+          fill: false,
         }, {
           data: sentiments.fear,
           label: 'Fear',
           borderColor: '#000000',
-          fill: false
+          fill: false,
         }, {
           data: sentiments.joy,
           label: 'Joy',
           borderColor: '#3cba9f',
-          fill: false
+          fill: false,
         }, {
           data: sentiments.sadness,
           label: 'Sadness',
           borderColor: '#3e95cd',
-          fill: false
-        }
-        ]
+          fill: false,
+        },
+        ],
       },
       options: {
         title: {
           display: true,
-          text: 'Emotional tone over time'
-        }
-      }
+          text: 'Emotional tone over time',
+        },
+      },
     });
   }
 }
