@@ -13,13 +13,6 @@ declared-services:
     label: cloudantNoSQLDB
     plan: Lite
 applications:
-- name: cs-crm-client
-  path: ./client/
-  memory: 1024M
-  instances: 1
-  disk_quota: 256M
-  random-route: false
-  timeout: 180
 - name: cs-crm-server
   services:
   - crm-conversation-service
@@ -27,6 +20,7 @@ applications:
   - crm-natural-language-understanding-service
   - crm-cloudantNoSQLDB-service
   path: ./server/
+  host: crm-server
   memory: 1024M
   instances: 1
   disk_quota: 256M
@@ -44,4 +38,12 @@ applications:
     #TWITTER_LISTEN_FOR: placeholder
     TWITTER_LISTEN_TO: placeholder
     TWITTER_FILTER_CONTAINING: placeholder
-    TWITTER_PROCESS_RETWEETS: true   
+    TWITTER_PROCESS_RETWEETS: true
+- name: cs-crm-client
+  host: crm-client
+  path: ./client/
+  memory: 1024M
+  instances: 1
+  disk_quota: 256M
+  random-route: false
+  timeout: 180  
