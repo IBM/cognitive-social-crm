@@ -116,7 +116,6 @@ export class EnrichmentPipeline {
       try {
         this.conversationParams.input = {};
         this.conversationParams.input.text = text;
-        this.LOGGER.info(JSON.stringify(this.conversationParams));
         this.conversation.message(this.conversationParams, (err: any, success: any) => {
           if (err) {
             this.LOGGER.error('Conversation: ' + err);

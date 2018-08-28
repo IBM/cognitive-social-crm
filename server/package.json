@@ -4,6 +4,7 @@
   "description": "Cognitive CRM Server",
   "main": "server.ts",
   "scripts": {
+    "start:prod": "node ./node_modules/typescript/lib/tsc && export NODE_ENV=production && node dist/server.js",
     "start": "npm run build:live",
     "build": "node ./node_modules/typescript/lib/tsc",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- server.ts",
@@ -24,6 +25,7 @@
     "moment": "^2.22.2",
     "tslint": "^5.11.0",
     "twit": "^2.2.11",
+    "vcap_services": "^0.5.1",
     "watson-developer-cloud": "^3.9.0",
     "winston": "^3.0.0"
   },

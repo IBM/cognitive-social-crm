@@ -13,19 +13,26 @@ declared-services:
     label: cloudantNoSQLDB
     plan: Lite
 applications:
-- services:
-    - crm-conversation-service
-    - crm-tone-analyzer-service
-    - crm-natural-language-understanding-service
-    - crm-cloudantNoSQLDB-service
-  path: .
+- name: cs-crm-client
+  path: ./client/
   memory: 1024M
   instances: 1
-  name: cs-crm
   disk_quota: 256M
   random-route: false
   timeout: 180
-  command: npm run start:prod
+- name: cs-crm-server
+  services:
+  - crm-conversation-service
+  - crm-tone-analyzer-service
+  - crm-natural-language-understanding-service
+  - crm-cloudantNoSQLDB-service
+  path: ./server/
+  memory: 1024M
+  instances: 1
+  disk_quota: 256M
+  random-route: false
+  timeout: 180
+  command: npm run start:prod  
   env:    
     LOGGING: true
     LOG_LEVEL: info

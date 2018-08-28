@@ -1,5 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
+let vcapServices = require('vcap_services');
+let cloudantCreds = vcapServices.getCredentials('cloudantNoSQLDB');
 
 export const ENV = {
   dev: 'development',
@@ -7,13 +9,23 @@ export const ENV = {
   test: 'testing',
 };
 
+let cloudant_username: string;
+let cloudant_password: string;
+if(process.env.NODE_ENV === 'production'){
+  cloudant_username = cloudantCreds.username;
+  cloudant_password = cloudantCreds.password;  
+}else {
+  cloudant_username = process.env.CLOUDANT_USERNAME || '';
+  cloudant_password = process.env.CLOUDANT_PASSWORD || '';
+}
+
 let config = {
   environment: process.env.NODE_ENV || ENV.dev,
   port: process.env.PORT || 3000,
   logging: process.env.LOGGING,
   log_level: process.env.LOG_LEVEL,
-  cloudant_username: process.env.CLOUDANT_USERNAME,
-  cloudant_password: process.env.CLOUDANT_PASSWORD,
+  cloudant_username: cloudant_username,
+  cloudant_password: cloudant_password,
   cloudant_db: process.env.CLOUDANT_ANALYSIS_DB_NAME,
   listenFor: process.env.TWITTER_LISTEN_FOR,
   listenTo: process.env.TWITTER_LISTEN_TO,
