@@ -5,16 +5,16 @@ import * as Twit from 'twit';
 import * as winston from 'winston';
 import config from '../../src/config';
 import { CloudantDAO } from '../dao/CloudantDAO';
-import { TwitterOptions, TwitterResponse } from '../model/CRMModel';
+import { TwitterOptions, TwitterResponse, CloudantOptions } from '../model/CRMModel';
 import { EnrichmentPipeline } from '../util/EnrichmentPipeline';
 import { OutputFormatter } from '../util/OutputFormatter';
 import logger from '../util/Logger';
 
 export class TweeterListener {
 
-  public static getInstance(options: TwitterOptions) {
+  public static getInstance(options: TwitterOptions, enrichmentPipeline: EnrichmentPipeline) {
     if (this.tweeterListener === undefined) {
-      this.tweeterListener = new TweeterListener(options);
+      this.tweeterListener = new TweeterListener(options, enrichmentPipeline);
     }
     return this.tweeterListener;
   }
@@ -36,7 +36,7 @@ export class TweeterListener {
       new (winston.transports.Console)({ format: winston.format.simple() })],
   });
 
-  private constructor(options: TwitterOptions) {
+  private constructor(options: TwitterOptions, enrichmentPipeline: EnrichmentPipeline) {
     this.options = options;
     this.options.listenFor = config.listenFor || '';
     this.options.listenTo = config.listenTo || '';
@@ -63,15 +63,13 @@ export class TweeterListener {
     }
     this.outCount = 0;
 
-    const cloudant = Cloudant({
-      account: config.cloudant_username,
-      password: config.cloudant_password,
-    });
-    const dbName = config.cloudant_db || '';
-    this.cloudantDAO = new CloudantDAO(cloudant, dbName, options);
+
+    const cloudantOptions: CloudantOptions = {} as CloudantOptions;
+    cloudantOptions.maxBufferSize = 1;
+    this.cloudantDAO = CloudantDAO.getInstance(options, enrichmentPipeline);
 
     this.outputFormatter = new OutputFormatter();
-    this.enrichmentPipeline = EnrichmentPipeline.getInstance(this.options.workspaceId);
+    this.enrichmentPipeline = enrichmentPipeline;
 
     const twitOptions: Twit.Options = {} as Twit.Options;
     twitOptions.consumer_key = config.consumer_key || '';

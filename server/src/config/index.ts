@@ -37,7 +37,8 @@ let config = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_SECRET,  
+  access_token_secret: process.env.TWITTER_ACCESS_SECRET, 
+  max_buffer_size: Number(process.env.MAX_BUFFER_SIZE),
   isLocal: true,
 
 };
