@@ -5,6 +5,15 @@ import config from '../../src/config';
 
 export class EnrichmentPipeline {
 
+  public static getInstance(workspaceId: string) {
+    if (this.enrichmentPipeline === undefined) {
+      this.enrichmentPipeline = new EnrichmentPipeline(workspaceId);
+    }
+    return this.enrichmentPipeline;
+  }
+
+  private static enrichmentPipeline: EnrichmentPipeline;
+
   private LOGGER = winston.createLogger({
     level: config.log_level,
     transports: [
@@ -15,15 +24,6 @@ export class EnrichmentPipeline {
   private toneAnalyzer: watson.ToneAnalyzerV3;
   private conversation: watson.ConversationV1;
   private workspaceId: string;
-
-  private static enrichmentPipeline: EnrichmentPipeline;
-
-  public static getInstance(workspaceId: string) {
-    if (this.enrichmentPipeline === undefined) {
-      this.enrichmentPipeline = new EnrichmentPipeline(workspaceId);
-    }
-    return this.enrichmentPipeline;
-  }
 
   private nluParams: any = {
     features: {
@@ -121,12 +121,12 @@ export class EnrichmentPipeline {
 
   public conversationEnrichment(text: string) {
     return new Promise((resolve, reject) => {
-      try {        
+      try {
         const conversationParams: any = {
           workspace_id: this.workspaceId,
           input: {
-            text: text
-          }
+            text,
+          },
         };
         this.conversation.message(conversationParams, (err: any, success: any) => {
           if (err) {

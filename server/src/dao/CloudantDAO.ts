@@ -4,12 +4,20 @@ import * as moment from 'moment';
 import * as winston from 'winston';
 import config from '../config';
 import * as Cloudant from '@cloudant/cloudant';
-import tweets = require("../data/SampleTweets");
+import tweets = require('../data/SampleTweets');
 import { EnrichmentPipeline } from '../util/EnrichmentPipeline';
 import cloudantConfig from '../data/cloudant.config';
 import { ClassificationSummary, EmotionalToneOverTime, SentimentOverTime, SentimentSummary, CloudantOptions } from '../model/CRMModel';
 
 export class CloudantDAO {
+
+  public static getInstance(options: CloudantOptions, enrichmentPipeline: EnrichmentPipeline) {
+    if (this.cloudantDao === undefined) {
+      this.cloudantDao = new CloudantDAO(cloudantConfig, options, enrichmentPipeline);
+    }
+    return this.cloudantDao;
+  }
+  private static cloudantDao: CloudantDAO;
 
   private cloudantDB!: Cloudant.DocumentScope<{}>;
   private options: CloudantOptions = {} as CloudantOptions;
@@ -17,7 +25,6 @@ export class CloudantDAO {
   private bulkSaveBuffer: nano.BulkModifyDocsWrapper;
   private duplicateDetectionCache: any;
   private duplicateDetectionCacheThreshold: number;
-  private static cloudantDao: CloudantDAO;
   private cloudant: Cloudant.ServerScope;
   private dbName!: string;
   private enrichmentPipeline: EnrichmentPipeline;
@@ -31,14 +38,6 @@ export class CloudantDAO {
       new (winston.transports.Console)({ format: winston.format.simple() })],
   });
 
-
-  public static getInstance(options: CloudantOptions, enrichmentPipeline: EnrichmentPipeline) {
-    if (this.cloudantDao === undefined) {
-      this.cloudantDao = new CloudantDAO(cloudantConfig, options, enrichmentPipeline);
-    }
-    return this.cloudantDao;
-  }
-
   /**
    * @param cloudant
    * @param dbname
@@ -50,7 +49,7 @@ export class CloudantDAO {
     const cloudant = Cloudant({
       account: config.cloudant_username,
       password: config.cloudant_password,
-      plugins: { retry: { retryErrors: false, retryStatusCodes: [429] } }
+      plugins: { retry: { retryErrors: false, retryStatusCodes: [429] } },
     });
     this.cloudant = cloudant;
 
@@ -113,7 +112,7 @@ export class CloudantDAO {
         }
         this.LOGGER.debug('Length of Buffer: : ' + this.bulkSaveBuffer.docs.length);
         // If the bulk buffer threshold is reached, or the force flag is true,
-        // Then save the buffer to cloudant.        
+        // Then save the buffer to cloudant.
         if (this.bulkSaveBuffer.docs.length >= this.maxBufferSize || force) {
           // Throttle the save to not exceed Cloudant free plan limits
           this.LOGGER.debug('Saving to Cloudant...');
@@ -240,37 +239,38 @@ export class CloudantDAO {
     return this.bulkSaveBuffer.docs.length;
   }
 
-  /** Check Cloudant against the cloudant-config.json file.
-       */
-  checkCloudant() {
-    const dbDefinitions = this.dbConfig["db-definitions"];
+  /**
+   * Check Cloudant against the cloudant-config.json file.
+   */
+  public checkCloudant() {
+    const dbDefinitions = this.dbConfig['db-definitions'];
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Checking cloudant...");
-        let dbCheckPromises = [];
+        this.LOGGER.info('Checking cloudant...');
+        const dbCheckPromises = [];
         for (const dbName of Object.keys(dbDefinitions)) {
           const dbConfig = dbDefinitions[dbName];
           dbCheckPromises.push(this.checkDatabase(dbName, dbConfig));
         }
-        this.LOGGER.info("Number of databases in configuration that will be checked : " + dbCheckPromises.length);
+        this.LOGGER.info('Number of databases in configuration that will be checked : ' + dbCheckPromises.length);
         Promise.all(dbCheckPromises).then((dbResult) => {
-          this.LOGGER.info("Done checking cloudant...");          
+          this.LOGGER.info('Done checking cloudant...');
           resolve(dbResult);
         }).catch((err) => {
-          this.LOGGER.info("Error checking cloudant : " + err);
+          this.LOGGER.info('Error checking cloudant : ' + err);
           reject(err);
         });
       } catch (err) {
-        this.LOGGER.info("Error checking cloudant : " + err);
+        this.LOGGER.info('Error checking cloudant : ' + err);
         reject(err);
       }
     });
   }
   /** Utility functionto tell you whether you need to sync the db config
    */
-  needSync(checkResult: any) {
+  public needSync(checkResult: any) {
     try {
-      this.LOGGER.info("*** Checking if cloudant sync is required. ***");
+      this.LOGGER.info('*** Checking if cloudant sync is required. ***');
       let needSync = false;
       for (let i = 0; i < checkResult.length; i++) {
         if (!checkResult[i].exist) {
@@ -285,28 +285,28 @@ export class CloudantDAO {
           }
         }
       }
-      this.LOGGER.info("*** Cloudant sync is" + (needSync ? " required " : " not required. ***"));
+      this.LOGGER.info('*** Cloudant sync is' + (needSync ? ' required ' : ' not required. ***'));
       return needSync;
     } catch (err) {
-      this.LOGGER.info("Error checking if cloudant sync is required : " + err);
+      this.LOGGER.info('Error checking if cloudant sync is required : ' + err);
       return false;
     }
   }
   /** Sync the cloudant instance with the configuration in the cloudant-config.json file.
    */
-  syncCloudantConfig(checkResult: any) {
-    const dbDefinitions = this.dbConfig["db-definitions"];
+  public syncCloudantConfig(checkResult: any) {
+    const dbDefinitions = this.dbConfig['db-definitions'];
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Syncing cloudant configuration...");
+        this.LOGGER.info('Syncing cloudant configuration...');
         const createHash = this.getCreateManifest(checkResult);
-        let dbCreatePromises = [];
+        const dbCreatePromises = [];
         for (const dbName of Object.keys(dbDefinitions)) {
           const dbConfig = dbDefinitions[dbName];
           dbCreatePromises.push(this.createCloudantDB(dbName, dbConfig, createHash));
         }
         Promise.all(dbCreatePromises).then((dbResult: any) => {
-          this.LOGGER.info("Done syncing cloudant configuration");
+          this.LOGGER.info('Done syncing cloudant configuration');
           const db = dbResult[0].dbName;
           this.dbName = db;
           this.cloudantDB = this.cloudant.use(db);
@@ -316,7 +316,7 @@ export class CloudantDAO {
         });
 
       } catch (err) {
-        this.LOGGER.info("Error syncing cloudant configuration : " + err);
+        this.LOGGER.info('Error syncing cloudant configuration : ' + err);
         reject(err);
       }
     });
@@ -324,261 +324,261 @@ export class CloudantDAO {
 
   /** Print the results of the check out
    */
-  printCheckResults(checkResult: any) {
+  public printCheckResults(checkResult: any) {
     try {
       for (let i = 0; i < checkResult.length; i++) {
         // tslint:disable:max-line-length
-        this.LOGGER.info("Database " + checkResult[i].dbName + (checkResult[i].exist ? " exist" : " does not exist"));
+        this.LOGGER.info('Database ' + checkResult[i].dbName + (checkResult[i].exist ? ' exist' : ' does not exist'));
         for (let j = 0; j < checkResult[i].design.length; j++) {
-          if (checkResult[i].design[j].type === "index") {
+          if (checkResult[i].design[j].type === 'index') {
             // tslint:disable:max-line-length
-            this.LOGGER.info("> Index " + checkResult[i].design[j].name + (checkResult[i].design[j].exist ? " exist" : " does not exist"));
+            this.LOGGER.info('> Index ' + checkResult[i].design[j].name + (checkResult[i].design[j].exist ? ' exist' : ' does not exist'));
           } else {
             // tslint:disable:max-line-length
-            this.LOGGER.info("> Design " + checkResult[i].design[j].name + (checkResult[i].design[j].exist ? " exist" : " does not exist"));
+            this.LOGGER.info('> Design ' + checkResult[i].design[j].name + (checkResult[i].design[j].exist ? ' exist' : ' does not exist'));
           }
         }
       }
     } catch (err) {
-      this.LOGGER.info("Error printing check result : " + err);
+      this.LOGGER.info('Error printing check result : ' + err);
       return false;
     }
   }
 
-  checkDatabase(dbName: string, dbConfig: any) {
+  public checkDatabase(dbName: string, dbConfig: any) {
     return new Promise((resolve, reject) => {
       try {
         this.cloudant.db.get(dbName, (err, body) => {
           let designs: any = {};
-          let designName: string = "";
+          let designName: string = '';
           if (err) {
             // No database exist
             const result: any = {
-              "dbName": dbName,
-              "exist": false,
-              "rows": 0,
-              "design": [],
+              dbName,
+              exist: false,
+              rows: 0,
+              design: [],
             };
             // if the database doesn't exist, nothing else will, so set it up that way
             designs = dbConfig.design ? dbConfig.design : [];
             for (const design of designs) {
               designName = design.name;
-              result.design.push({ "type": "design", "name": designName, "exist": false });
+              result.design.push({ type: 'design', name: designName, exist: false });
             }
             const indexes = dbConfig.index ? dbConfig.index : [];
-            for (let index of indexes) {
-              result.design.push({ "type": "index", "name": index.name, "exist": false });
+            for (const index of indexes) {
+              result.design.push({ type: 'index', name: index.name, exist: false });
             }
             resolve(result);
           } else {
             // if the database exists then initialize the cloudant db
-            this.dbName = body.db_name
+            this.dbName = body.db_name;
             this.cloudantDB = this.cloudant.use(this.dbName);
 
             designs = dbConfig.design ? dbConfig.design : [];
-            let designCheckPromises = [];
-            for (let design of designs) {
+            const designCheckPromises = [];
+            for (const design of designs) {
               designName = design.name;
               designCheckPromises.push(this.checkDesign(designName));
             }
-            let indexes = dbConfig.index ? dbConfig.index : [];
-            for (let index of indexes) {
+            const indexes = dbConfig.index ? dbConfig.index : [];
+            for (const index of indexes) {
               designCheckPromises.push(this.checkIndex(index.name));
             }
             Promise.all(designCheckPromises).then((designResult) => {
-              let options = {
-                endkey: "_",
+              const options = {
+                endkey: '_',
               };
-              this.cloudantDB.list(options, (err, rowResult) => {
-                if (err) {
-                  reject(err);
+              this.cloudantDB.list(options, (error, rowResult) => {
+                if (error) {
+                  reject(error);
                 } else {
-                  let dbResult: any = { "dbName": this.dbName, "exist": true, "rows": rowResult.rows.length, "design": [] };
+                  const dbResult: any = { dbName: this.dbName, exist: true, rows: rowResult.rows.length, design: [] };
                   dbResult.design = designResult;
                   resolve(dbResult);
                 }
               });
-            }, (err) => {
-              this.LOGGER.info("Error returned from checking design documents : " + err);
+            }, (error1) => {
+              this.LOGGER.info('Error returned from checking design documents : ' + error1);
             });
           }
         });
       } catch (err) {
-        this.LOGGER.info("Error in checking databases : " + err);
+        this.LOGGER.info('Error in checking databases : ' + err);
         reject(err);
       }
     });
   }
 
-  checkDesign(designName: string) {
+  public checkDesign(designName: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Checking for design " + designName + " in database " + this.dbName);
-        this.cloudantDB.get("_design/" + designName, (err, body) => {
+        this.LOGGER.info('Checking for design ' + designName + ' in database ' + this.dbName);
+        this.cloudantDB.get('_design/' + designName, (err, body) => {
           if (!err) {
-            resolve({ "type": "design", "name": designName, "exist": true });
+            resolve({ type: 'design', name: designName, exist: true });
           } else {
-            resolve({ "type": "design", "name": designName, "exist": false });
+            resolve({ type: 'design', name: designName, exist: false });
           }
         });
       } catch (err) {
-        this.LOGGER.info("Error in checking for design : " + err);
+        this.LOGGER.info('Error in checking for design : ' + err);
         reject(err);
       }
     });
   }
 
-  checkIndex(indexName: string) {
+  public checkIndex(indexName: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Checking for index " + indexName + " in database " + this.dbName);
+        this.LOGGER.info('Checking for index ' + indexName + ' in database ' + this.dbName);
         this.cloudantDB.index((err: any, body: any) => {
           if (!err) {
             const indexes = body.indexes;
             let found = false;
             for (let i = 0; i < indexes.length; i++) {
               if (indexes[i].name === indexName) {
-                this.LOGGER.info("Index " + indexName + " already exist.");
+                this.LOGGER.info('Index ' + indexName + ' already exist.');
                 found = true;
                 break;
               }
             }
-            resolve({ "type": "index", "name": indexName, "exist": found });
+            resolve({ type: 'index', name: indexName, exist: found });
           } else {
-            resolve({ "type": "index", "name": indexName, "exist": false });
+            resolve({ type: 'index', name: indexName, exist: false });
           }
         });
       } catch (err) {
-        this.LOGGER.info("Error in checking for index : " + err);
+        this.LOGGER.info('Error in checking for index : ' + err);
         reject(err);
       }
     });
   }
 
-  createCloudantDB(dbName: string, dbConfig: any, createHash: any) {
+  public createCloudantDB(dbName: string, dbConfig: any, createHash: any) {
     return new Promise((resolve, reject) => {
       try {
         const createDb = createHash.db[dbName];
         if (createDb) {
-          this.LOGGER.info("Creating cloudant database " + dbName);
+          this.LOGGER.info('Creating cloudant database ' + dbName);
           this.cloudant.db.create(dbName, (err) => {
             if (err) {
               // tslint:disable:max-line-length
-              this.LOGGER.info("Error returned from cloudant trying to create a database : " + JSON.stringify(err));
-              resolve({ "dbName": dbName, "exist": false });
+              this.LOGGER.info('Error returned from cloudant trying to create a database : ' + JSON.stringify(err));
+              resolve({ dbName, exist: false });
             } else {
               this.cloudantDB = this.cloudant.use(dbName);
               this.dbName = dbName;
               // Now create any design docs that might be defined
               const designCreatePromises = this.buildDesignCreatePromiseArray(dbName, dbConfig, createHash);
-              Promise.all(designCreatePromises).then(function (designResult) {
-                const dbResult: any = { "dbName": dbName, "exist": true, "design": [] };
+              Promise.all(designCreatePromises).then((designResult) => {
+                const dbResult: any = { dbName, exist: true, design: [] };
                 dbResult.design = designResult;
                 resolve(dbResult);
               });
             }
           });
         } else {
-          this.LOGGER.info("Database " + dbName + " already exist, creating designs");
+          this.LOGGER.info('Database ' + dbName + ' already exist, creating designs');
           // Now create any design docs that might be defined
           const designCreatePromises = this.buildDesignCreatePromiseArray(dbName, dbConfig, createHash);
 
-          Promise.all(designCreatePromises).then(function (designResult) {
-            const dbResult: any = { "dbName": dbName, "exist": true, "design": [] };
+          Promise.all(designCreatePromises).then((designResult) => {
+            const dbResult: any = { dbName, exist: true, design: [] };
             dbResult.design = designResult;
             resolve(dbResult);
           });
         }
       } catch (err) {
-        this.LOGGER.info("Error in creating cloudant database : " + err);
+        this.LOGGER.info('Error in creating cloudant database : ' + err);
         reject(err);
       }
     });
   }
 
-  buildDesignCreatePromiseArray(dbName: string, dbConfig: any, createHash: any) {
+  public buildDesignCreatePromiseArray(dbName: string, dbConfig: any, createHash: any) {
     const designs = dbConfig.design ? dbConfig.design : [];
-    let designCreatePromises = [];
-    for (let design of designs) {
+    const designCreatePromises = [];
+    for (const design of designs) {
       const designName = design.name;
       designCreatePromises.push(this.createCloudantDesign(dbName, designName, design, createHash));
     }
     const indexes = dbConfig.index ? dbConfig.index : [];
-    for (let index of indexes) {
+    for (const index of indexes) {
       const indexName = index.name;
       designCreatePromises.push(this.createCloudantIndex(dbName, indexName, index, createHash));
     }
     return designCreatePromises;
   }
 
-  createCloudantIndex(dbName: string, indexName: string, indexDef: any, createHash: any) {
+  public createCloudantIndex(dbName: string, indexName: string, indexDef: any, createHash: any) {
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Creating cloudant index with name " + indexName + " in database " + dbName);
-        const createIndex = createHash.design[dbName + "-" + indexName + "-index"];
+        this.LOGGER.info('Creating cloudant index with name ' + indexName + ' in database ' + dbName);
+        const createIndex = createHash.design[dbName + '-' + indexName + '-index'];
         if (createIndex) {
           this.cloudantDB.index(indexDef, (err: any, body: any) => {
             if (!err) {
-              resolve({ "type": "index", "name": indexName, "exist": true });
+              resolve({ type: 'index', name: indexName, exist: true });
             } else {
-              this.LOGGER.info("Error returned from cloudant trying to create an index : " + JSON.stringify(err));
-              resolve({ "type": "index", "name": indexName, "exist": false });
+              this.LOGGER.info('Error returned from cloudant trying to create an index : ' + JSON.stringify(err));
+              resolve({ type: 'index', name: indexName, exist: false });
             }
           });
         } else {
-          resolve({ "indexName": indexName, "exist": true });
+          resolve({ indexName, exist: true });
         }
       } catch (err) {
-        this.LOGGER.info("Error creating index : " + err);
+        this.LOGGER.info('Error creating index : ' + err);
         reject(err);
       }
     });
   }
 
-  createCloudantDesign(dbName: string, designName: string, design: any, createHash: any) {
+  public createCloudantDesign(dbName: string, designName: string, design: any, createHash: any) {
     return new Promise((resolve, reject) => {
       try {
-        this.LOGGER.info("Creating cloudant design document " + designName + " in database " + dbName);
-        const createDesign = createHash.design[dbName + "-" + designName + "-design"];
+        this.LOGGER.info('Creating cloudant design document ' + designName + ' in database ' + dbName);
+        const createDesign = createHash.design[dbName + '-' + designName + '-design'];
         if (createDesign) {
-          this.cloudantDB.insert(design, "_design/" + designName, (err, body) => {
+          this.cloudantDB.insert(design, '_design/' + designName, (err, body) => {
             if (!err) {
-              resolve({ "type": "design", "name": designName, "exist": true });
+              resolve({ type: 'design', name: designName, exist: true });
             } else {
-              this.LOGGER.info("Error returned from cloudant trying to create a design document : " + JSON.stringify(err));
-              resolve({ "type": "design", "name": designName, "exist": false });
+              this.LOGGER.info('Error returned from cloudant trying to create a design document : ' + JSON.stringify(err));
+              resolve({ type: 'design', name: designName, exist: false });
             }
           });
         } else {
-          resolve({ "designName": designName, "exist": true });
+          resolve({ designName, exist: true });
         }
       } catch (err) {
-        this.LOGGER.info("Error creating cloudant design document : " + err);
+        this.LOGGER.info('Error creating cloudant design document : ' + err);
         reject(err);
       }
     });
   }
 
-  getCreateManifest(checkResult: any) {
-    let createHash: any = {
-      "db": {},
-      "design": {},
+  public getCreateManifest(checkResult: any) {
+    const createHash: any = {
+      db: {},
+      design: {},
     };
     try {
       for (let i = 0; i < checkResult.length; i++) {
         createHash.db[checkResult[i].dbName] = !checkResult[i].exist;
         for (let j = 0; j < checkResult[i].design.length; j++) {
-          let name = checkResult[i].dbName + "-" + checkResult[i].design[j].name + "-" + checkResult[i].design[j].type;
+          const name = checkResult[i].dbName + '-' + checkResult[i].design[j].name + '-' + checkResult[i].design[j].type;
           createHash.design[name] = !checkResult[i].design[j].exist;
         }
       }
       return createHash;
     } catch (err) {
-      this.LOGGER.info("Error in building the sync manifest : " + err);
+      this.LOGGER.info('Error in building the sync manifest : ' + err);
     }
   }
 
-  setupCloudant() {
+  public setupCloudant() {
     return new Promise((resolve, reject) => {
       // Instanciate the Cloudant Initializer
       this.checkCloudant().then((checkResult) => {
@@ -586,18 +586,18 @@ export class CloudantDAO {
         if (needSync) {
           this.syncCloudantConfig(checkResult).then((createResult) => {
             this.printCheckResults(createResult);
-            this.LOGGER.info("*** Synchronization completed. ***");
+            this.LOGGER.info('*** Synchronization completed. ***');
             this.insertSampleTweets().then((dataResult) => {
-              this.LOGGER.info("*** Sample tweet data inserted successfully. ***" + dataResult);
+              this.LOGGER.info('*** Sample tweet data inserted successfully. ***' + dataResult);
               resolve();
             }).catch((err) => {
-              this.LOGGER.info("*** Error while saving sample tweets to database ***");
+              this.LOGGER.info('*** Error while saving sample tweets to database ***');
               reject(err);
             });
           });
         } else {
           this.printCheckResults(checkResult);
-          this.LOGGER.info("*** Synchronization not required. ***");
+          this.LOGGER.info('*** Synchronization not required. ***');
           resolve();
         }
       }, (err) => {
@@ -611,16 +611,16 @@ export class CloudantDAO {
    * insert sample tweets
    * @param {*} tweets
    */
-  insertSampleTweets() {
+  public insertSampleTweets() {
     return new Promise((resolve, reject) => {
       try {
-        var i = 1;
-        let dataLoadPromises: any = [];
+        let i = 1;
+        const dataLoadPromises: any = [];
         for (const tweet of tweets.default) {
-          //needed to add these as sample tweets don't haec all the details
-          let tweetToDb: any = tweet;
-          tweetToDb.post_by = "system";
-          tweetToDb.source = "system";
+          // needed to add these as sample tweets don't haec all the details
+          const tweetToDb: any = tweet;
+          tweetToDb.post_by = 'system';
+          tweetToDb.source = 'system';
           tweetToDb.tweet_id = i++;
 
           this.enrichmentPipeline.enrich(tweet.text).then((enrichments) => {
@@ -636,25 +636,24 @@ export class CloudantDAO {
             this.status.lastError = err;
             this.status.errors++;
             // If it's not an unsupported text language error, then we pause the listener.
-            if (err.indexOf("unsupported text language") === -1) {
-              this.LOGGER.info("An enrichment error occurred" + err);
+            if (err.indexOf('unsupported text language') === -1) {
+              this.LOGGER.info('An enrichment error occurred' + err);
             }
             reject(err);
           });
         }
         Promise.all(dataLoadPromises).then((loadDataResult) => {
-          this.LOGGER.info("Done syncing cloudant data");
+          this.LOGGER.info('Done syncing cloudant data');
           resolve(loadDataResult);
         }).catch((err) => {
           reject(err);
         });
       } catch (err) {
-        this.LOGGER.info("Error in saving tweets to database : " + err);
+        this.LOGGER.info('Error in saving tweets to database : ' + err);
         reject(err);
       }
     });
   }
-
 
   public listByPostDate(skip: number, limit: number, cb: (err?: Error, result?: any) => void) {
     try {
@@ -685,20 +684,20 @@ export class CloudantDAO {
           response.total += row.value as number;
           const dataKey = row.key as string;
           switch (dataKey) {
-            case 'positive': {
-              response.positive = row.value as number;
-              break;
-            }
+          case 'positive': {
+            response.positive = row.value as number;
+            break;
+          }
 
-            case 'neutral': {
-              response.neutral = row.value as number;
-              break;
-            }
+          case 'neutral': {
+            response.neutral = row.value as number;
+            break;
+          }
 
-            case 'negative': {
-              response.negative = row.value as number;
-              break;
-            }
+          case 'negative': {
+            response.negative = row.value as number;
+            break;
+          }
           }
         }
         cb(undefined, response);
@@ -736,20 +735,20 @@ export class CloudantDAO {
           }
           const sentiment = row.key[3] as string;
           switch (sentiment) {
-            case 'positive': {
-              response.positive.unshift(row.value as number);
-              break;
-            }
+          case 'positive': {
+            response.positive.unshift(row.value as number);
+            break;
+          }
 
-            case 'neutral': {
-              response.neutral.unshift(row.value as number);
-              break;
-            }
+          case 'neutral': {
+            response.neutral.unshift(row.value as number);
+            break;
+          }
 
-            case 'negative': {
-              response.negative.unshift(row.value as number);
-              break;
-            }
+          case 'negative': {
+            response.negative.unshift(row.value as number);
+            break;
+          }
           }
         }
         cb(undefined, response);
@@ -820,30 +819,30 @@ export class CloudantDAO {
           const emotion = row.key[3];
           // eto.[emotion].unshift(row.value)
           switch (emotion) {
-            case 'anger': {
-              response.anger.unshift(row.value as number);
-              break;
-            }
+          case 'anger': {
+            response.anger.unshift(row.value as number);
+            break;
+          }
 
-            case 'disgust': {
-              response.disgust.unshift(row.value as number);
-              break;
-            }
+          case 'disgust': {
+            response.disgust.unshift(row.value as number);
+            break;
+          }
 
-            case 'fear': {
-              response.fear.unshift(row.value as number);
-              break;
-            }
+          case 'fear': {
+            response.fear.unshift(row.value as number);
+            break;
+          }
 
-            case 'joy': {
-              response.joy.unshift(row.value as number);
-              break;
-            }
+          case 'joy': {
+            response.joy.unshift(row.value as number);
+            break;
+          }
 
-            case 'sadness': {
-              response.sadness.unshift(row.value as number);
-              break;
-            }
+          case 'sadness': {
+            response.sadness.unshift(row.value as number);
+            break;
+          }
           }
         }
         cb(undefined, response);

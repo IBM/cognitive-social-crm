@@ -11,9 +11,9 @@ export const ENV = {
 
 /* let cloudant_username: string;
 let cloudant_password: string;
-if(process.env.NODE_ENV === 'production'){    
+if(process.env.NODE_ENV === 'production'){
   cloudant_username = cloudantCreds.username;
-  cloudant_password = cloudantCreds.password;  
+  cloudant_password = cloudantCreds.password;
 }else {
   cloudant_username = process.env.CLOUDANT_USERNAME || '';
   cloudant_password = process.env.CLOUDANT_PASSWORD || '';
@@ -37,7 +37,7 @@ let config = {
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_SECRET, 
+  access_token_secret: process.env.TWITTER_ACCESS_SECRET,
   max_buffer_size: Number(process.env.MAX_BUFFER_SIZE),
   isLocal: true,
 

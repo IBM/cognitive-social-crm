@@ -54,7 +54,7 @@ export class TweeterListener {
       errors: 0,
       last_received_at: undefined,
       last_error: undefined,
-      state: 'initialized'
+      state: 'initialized',
     };
 
     // If the max isn't specified in the options, then set it to unlimited for listen.  100 for search.
@@ -62,7 +62,6 @@ export class TweeterListener {
       this.options.max = -1;
     }
     this.outCount = 0;
-
 
     const cloudantOptions: CloudantOptions = {} as CloudantOptions;
     cloudantOptions.maxBufferSize = 1;

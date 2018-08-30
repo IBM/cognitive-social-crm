@@ -1,7 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-// import * as path from 'path';  
+// import * as path from 'path';
 import config from './config';
 import { errorHandler } from './middleware/ErrorHandler';
 import { AnalysisRoute } from './routes/AnalysisRoute';
@@ -30,12 +30,12 @@ class App {
     twitOptions.max = 1;
 
     this.conversationInitializer = new ConversationInitializer();
-    //Do other setup once converstaion is setup and returns the workspace id
+    // Do other setup once converstaion is setup and returns the workspace id
     this.conversationInitializer.init().then((dbWorkspaceId) => {
-      twitOptions.workspaceId = <string>dbWorkspaceId;
+      twitOptions.workspaceId = dbWorkspaceId as string;
 
-      const enrichmentPipeline: EnrichmentPipeline = EnrichmentPipeline.getInstance(<string>dbWorkspaceId);
-      // app level initialization    
+      const enrichmentPipeline: EnrichmentPipeline = EnrichmentPipeline.getInstance(dbWorkspaceId as string);
+      // app level initialization
       const cloudantOptions: CloudantOptions = {} as CloudantOptions;
       cloudantOptions.maxBufferSize = config.max_buffer_size;
 

@@ -28,7 +28,7 @@ declare namespace CRMModel {
   }
 
   interface TwitterOptions {
-    max: number; // -1    
+    max: number; // -1
     userIds: string; // comma separated string
     maxBufferSize: number;
     listenTo: string;
