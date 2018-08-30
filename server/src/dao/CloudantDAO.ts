@@ -1,20 +1,20 @@
-import * as dotenv from 'dotenv';
 import { Promise } from 'es6-promise';
 import * as nano from 'nano';
 import * as winston from 'winston';
-import { TwitterOptions } from '../model/CRMModel';
+import { CloudantOptions } from '../model/CRMModel';
+import config from '../config';
 
 export class CloudantDAO {
 
   private cloudantDB: nano.DocumentScope<{}>;
-  private options: TwitterOptions = {} as TwitterOptions;
+  private options: CloudantOptions = {} as CloudantOptions;
   private maxBufferSize: number;
   private bulkSaveBuffer: nano.BulkModifyDocsWrapper;
   private duplicateDetectionCache: any;
   private duplicateDetectionCacheThreshold: number;
 
   private LOGGER = winston.createLogger({
-    level: process.env.LOGLEVEL,
+    level: config.log_level,
     transports: [
       new (winston.transports.Console)({ format: winston.format.simple() })],
   });
@@ -24,15 +24,13 @@ export class CloudantDAO {
    * @param dbname
    * @param options
    */
-  constructor(cloudant: any, dbname: string) {
-    dotenv.config();
+  constructor(cloudant: nano.ServerScope, dbname: string, options: CloudantOptions) {
     this.cloudantDB = cloudant.db.use(dbname);
     // options settings
-    this.options.outputType = process.env.OUTPUT_TYPE || '';
-    this.options.saveType = process.env.SAVE_TYPE || '';
     this.bulkSaveBuffer = {
       docs: [],
     };
+    this.options = options;
     this.maxBufferSize = this.options.maxBufferSize ? this.options.maxBufferSize : 1;
     // Initialize the duplicate tweet detection cache.
     this.duplicateDetectionCache = {
@@ -85,24 +83,21 @@ export class CloudantDAO {
         }
         this.LOGGER.debug('Length of Buffer: : ' + this.bulkSaveBuffer.docs.length);
         // If the bulk buffer threshold is reached, or the force flag is true,
-        // Then save the buffer to cloudant.
+        // Then save the buffer to cloudant.        
         if (this.bulkSaveBuffer.docs.length >= this.maxBufferSize || force) {
           // Throttle the save to not exceed Cloudant free plan limits
           this.LOGGER.debug('Saving to Cloudant...');
-          setTimeout(() => {
-            // Save the meta data to Cloudant
-            this.cloudantDB.bulk(this.bulkSaveBuffer, (err, result) => {
-              if (err) {
-                reject(err);
-              } else {
-                this.LOGGER.debug('Successfully saved ' + this.bulkSaveBuffer.docs.length + ' docs to Cloudant.');
-                this.bulkSaveBuffer.docs = [];
-                resolve();
-              }
-            });
-          }, 1000);
-        } else {
-          resolve();
+          // Save the meta data to Cloudant
+          this.cloudantDB.bulk(this.bulkSaveBuffer, (err, result) => {
+            if (err) {
+              this.LOGGER.error('Error while saving to database::' + err);
+              reject(err);
+            } else {
+              this.LOGGER.debug('Successfully saved ' + this.bulkSaveBuffer.docs.length + ' docs to Cloudant.');
+              this.bulkSaveBuffer.docs = [];
+              resolve();
+            }
+          });
         }
       } catch (err) {
         reject(err);
@@ -134,20 +129,18 @@ export class CloudantDAO {
         if (Object.keys(this.duplicateDetectionCache.tweetTextCache).length > this.duplicateDetectionCacheThreshold) {
           this.trimCache(this.duplicateDetectionCacheThreshold, this.duplicateDetectionCache.tweetTextCache);
         }
-        if (this.options.saveType === 'cloudant') {
-          this.LOGGER.info('Checking in Cloudant.');
-          this.cloudantDuplicateCheck(tweet).then(() => {
-            resolve();
-          }).catch((err) => {
-            if (err) {
-              reject(err);
-            } else {
-              reject();
-            }
-          });
-        } else {
+
+        this.LOGGER.info('Checking in Cloudant.');
+        this.cloudantDuplicateCheck(tweet).then(() => {
           resolve();
-        }
+        }).catch((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            reject();
+          }
+        });
+
       } catch (err) {
         this.LOGGER.error(err);
         reject(err);

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { TwitterOptions } from '../model/CRMModel';
 import { TweeterListener } from '../service/TweeterListener';
 
-class TweeterRoute {
+export class TweeterRoute {
 
   public router: express.Router = express.Router();
   private tweeterListener: TweeterListener;
@@ -11,8 +11,6 @@ class TweeterRoute {
   constructor() {
     this.routes();
     const twitOptions: TwitterOptions = {} as TwitterOptions;
-    twitOptions.max = 1;
-    twitOptions.outputType = 'json';
     this.tweeterListener = TweeterListener.getInstance(twitOptions);
   }
 
@@ -32,5 +30,3 @@ class TweeterRoute {
 
   }
 }
-
-export default new TweeterRoute().router;

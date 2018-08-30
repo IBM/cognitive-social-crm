@@ -8,6 +8,7 @@ import { CloudantDAO } from '../dao/CloudantDAO';
 import { TwitterOptions, TwitterResponse } from '../model/CRMModel';
 import { EnrichmentPipeline } from '../util/EnrichmentPipeline';
 import { OutputFormatter } from '../util/OutputFormatter';
+import logger from '../util/Logger';
 
 export class TweeterListener {
 
@@ -35,7 +36,7 @@ export class TweeterListener {
       new (winston.transports.Console)({ format: winston.format.simple() })],
   });
 
-  constructor(options: TwitterOptions) {
+  private constructor(options: TwitterOptions) {
     this.options = options;
     this.options.listenFor = config.listenFor || '';
     this.options.listenTo = config.listenTo || '';
@@ -43,7 +44,6 @@ export class TweeterListener {
     this.options.filterFrom = config.filterFrom || '';
     this.options.processRetweets = config.processRetweets || false;
 
-    this.LOGGER.info('Tweet listener initialized.');
     // Initialize the Status object
     this.status = {
       listening: 'N/A',
@@ -54,7 +54,7 @@ export class TweeterListener {
       errors: 0,
       last_received_at: undefined,
       last_error: undefined,
-      state: 'initialized',
+      state: 'initialized'
     };
 
     // If the max isn't specified in the options, then set it to unlimited for listen.  100 for search.
@@ -68,10 +68,10 @@ export class TweeterListener {
       password: config.cloudant_password,
     });
     const dbName = config.cloudant_db || '';
-    this.cloudantDAO = new CloudantDAO(cloudant, dbName);
+    this.cloudantDAO = new CloudantDAO(cloudant, dbName, options);
 
     this.outputFormatter = new OutputFormatter();
-    this.enrichmentPipeline = new EnrichmentPipeline();
+    this.enrichmentPipeline = EnrichmentPipeline.getInstance(this.options.workspaceId);
 
     const twitOptions: Twit.Options = {} as Twit.Options;
     twitOptions.consumer_key = config.consumer_key || '';
@@ -79,9 +79,9 @@ export class TweeterListener {
     twitOptions.access_token = config.access_token;
     twitOptions.access_token_secret = config.access_token_secret;
     twitOptions.timeout_ms = 60 * 1000;  // optional HTTP request timeout to apply to all requests.
-
     this.twitterClient = new Twit(twitOptions);
 
+    this.LOGGER.info('Tweet listener initialized.');
   }
 
   /**
@@ -144,7 +144,6 @@ export class TweeterListener {
   }
 
   public startListener() {
-    this.LOGGER.info('Tweet Listener is started.');
     // Check that there isn't a listener already started.
     if (this.status.state === 'started') {
       this.LOGGER.error('Twitter Listener requested to be started, but there is one already running.');
@@ -181,6 +180,7 @@ export class TweeterListener {
       this.LOGGER.info('Tweet:: ' + JSON.stringify(tweet));
       this.receiveTweet(tweet);
     });
+    this.LOGGER.info('Tweet Listener is started.');
   }
 
   public receiveTweet(tweet: any) {
@@ -242,15 +242,13 @@ export class TweeterListener {
             if (this.options.max > 0 && this.outCount >= this.options.max) {
               this.LOGGER.debug('>> Maximum saved count was reached, stop listening...');
               // If cloudant, then using a bulk buffer and it needs to be cleared out.
-              if (this.options.saveType === 'cloudant') {
-                this.cloudantDAO.saveToCloudant(enrichedData, true).then(() => {
-                  this.LOGGER.info('Done saving to cloudant');
-                });
-              }
+              this.cloudantDAO.saveToCloudant(enrichedData, true).then(() => {
+                this.LOGGER.info('Done saving to cloudant');
+              });
               this.stream.stop();
             }
           }).catch((err) => {
-            this.LOGGER.error('Error saving to ' + this.options.saveType + ': ' + err);
+            this.LOGGER.error('Error saving to cloudant ' + err);
           });
         }).catch((err) => {
           this.status.lastError = err;

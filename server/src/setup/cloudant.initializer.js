@@ -1,8 +1,6 @@
 const Cloudant = require("@cloudant/cloudant");
-const TweeterListener = require("../service/TweeterListener");
 const tweets = require("../data/SampleTweets");
 const CloudantDAO = require("../dao/CloudantDAO");
-const config = require("../config/");
 /**
  * This utility can be used to initialize, check and load a cloudant database for you.
  *
@@ -11,17 +9,19 @@ const config = require("../config/");
 /* tslint:disable */
 class CloudantInitializer {
 
-    constructor(username, password, dbConfig) {
+    constructor(username, password, dbName, dbConfig, tweeterListener) {
         // Initialize Cloudant
-        this.connection = Cloudant({ account: username, password: password });
-        this.config = dbConfig;
+        this.connection = Cloudant({
+            account: username, password: password,
+            plugins: { retry: { retryErrors: false, retryStatusCodes: [429] } }
+        });
 
-        // initialize twitter listener
-        let twitOptions = {};
-        twitOptions.max = 1;
-        twitOptions.outputType = "json";
-        this.tweeterListener = TweeterListener.TweeterListener.getInstance(twitOptions);
-        this.cloudantDAO = new CloudantDAO.CloudantDAO(this.connection, config.default.cloudant_db);
+        this.config = dbConfig;
+        const cloudantOptions = {};
+        cloudantOptions.maxBufferSize = 1;
+        this.dbName = dbName;
+        this.cloudantDAO = new CloudantDAO.CloudantDAO(this.connection, this.dbName, cloudantOptions);
+        this.tweeterListener = tweeterListener;
     }
     /** Check Cloudant against the cloudant-config.json file.
      */
@@ -36,7 +36,7 @@ class CloudantInitializer {
                     dbCheckPromises.push(this.checkDatabase(this.connection, dbName, dbConfig));
                 }
                 console.log("Number of databases in configuration that will be checked : " + dbCheckPromises.length);
-                Promise.all(dbCheckPromises).then(function(dbResult) {
+                Promise.all(dbCheckPromises).then(function (dbResult) {
                     console.log("Done checking cloudant...");
                     resolve(dbResult);
                 }).catch((err) => {
@@ -88,12 +88,26 @@ class CloudantInitializer {
                     const dbConfig = dbDefinitions[dbName];
                     dbCreatePromises.push(this.createCloudantDB(this.connection, dbName, dbConfig, createHash));
                 }
-                Promise.all(dbCreatePromises).then(function(dbResult) {
+                Promise.all(dbCreatePromises).then((dbResult) => {
                     console.log("Done syncing cloudant configuration");
                     resolve(dbResult);
                 }).catch((err) => {
                     reject(err);
                 });
+
+
+                this.connection.db.list(function(err, body, headers) {
+                    console.log(headers);
+                 });
+                 
+                this.connection.db.get(this.dbName, (err, resp) => {
+                    if (err) {
+                        console.log('First time db creation::' + err);
+                    } else {
+                        console.log('First time db creation::' + resp);
+                    }
+                });
+
             } catch (err) {
                 console.log("Error syncing cloudant configuration : " + err);
                 reject(err);
@@ -110,7 +124,7 @@ class CloudantInitializer {
                     console.log("Data will be loaded into " + dbName);
                     dataLoadPromises.push(this.loadData(this.connection, dbName, dataCollection[dbName]));
                 }
-                Promise.all(dataLoadPromises).then(function(loadDataResult) {
+                Promise.all(dataLoadPromises).then((loadDataResult) => {
                     console.log("Done syncing cloudant data");
                     resolve(loadDataResult);
                 }).catch((err) => {
@@ -149,7 +163,7 @@ class CloudantInitializer {
         return new Promise((resolve, reject) => {
             try {
                 const db = connection.db.use(dbName);
-                db.bulk(data, function(err, result) {
+                db.bulk(data, function (err, result) {
                     if (err) {
                         reject(err);
                     } else {
@@ -198,12 +212,12 @@ class CloudantInitializer {
                         for (let index of indexes) {
                             designCheckPromises.push(this.checkIndex(connection, dbName, index.name));
                         }
-                        Promise.all(designCheckPromises).then(function(designResult) {
+                        Promise.all(designCheckPromises).then(function (designResult) {
                             const db = connection.db.use(dbName);
                             let options = {
                                 endkey: "_",
                             };
-                            db.list(options, function(err, rowResult) {
+                            db.list(options, function (err, rowResult) {
                                 if (err) {
                                     reject(err);
                                 } else {
@@ -212,7 +226,7 @@ class CloudantInitializer {
                                     resolve(dbResult);
                                 }
                             });
-                        }, function(err) {
+                        }, function (err) {
                             console.log("Error returned from checking design documents : " + err);
                         });
                     }
@@ -230,7 +244,7 @@ class CloudantInitializer {
                 console.log("Checking for design " + designName + " in database " + dbName);
                 const db = connection.db.use(dbName);
 
-                db.get("_design/" + designName, function(err, body) {
+                db.get("_design/" + designName, function (err, body) {
                     if (!err) {
                         resolve({ "type": "design", "name": designName, "exist": true });
                     } else {
@@ -249,7 +263,7 @@ class CloudantInitializer {
             try {
                 const db = connection.db.use(dbName);
                 console.log("Checking for index " + indexName + " in database " + dbName);
-                db.index(function(err, body) {
+                db.index(function (err, body) {
                     if (!err) {
                         const indexes = body.indexes;
                         let found = false;
@@ -292,7 +306,7 @@ class CloudantInitializer {
                                 dbConfig,
                                 createHash);
 
-                            Promise.all(designCreatePromises).then(function(designResult) {
+                            Promise.all(designCreatePromises).then(function (designResult) {
                                 const dbResult = { "dbName": dbName, "exist": true, "design": [] };
                                 dbResult.design = designResult;
                                 resolve(dbResult);
@@ -304,7 +318,7 @@ class CloudantInitializer {
                     // Now create any design docs that might be defined
                     const designCreatePromises = this.buildDesignCreatePromiseArray(connection, dbName, dbConfig, createHash);
 
-                    Promise.all(designCreatePromises).then(function(designResult) {
+                    Promise.all(designCreatePromises).then(function (designResult) {
                         const dbResult = { "dbName": dbName, "exist": true, "design": [] };
                         dbResult.design = designResult;
                         resolve(dbResult);
@@ -410,22 +424,29 @@ class CloudantInitializer {
                     this.syncCloudantConfig(checkResult).then((createResult) => {
                         this.printCheckResults(createResult);
                         console.log("*** Synchronization completed. ***");
-                        setTimeout(() => {
-                            this.insertSampleTweets().then(() => {
-                                console.log("*** Sample tweet data inserted successfully. ***");
-                                resolve();
-                            }).catch((err) => {
-                                console.log("*** Error while saving sample tweets to database ***");
-                                reject(err);
-                            });
-                        }, 3000);
+                        //check if db exists
+                        this.connection.db.get(this.dbName, (err, resp) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log(resp);
+                            }
+                        });
+
+                        this.insertSampleTweets().then((dataResult) => {
+                            console.log("*** Sample tweet data inserted successfully. ***" + dataResult);
+                            resolve();
+                        }).catch((err) => {
+                            console.log("*** Error while saving sample tweets to database ***");
+                            reject(err);
+                        });
                     });
                 } else {
                     this.printCheckResults(checkResult);
                     console.log("*** Synchronization not required. ***");
                     resolve();
                 }
-            }, function(err) {
+            }, function (err) {
                 console.log(err);
                 reject();
             });
@@ -440,6 +461,7 @@ class CloudantInitializer {
         return new Promise((resolve, reject) => {
             try {
                 var i = 1;
+                let dataLoadPromises = [];
                 for (const tweet of tweets.default) {
                     //needed to add these as sample tweets don't haec all the details
                     tweet.post_by = "system";
@@ -447,11 +469,12 @@ class CloudantInitializer {
                     tweet.tweet_id = i++;
                     this.tweeterListener.enrichmentPromise(tweet).then((enrichedData) => {
                         // Then save it to something...
-                        this.cloudantDAO.saveToCloudant(enrichedData, false).then(() => {
-                            console.log("*** Saved " + enrichedData + " to the database.");
+                        /* this.cloudantDAO.saveToCloudant(enrichedData, false).then(() => {
+                            console.log("*** Saved " + JSON.stringify(enrichedData) + " to the database.");
                         }).catch((err) => {
-                            console.log("Error saving to " + this.options.saveType + ": " + err);
-                        });
+                            console.log("Error saving to cloudant: " + err);
+                        }); */
+                        dataLoadPromises.push(this.cloudantDAO.saveToCloudant(enrichedData, false));
                     }).catch((err) => {
                         this.status.lastError = err;
                         this.status.errors++;
@@ -460,9 +483,15 @@ class CloudantInitializer {
                             console.log("An Enrichment error occurred, the listener is being paused for 15 minutes to see if it resolved the problem.");
                             this.pauseListener(15);
                         }
+                        reject(err);
                     });
                 }
-                resolve();
+                Promise.all(dataLoadPromises).then((loadDataResult) => {
+                    console.log("Done syncing cloudant data");
+                    resolve(loadDataResult);
+                }).catch((err) => {
+                    reject(err);
+                });
             } catch (err) {
                 console.log("Error in saving tweets to database : " + err);
                 reject(err);

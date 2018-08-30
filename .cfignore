@@ -1,2 +1,5 @@
 node_modules
 *.md
+dist
+.env
+src/test/*

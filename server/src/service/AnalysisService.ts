@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as nano from 'nano';
 import config from '../../src/config';
 import { CloudantDAO } from '../dao/CloudantDAO';
-import { ClassificationSummary, EmotionalToneOverTime, SentimentOverTime, SentimentSummary } from '../model/CRMModel';
+import { ClassificationSummary, EmotionalToneOverTime, SentimentOverTime, SentimentSummary, CloudantOptions } from '../model/CRMModel';
 import logger from '../util/Logger';
 
 export class AnalysisService {
@@ -18,7 +18,9 @@ export class AnalysisService {
       password: config.cloudant_password,
     });
     this.dbName = config.cloudant_db || '';
-    this.cloudantDAO = new CloudantDAO(cloudant, this.dbName);
+    const cloudantOptions: CloudantOptions = {} as CloudantOptions;
+    cloudantOptions.maxBufferSize = 1;
+    this.cloudantDAO = new CloudantDAO(cloudant, this.dbName,cloudantOptions);
     this.analysisDB = cloudant.db.use(this.dbName);
   }
 

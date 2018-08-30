@@ -28,9 +28,7 @@ declare namespace CRMModel {
   }
 
   interface TwitterOptions {
-    max: number; // -1
-    outputType: string; // json
-    saveType: string; // cloudant
+    max: number; // -1    
     userIds: string; // comma separated string
     maxBufferSize: number;
     listenTo: string;
@@ -38,6 +36,11 @@ declare namespace CRMModel {
     filterContaining: string;
     filterFrom: string;
     processRetweets: boolean;
+    workspaceId: string;
+  }
+
+  interface CloudantOptions {
+    maxBufferSize: number;
   }
 
   interface TwitterResponse {

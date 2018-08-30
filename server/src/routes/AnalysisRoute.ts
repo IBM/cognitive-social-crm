@@ -100,5 +100,3 @@ export class AnalysisRoute {
     });
   }
 }
-
-export default new AnalysisRoute().router;
