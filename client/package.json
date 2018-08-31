@@ -13,7 +13,6 @@
   "engines": {
     "node": ">=8.9.0"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.0",
     "@angular/common": "^6.1.0",
@@ -23,11 +22,7 @@
     "@angular/http": "^6.1.0",
     "@angular/platform-browser": "^6.1.0",
     "@angular/platform-browser-dynamic": "^6.1.0",
-    "@angular-devkit/build-angular": "~0.7.0",
-    "@angular/language-service": "^6.1.0",
     "@angular/router": "^6.1.0",
-    "@angular/cli": "~6.1.1",
-    "@angular/compiler-cli": "^6.1.0",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/fontawesome-free-regular": "^5.0.13",
@@ -41,12 +36,15 @@
     "ng2-slim-loading-bar": "^4.0.0",
     "ngx-bootstrap": "^3.0.1",
     "node-emoji": "^1.8.1",
-    "rxjs": "^6.0.0",
-    "rxjs-compat": "^6.2.2",
-    "zone.js": "~0.8.26",
-    "dotenv": "^6.0.0"
+    "rxjs": "^6.3.1",
+    "rxjs-compat": "^6.3.1",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^0.7.5",
+    "@angular/cli": "~6.1.1",
+    "@angular/compiler-cli": "^6.1.0",
+    "@angular/language-service": "^6.1.0",
     "@types/chart.js": "^2.7.30",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
@@ -62,7 +60,6 @@
     "protractor": "^5.4.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "tslint-eslint-rules": "^5.4.0",
     "typescript": "~2.7.2"
   }
 }
