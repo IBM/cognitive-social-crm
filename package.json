@@ -16,7 +16,7 @@
     "build:server": "cd server && npm run build",
     "test:server": "cd server && ./node_modules/.bin/mocha -r ts-node/register test/**/*.ts",
     "test:client": "cd client && npm test",
-    "pretest:client": "cd client && ./node_modules/.bin/tslint --project .",
+    "pretest:client": "cd client && npm run lint",
     "pretest:server": "cd server && ./node_modules/.bin/tslint --project ."
   },
   "author": "Sanjeev Ghimire",
