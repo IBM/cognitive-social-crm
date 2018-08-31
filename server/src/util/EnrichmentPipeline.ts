@@ -5,6 +5,15 @@ import config from '../../src/config';
 
 export class EnrichmentPipeline {
 
+  public static getInstance(workspaceId: string) {
+    if (this.enrichmentPipeline === undefined) {
+      this.enrichmentPipeline = new EnrichmentPipeline(workspaceId);
+    }
+    return this.enrichmentPipeline;
+  }
+
+  private static enrichmentPipeline: EnrichmentPipeline;
+
   private LOGGER = winston.createLogger({
     level: config.log_level,
     transports: [
@@ -14,10 +23,7 @@ export class EnrichmentPipeline {
   private nlu: watson.NaturalLanguageUnderstandingV1;
   private toneAnalyzer: watson.ToneAnalyzerV3;
   private conversation: watson.ConversationV1;
-
-  private conversationParams: any = {
-    workspace_id: config.conversationClassificationId,
-  };
+  private workspaceId: string;
 
   private nluParams: any = {
     features: {
@@ -38,7 +44,7 @@ export class EnrichmentPipeline {
 
   private toneParams: any = {};
 
-  constructor() {
+  private constructor(workspaceId: string) {
     this.nlu = new watson.NaturalLanguageUnderstandingV1({
       version: '2018-03-16',
     });
@@ -50,6 +56,8 @@ export class EnrichmentPipeline {
     this.conversation = new watson.ConversationV1({
       version: '2018-07-10',
     });
+
+    this.workspaceId = workspaceId;
   }
 
   public enrich(text: string) {
@@ -114,10 +122,13 @@ export class EnrichmentPipeline {
   public conversationEnrichment(text: string) {
     return new Promise((resolve, reject) => {
       try {
-        this.conversationParams.input = {};
-        this.conversationParams.input.text = text;
-        this.LOGGER.info(JSON.stringify(this.conversationParams));
-        this.conversation.message(this.conversationParams, (err: any, success: any) => {
+        const conversationParams: any = {
+          workspace_id: this.workspaceId,
+          input: {
+            text,
+          },
+        };
+        this.conversation.message(conversationParams, (err: any, success: any) => {
           if (err) {
             this.LOGGER.error('Conversation: ' + err);
             return reject('Conversation: ' + err);

@@ -2,18 +2,17 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import { TwitterOptions } from '../model/CRMModel';
 import { TweeterListener } from '../service/TweeterListener';
+import { EnrichmentPipeline } from '../util/EnrichmentPipeline';
 
-class TweeterRoute {
+export class TweeterRoute {
 
   public router: express.Router = express.Router();
   private tweeterListener: TweeterListener;
 
-  constructor() {
+  constructor(enrichmentPipeline: EnrichmentPipeline) {
     this.routes();
     const twitOptions: TwitterOptions = {} as TwitterOptions;
-    twitOptions.max = 1;
-    twitOptions.outputType = 'json';
-    this.tweeterListener = TweeterListener.getInstance(twitOptions);
+    this.tweeterListener = TweeterListener.getInstance(twitOptions,  enrichmentPipeline);
   }
 
   private routes(): void {
@@ -32,5 +31,3 @@ class TweeterRoute {
 
   }
 }
-
-export default new TweeterRoute().router;

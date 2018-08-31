@@ -1,16 +1,16 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { AnalysisService } from '../service/AnalysisService';
 import logger from '../util/Logger';
+import { CloudantDAO } from '../dao/CloudantDAO';
 
 export class AnalysisRoute {
 
   public router: express.Router = express.Router();
-  private analysisService: AnalysisService;
+  private cloudantDAO: CloudantDAO;
 
-  constructor() {
+  constructor(cloudantDAO: CloudantDAO) {
     this.routes();
-    this.analysisService = new AnalysisService();
+    this.cloudantDAO = cloudantDAO;
   }
 
   private routes(): void {
@@ -21,7 +21,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/classificationSummary', (req: Request, res: Response) => {
-      this.analysisService.classificationSummary((err, result) => {
+      this.cloudantDAO.classificationSummary((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -32,7 +32,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/sentimentOverTime', (req: Request, res: Response) => {
-      this.analysisService.sentimentOvertime((err, result) => {
+      this.cloudantDAO.sentimentOvertime((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -43,7 +43,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/sentimentTrend', (req: Request, res: Response) => {
-      this.analysisService.sentimentTrend((err, result) => {
+      this.cloudantDAO.sentimentTrend((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -54,7 +54,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/sentimentSummary', (req: Request, res: Response) => {
-      this.analysisService.sentimentSummary((err, result) => {
+      this.cloudantDAO.sentimentSummary((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -65,7 +65,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/keywordsSummary', (req: Request, res: Response) => {
-      this.analysisService.keywordsSummary((err, result) => {
+      this.cloudantDAO.keywordsSummary((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -76,7 +76,7 @@ export class AnalysisRoute {
     });
 
     this.router.get('/emotionalToneOvertime', (req: Request, res: Response) => {
-      this.analysisService.emotionalToneOvertime((err, result) => {
+      this.cloudantDAO.emotionalToneOvertime((err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -89,7 +89,7 @@ export class AnalysisRoute {
     this.router.get('/listByPostDate', (req: Request, res: Response) => {
       const skip: number = req.query.skip as number;
       const limit: number = req.query.limit as number;
-      this.analysisService.listByPostDate(skip, limit, (err, result) => {
+      this.cloudantDAO.listByPostDate(skip, limit, (err, result) => {
         if (err) {
           logger.log(err);
           res.status(500).send(err);
@@ -100,5 +100,3 @@ export class AnalysisRoute {
     });
   }
 }
-
-export default new AnalysisRoute().router;
