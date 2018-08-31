@@ -11,14 +11,14 @@ export const ENV = {
 };
 
 // tslint:disable:variable-name
-let cloudant_username: string;
-let cloudant_password: string;
+let cloudantUsername: string;
+let cloudantPassword: string;
 if (process.env.NODE_ENV === 'production') {
-  cloudant_username = cloudantCreds.username;
-  cloudant_password = cloudantCreds.password;
+  cloudantUsername = cloudantCreds.username;
+  cloudantPassword = cloudantCreds.password;
 } else {
-  cloudant_username = process.env.CLOUDANT_USERNAME || '';
-  cloudant_password = process.env.CLOUDANT_PASSWORD || '';
+  cloudantUsername = process.env.CLOUDANT_USERNAME || '';
+  cloudantPassword = process.env.CLOUDANT_PASSWORD || '';
 }
 
 let config = {
@@ -26,8 +26,8 @@ let config = {
   port: process.env.PORT || 3000,
   logging: process.env.LOGGING,
   log_level: process.env.LOGLEVEL,
-  cloudant_username,
-  cloudant_password,
+  cloudant_username: cloudantUsername,
+  cloudant_password: cloudantPassword,
   cloudant_db: process.env.CLOUDANT_ANALYSIS_DB_NAME,
   listenFor: process.env.TWITTER_LISTEN_FOR,
   listenTo: process.env.TWITTER_LISTEN_TO,
