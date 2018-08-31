@@ -9,8 +9,7 @@
             2
         ],
         "no-empty": [
-            true,
-            "allow-empty-catch",
+            true,            
             "allow-empty-functions"
         ],
         "ordered-imports": false,

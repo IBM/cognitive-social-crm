@@ -3,6 +3,7 @@ dotenv.config();
 // tslint:disable-next-line:no-var-requires
 const vcapServices = require('vcap_services');
 const cloudantCreds = vcapServices.getCredentials('cloudantNoSQLDB');
+const ANALYSIS_DB: string = 'analysis_db';
 
 export const ENV = {
   dev: 'development',
@@ -13,12 +14,15 @@ export const ENV = {
 // tslint:disable:variable-name
 let cloudantUsername: string;
 let cloudantPassword: string;
+let cloudantDB: string;
 if (process.env.NODE_ENV === 'production') {
   cloudantUsername = cloudantCreds.username;
   cloudantPassword = cloudantCreds.password;
+  cloudantDB = ANALYSIS_DB;
 } else {
   cloudantUsername = process.env.CLOUDANT_USERNAME || '';
   cloudantPassword = process.env.CLOUDANT_PASSWORD || '';
+  cloudantDB = process.env.CLOUDANT_ANALYSIS_DB_NAME || '';
 }
 
 let config = {
@@ -28,7 +32,7 @@ let config = {
   log_level: process.env.LOGLEVEL,
   cloudant_username: cloudantUsername,
   cloudant_password: cloudantPassword,
-  cloudant_db: process.env.CLOUDANT_ANALYSIS_DB_NAME,
+  cloudant_db: cloudantDB,
   listenFor: process.env.TWITTER_LISTEN_FOR,
   listenTo: process.env.TWITTER_LISTEN_TO,
   filterContaining: process.env.TWITTER_FILTER_CONTAINING,
