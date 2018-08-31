@@ -1,7 +1,6 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-// import * as path from 'path';
 import config from './config';
 import { errorHandler } from './middleware/ErrorHandler';
 import { AnalysisRoute } from './routes/AnalysisRoute';
@@ -63,9 +62,6 @@ class App {
   }
 
   private config(): void {
-    // if (config.environment === 'prod') {
-    //   this.app.use(express.static(path.join(__dirname, '../../client/dist')));
-    // }
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(errorHandler);

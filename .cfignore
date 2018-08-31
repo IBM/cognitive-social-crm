@@ -1,7 +1,5 @@
 node_modules
 *.md
-./server/dist
-./server/.env
-./server/test
-./client/node_modules
-./server/node_modules
+**/node_modules
+**/node_modules
+server/dist
