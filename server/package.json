@@ -4,10 +4,10 @@
   "description": "Cognitive CRM Server",
   "main": "server.ts",
   "scripts": {
-    "start:prod": "node ./node_modules/typescript/lib/tsc && NODE_ENV=production && node dist/server.js",
+    "start:prod": "node ./node_modules/typescript/lib/tsc && NODE_ENV=production node dist/server.js",
     "start": "npm run build:live",
     "build": "node ./node_modules/typescript/lib/tsc",
-    "build:live": "NODE_ENV=development && nodemon --exec ./node_modules/.bin/ts-node -- server.ts",
+    "build:live": "NODE_ENV=development nodemon --exec ./node_modules/.bin/ts-node -- server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {

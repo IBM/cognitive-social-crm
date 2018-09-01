@@ -10,7 +10,7 @@
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "start:client": "cd client && ng serve",
     "start:server": "cd server && npm start",
-    "start:prod": "npm run build && concurrently \"npm run start:client\" \"export NODE_ENV=production && cd server && node dist/server.js\"",
+    "start:prod": "npm run build && concurrently \"npm run start:client\" \"NODE_ENV=production && cd server && node dist/server.js\"",
     "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
     "build:client": "cd client && ng build --prod --aot",
     "build:server": "cd server && npm run build",
