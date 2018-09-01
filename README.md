@@ -108,6 +108,7 @@ Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 If you do not already have a IBM Cloud account, [sign up for Bluemix](https://console.bluemix.net/registration).
 Create the following services:
 
+* [**Watson Assistant**](https://console.bluemix.net/catalog/services/watson-assistant-formerly-conversation)
 * [**Watson Tone Analyzer**](https://console.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.bluemix.net/catalog/services/natural-language-understanding)
 * [**IBM Cloudant DB**](https://console.bluemix.net/catalog/services/cloudant-nosql-db)
@@ -189,7 +190,6 @@ SAVE_TYPE=cloudant
 
 ```
 
-
 ### 7. Run the application
 
 Either `Run the app on IBM Cloud` or `Run the app locally`.
@@ -198,7 +198,7 @@ Either `Run the app on IBM Cloud` or `Run the app locally`.
 
 Use the name of the application you created previously to update the configuration files locally.
 
-1. Open the `manifest.yml` file and change the `name` AND `host` value to the unique application name you created on IBM Cloud previously.
+1. Open the `manifest.yml` file and change the `name` value to the unique application name you created on IBM Cloud previously.
 
 2. Compile the Angular client code and Express server code using the following command.
 
@@ -208,14 +208,23 @@ Use the name of the application you created previously to update the configurati
 3. Connect to IBM Cloud in the command line tool and follow the prompts to log in
 
   ```
-  $ cf login -a https://api.ng.bluemix.net
+  $ bx cf login -a https://api.ng.bluemix.net
   ```
-4. Push the app to IBM Cloud.
+4. Push the server app to IBM Cloud first.
 
   ```
-  $ cf push
+  $ bx cf push <name of the server app from manifest.yml>
   ```
-5. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the `manifest.yml` file with a '.mybluemix.net' appended to it.
+5. Push the server app to IBM Cloud first.
+
+  ```
+  $ bx cf push <name of client app from manifest.yml>
+  ```
+6. Go to IBM console and select `<name of server app>` from `Cloud Foundry Applications` section and then click `Runtime` from left menu, select `Environment Variables` tab and provide the correct `environment variables` as shown below. Click `Save` which will restart the server application.
+
+![](doc/source/images/env_variables.png)
+
+7. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the `manifest.yml` file with a '.mybluemix.net' appended to it.
 
 
 #### Running the app locally
