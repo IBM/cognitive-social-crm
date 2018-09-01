@@ -11,7 +11,6 @@ import logger from './util/Logger';
 import { ConversationInitializer } from './setup/ConversationInitializer';
 import { EnrichmentPipeline } from './util/EnrichmentPipeline';
 import { CloudantDAO } from './dao/CloudantDAO';
-import { exitOnError } from 'winston';
 
 class App {
 
