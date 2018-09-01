@@ -29,8 +29,7 @@ applications:
   command: npm run start:prod
   env:    
     LOGGING: true
-    LOG_LEVEL: info
-    ASSISTANT_CLASSIFICATION_WORKSPACE_ID: placeholder
+    LOG_LEVEL: info    
     TWITTER_CONSUMER_KEY: placeholder
     TWITTER_CONSUMER_SECRET: placeholder
     TWITTER_ACCESS_TOKEN: placeholder

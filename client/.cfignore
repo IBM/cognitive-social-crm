@@ -1,0 +1,6 @@
+node_modules
+*.md
+tsconfig.json
+tslint.json
+angular.json
+*.spec.*
