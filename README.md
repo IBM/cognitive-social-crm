@@ -97,10 +97,6 @@ Keep this page open as you will need to use these tokens into setup procedure in
 
 Either Setup the IBM Cloud Deployment or Setup Local Deployment.
 
-#### Deploy to IBM Cloud
-
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/cognitive-social-crm)
-
 #### Setup local Deployment
 
 > Explanation: You will create the  IBM Cloud services and configure them to use on a locally running server app.
@@ -194,6 +190,23 @@ SAVE_TYPE=cloudant
 Either `Run the app on IBM Cloud` or `Run the app locally`.
 
 #### Running the app on IBM Cloud
+
+Before you deploy to cloud you need to create the services as the same name you defined in `manifest.yml`. You can create the services using the IBM Cloud CLI. Make sure you install IBM Cloud CLI tools using:
+
+(https://console.bluemix.net/docs/cli/index.html#overview)[https://console.bluemix.net/docs/cli/index.html#overview]
+
+and run the following command using terminal:
+
+```
+bx cf create-service conversation free crm-conversation-service
+
+bx cf create-service tone_analyzer lite crm-tone-analyzer-service
+
+bx cf create-service natural-language-understanding free crm-nlu-service
+
+bx cf create-service cloudantNoSQLDB Lite crm-cloudantNoSQLDB-service 
+
+```
 
 Use the name of the application you created previously to update the configuration files locally.
 
