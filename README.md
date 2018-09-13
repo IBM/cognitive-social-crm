@@ -223,7 +223,6 @@ Use the name of the application you created previously to update the configurati
   ```
   $ bx cf login -a https://api.ng.bluemix.net
   ```
-
 4. Push the server app to IBM Cloud first.
 
   ```
