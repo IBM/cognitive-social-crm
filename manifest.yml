@@ -19,7 +19,7 @@ applications:
     - crm-tone-analyzer-service
     - crm-nlu-service
     - crm-cloudantNoSQLDB-service
-  path: ./server/
+  path: ./server/dist/
   memory: 1024M
   instances: 1
   disk_quota: 1024M
