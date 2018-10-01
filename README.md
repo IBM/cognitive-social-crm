@@ -215,7 +215,7 @@ Use the name of the application you created previously to update the configurati
 2. Compile the Angular client code and Express server code using the following command.
 
   ```
-  $ npm run build
+  $ npm run build:prod
   ```
 
 3. Connect to IBM Cloud in the command line tool and follow the prompts to log in
@@ -246,6 +246,7 @@ Use the name of the application you created previously to update the configurati
 Once all the credentials are in place, the application can be started with:
 
 ```
+$ npm run build
 $ npm run start
 ```
 
