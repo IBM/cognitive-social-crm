@@ -88,6 +88,7 @@ export class EnrichmentPipeline {
     return new Promise((resolve, reject) => {
       try {
         this.nluParams.text = text;
+        this.nluParams.language = 'en';
         this.nlu.analyze(this.nluParams, (err, success) => {
           if (err) {
             this.LOGGER.error('NLU: ' + err);

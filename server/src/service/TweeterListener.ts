@@ -239,9 +239,9 @@ export class TweeterListener {
             if (this.options.max > 0 && this.outCount >= this.options.max) {
               this.LOGGER.debug('>> Maximum saved count was reached, stop listening...');
               // If cloudant, then using a bulk buffer and it needs to be cleared out.
-              this.cloudantDAO.saveToCloudant(enrichedData, true).then(() => {
-                this.LOGGER.info('Done saving to cloudant');
-              });
+              // this.cloudantDAO.saveToCloudant(enrichedData, true).then(() => {
+              //   this.LOGGER.info('Done saving to cloudant');
+              // });
               this.stream.stop();
             }
           }).catch((err) => {

@@ -25,7 +25,7 @@ class App {
     this.config();
 
     const twitOptions: TwitterOptions = {} as TwitterOptions;
-    twitOptions.max = 1;
+    twitOptions.max = -1;
 
     this.conversationInitializer = new ConversationInitializer();
     // Do other setup once converstaion is setup and returns the workspace id
