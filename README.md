@@ -54,7 +54,7 @@ The setup is done in 3 primary steps.  You will download the code, setup the app
 2. [Install Dependencies](#2-install-dependencies)
 3. [Twitter Requirements](#3-twitter-requirements)
 4. [Create Watson services with IBM Cloud](#4-create-watson-services-with-ibm-cloud)
-5. [Import the Assistant workspace](#5-import-the-conversation-workspace)
+5. [Import the Assistant workspace](#5-import-the-assistant-workspace)
 6. [Configure credentials](#6-configure-credentials)
 7. [Run the application](#7-run-the-application)
 
