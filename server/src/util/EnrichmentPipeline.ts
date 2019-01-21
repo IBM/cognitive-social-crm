@@ -1,7 +1,7 @@
 import { Promise } from 'es6-promise';
 import * as watson from 'watson-developer-cloud';
 import * as winston from 'winston';
-import config from '../../src/config';
+import config from '../config';
 
 export class EnrichmentPipeline {
 

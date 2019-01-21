@@ -84,6 +84,8 @@ Run the following command, from the application folder, to install both the clie
 $ npm run app-install
 ```
 
+> NOTE: Currently Windows OS is not supported
+
 ### 3. Twitter requirements
 
 To subscribe to Tweets from a specific handle or hashtag in this application, it is required to create a Twitter account and a Twitter application.
@@ -109,13 +111,24 @@ Create the following services:
 * [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 * [**IBM Cloudant DB**](https://cloud.ibm.com/catalog/services/cloudant)
 
-### 5. Import the Assistant workspace
+### 5. Import the Watson Assistant skill
 
-Launch the **Watson Assistant** tool. Use the **import** icon button on the right
+* Find the Assistant service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Go to the `Skills` tab.
+* Click `Create new`
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/assistant/workspace-social-crm-airline-classification.json`](data/assistant/workspace-social-crm-airline-classification.json).
+* Select `Everything` and click `Import`.
 
-Find the local version of [`data/assistant/workspace-social-crm-airline-classification.json`](data/assistant/workspace-social-crm-airline-classification.json) and select
-**Import**. Find the **Workspace ID** by clicking on the context menu of the new
-workspace and select **View details**. Save this ID for later.
+To find the `WORKSPACE_ID` for Watson Assistant:
+
+* Go back to the `Skills` tab.
+* Click on the three dots in the upper right-hand corner of the **cognitive-social-crm** card and select `View API Details`.
+* Copy the `Workspace ID` GUID.
+
+*Optionally*, to view the Assistant dialog, click on the skill and choose the
+`Dialog` tab. Here's a snippet of the dialog:
 
 ### 6. Configure credentials
 
@@ -190,63 +203,38 @@ SAVE_TYPE=cloudant
 Either `Run the app on IBM Cloud` or `Run the app locally`.
 
 #### Running the app on IBM Cloud
-
-Before you deploy to cloud you need to create the services as the same name you defined in `manifest.yml`. You can create the services using the IBM Cloud CLI. Make sure you install IBM Cloud CLI tools using:
-
-(https://cloud.ibm.com/docs/cli/index.html#overview)[https://cloud.ibm.com/docs/cli/index.html#overview]
-
-and run the following command using terminal:
-
-```
-bx cf create-service conversation free crm-conversation-service
-
-bx cf create-service tone_analyzer lite crm-tone-analyzer-service
-
-bx cf create-service natural-language-understanding free crm-nlu-service
-
-bx cf create-service cloudantNoSQLDB Lite crm-cloudantNoSQLDB-service
-
-```
-
-Use the name of the application you created previously to update the configuration files locally.
-
-1. Open the `manifest.yml` file and change the `name` value to the unique application name you created on IBM Cloud previously.
-
-2. Compile the Angular client code and Express server code using the following command.
+1. Compile the Angular client code and Express server code using the following command. This creates a `dist` folder in your project root directory and copies the compile code and necessary files to be deployed to IBM cloud.
 
   ```
-  $ npm run build:prod
+  $ npm run build
   ```
 
-3. Connect to IBM Cloud in the command line tool and follow the prompts to log in
+2. Connect to IBM Cloud in the command line tool and follow the prompts to log in
 
   ```
-  $ bx cf login -a https://api.ng.bluemix.net
+  $ ibmcloud cf login -a https://api.ng.bluemix.net
   ```
-4. Push the server app to IBM Cloud first.
-
-  ```
-  $ bx cf push <name of the server app from manifest.yml>
-  ```
-
-5. Now push the client side to IBM Cloud.
+  > Make sure you set the `target` and `space` correctly using `ibmcloud target -o <target> -s <space>`
+  
+  
+3. Push the app to IBM Cloud.
 
   ```
-  $ bx cf push <name of client app from manifest.yml>
+  $ ibmcloud app push 
   ```
 
-6. Go to IBM console and select `<name of server app>` from `Cloud Foundry Applications` section and then click `Runtime` from left menu, select `Environment Variables` tab and provide the correct `environment variables` as shown below. Click `Save` which will restart the server application.
+4. The application should now be running on IBM Cloud and listening to Tweets.  You can get the application URL by going to `Cloud Foundry Applications` section of IBM cloud dashboard. Click the name of the application you just pushed and clikc `Visit App URL` to access the application. 
 
-![](doc/source/images/env_variables.png)
+![](doc/source/images/ibm-cloud-dashboard.png)
 
-7. The application should now be running on IBM Cloud and listening to Tweets.  You can access the application URL using the application name you defined in the `manifest.yml` file with a '.mybluemix.net' appended to it.
+![](doc/source/images/visit-app-url.png)
+
 
 #### Running the app locally
 
 Once all the credentials are in place, the application can be started with:
 
 ```
-$ npm run build
 $ npm run start
 ```
 

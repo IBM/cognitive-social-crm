@@ -3,7 +3,7 @@ import { Promise } from 'es6-promise';
 import * as moment from 'moment';
 import * as Twit from 'twit';
 import * as winston from 'winston';
-import config from '../../src/config';
+import config from '../config';
 import { CloudantDAO } from '../dao/CloudantDAO';
 import { TwitterOptions, TwitterResponse, CloudantOptions } from '../model/CRMModel';
 import { EnrichmentPipeline } from '../util/EnrichmentPipeline';

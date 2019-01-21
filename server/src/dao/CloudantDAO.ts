@@ -8,6 +8,7 @@ import tweets = require('../data/SampleTweets');
 import { EnrichmentPipeline } from '../util/EnrichmentPipeline';
 import cloudantConfig from '../data/cloudant.config';
 import { ClassificationSummary, EmotionalToneOverTime, SentimentOverTime, SentimentSummary, CloudantOptions } from '../model/CRMModel';
+import logger from '../util/Logger';
 
 export class CloudantDAO {
 
@@ -45,7 +46,6 @@ export class CloudantDAO {
    */
   private constructor(dbConfig: any, options: CloudantOptions, enrichmentPipeline: EnrichmentPipeline) {
     this.dbConfig = dbConfig;
-
     const cloudant = Cloudant({
       account: config.cloudant_username,
       password: config.cloudant_password,
