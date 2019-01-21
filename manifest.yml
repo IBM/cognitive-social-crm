@@ -1,48 +1,11 @@
 ---
-declared-services:
-  crm-conversation-service:
-    label: conversation
-    plan: free
-  crm-nlu-service:
-    label: natural-language-understanding
-    plan: free
-  crm-tone-analyzer-service:
-    label: tone_analyzer
-    plan: lite
-  crm-cloudantNoSQLDB-service:
-    label: cloudantNoSQLDB
-    plan: Lite
 applications:
-- name: crm-server
-  services:
-    - crm-conversation-service
-    - crm-tone-analyzer-service
-    - crm-nlu-service
-    - crm-cloudantNoSQLDB-service
-  path: ./server/dist/
+- name: cognitive-social-crm
+  path: ./dist/
   memory: 1024M
   instances: 1
   disk_quota: 1024M
-  random-route: false
+  random-route: true
   timeout: 180
   buildpack: sdk-for-nodejs
   command: npm run start:prod
-  env:    
-    LOGGING: true
-    LOG_LEVEL: info    
-    TWITTER_CONSUMER_KEY: placeholder
-    TWITTER_CONSUMER_SECRET: placeholder
-    TWITTER_ACCESS_TOKEN: placeholder
-    TWITTER_ACCESS_SECRET: placeholder
-    #TWITTER_LISTEN_FOR: placeholder
-    TWITTER_LISTEN_TO: placeholder
-    TWITTER_FILTER_CONTAINING: placeholder
-    TWITTER_PROCESS_RETWEETS: true
-- name: crm-client
-  buildpack: staticfile_buildpack
-  path: ./client/dist/cognitive-social-crm/
-  memory: 1024M
-  instances: 1
-  disk_quota: 1024M
-  random-route: false
-  timeout: 180  

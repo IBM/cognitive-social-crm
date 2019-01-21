@@ -7,7 +7,7 @@
     "start:buildAndRun": "node ./node_modules/.bin/tsc && NODE_ENV=production node dist/server.js",
     "start:prod": "NODE_ENV=production node server.js",
     "start": "npm run build:live",
-    "build": "node ./node_modules/.bin/tsc && cp package.json dist",
+    "build": "node ./node_modules/.bin/tsc",
     "build:live": "NODE_ENV=development nodemon --exec ./node_modules/.bin/ts-node -- server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

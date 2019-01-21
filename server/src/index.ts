@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import config from './config';
 import { errorHandler } from './middleware/ErrorHandler';
+import { MiddleWare } from './middleware/MiddleWare';
 import { AnalysisRoute } from './routes/AnalysisRoute';
 import { TweeterRoute } from './routes/TweeterRoute';
 import { TwitterOptions, CloudantOptions } from './model/CRMModel';
@@ -56,11 +57,12 @@ class App {
           process.exit(1);
         });
     }).catch((error) => {
-      logger.error('Error: ' + error);
+      logger.error(error);
     });
   }
 
   private config(): void {
+    this.app.use(MiddleWare.appMiddleware(this.app));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(errorHandler);

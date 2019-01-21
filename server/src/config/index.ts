@@ -31,13 +31,14 @@ let config = {
   max_buffer_size: Number(process.env.MAX_BUFFER_SIZE),
   isLocal: true,
 };
-
+/*
 if (process.env.NODE_ENV === 'production') {
   const cloudantCreds = vcapServices.getCredentials('cloudantNoSQLDB');
   config.cloudant_username = cloudantCreds.username;
   config.cloudant_password = cloudantCreds.password;
   config.cloudant_db = ANALYSIS_DB;
 }
+*/
 
 // merge environment specific config to default config.
 // tslint:disable-next-line:no-var-requires

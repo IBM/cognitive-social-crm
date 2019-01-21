@@ -84,7 +84,6 @@ export class DashboardComponent implements OnInit {
 
   loadSentimentSummary() {
     this.analysisService.getSentimentSummary().subscribe((sentiments) => {
-      console.log(JSON.stringify(sentiments));
       this.positiveTweets = sentiments.positive == null ? 0 : sentiments.positive;
       this.negativeTweets = sentiments.negative == null ? 0 : sentiments.negative;
     });
