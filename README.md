@@ -1,6 +1,6 @@
 *Read this in other languages: [日本語](README-ja.md).*
 
-[![Build Status](https://api.travis-ci.org/IBM/cognitive-social-crm.svg?branch=master)](https://travis-ci.org/IBM/cognitive-social-crm)
+[![Build Status](https://travis-ci.org/IBM/cognitive-social-crm.svg?branch=master)](https://travis-ci.org/IBM/cognitive-social-crm)
 
 # Monitor Twitter feeds to better understand customer sentiment using Watson Assistant, Tone Analyzer, and Natural Language Understanding
 
@@ -215,15 +215,15 @@ Either `Run the app on IBM Cloud` or `Run the app locally`.
   $ ibmcloud cf login -a https://api.ng.bluemix.net
   ```
   > Make sure you set the `target` and `space` correctly using `ibmcloud target -o <target> -s <space>`
-  
-  
+
+
 3. Push the app to IBM Cloud.
 
   ```
-  $ ibmcloud app push 
+  $ ibmcloud app push
   ```
 
-4. The application should now be running on IBM Cloud and listening to Tweets.  You can get the application URL by going to `Cloud Foundry Applications` section of IBM cloud dashboard. Click the name of the application you just pushed and clikc `Visit App URL` to access the application. 
+4. The application should now be running on IBM Cloud and listening to Tweets.  You can get the application URL by going to `Cloud Foundry Applications` section of IBM cloud dashboard. Click the name of the application you just pushed and clikc `Visit App URL` to access the application.
 
 ![](doc/source/images/ibm-cloud-dashboard.png)
 
