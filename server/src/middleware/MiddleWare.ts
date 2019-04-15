@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as express from 'express';
 import * as path from 'path';
-import {default as config, ENV } from '../config';
+import { default as config, ENV } from '../config';
 import logger from '../util/Logger';
 
 export class MiddleWare {
