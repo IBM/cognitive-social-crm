@@ -26,7 +26,7 @@
     "express": "^4.16.3",
     "moment": "^2.22.2",
     "twit": "^2.2.11",
-    "vcap_services": "^0.5.1",
+    "vcap_services": "^0.6.0",
     "watson-developer-cloud": "^3.9.0",
     "winston": "^3.0.0"
   },
@@ -41,7 +41,7 @@
     "@types/supertest": "^2.0.5",
     "@types/twit": "^2.2.19",
     "@types/winston": "^2.3.9",
-    "jest": "^23.5.0",
+    "jest": "^24.7.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "supertest": "^3.1.0",
