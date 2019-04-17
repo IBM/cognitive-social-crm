@@ -42,10 +42,6 @@ When the reader has completed this code pattern, they will understand how to:
 - [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
 - [Express](https://expressjs.com/): Fast, unopinionated, minimalist web framework for Node.js
 
-# Watch the Video
-
-[![](https://img.youtube.com/vi/aWKi4f6gytc/0.jpg)](https://youtu.be/aWKi4f6gytc)
-
 # Steps
 
 The setup is done in 3 primary steps. You will download the code, setup the application and then deploy the code to IBM Cloud. If you would like to run the code locally, there will be one more step to configure the credentials locally.
