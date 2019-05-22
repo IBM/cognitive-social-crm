@@ -31,6 +31,6 @@
     "concurrently": "^3.6.1"
   },
   "devDependencies": {
-    "tslint-eslint-rules": "^5.4.0"
+    "tslint-eslint-rules": "^5.4.0"    
   }
 }

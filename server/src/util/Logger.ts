@@ -39,14 +39,14 @@ const logger = {
     // call either console.log or noop here
     // with the console object as the context
     // and the new colored args :)
-    consoleLog.apply(console, args);
+    consoleLog.apply(console);
   },
   error(...args: any[]) {
     args = colorizeArgsByLogLevel(args, 'error');
     // call either console.log or noop here
     // with the console object as the context
     // and the new colored args :)
-    consoleError.apply(console, args);
+    consoleError.apply(console);
   },
 };
 
