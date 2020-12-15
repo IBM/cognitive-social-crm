@@ -1,3 +1,6 @@
+# WARNING: This repository is no longer maintained :warning:
+> This repository will not be updated. The repository will be kept available in read-only mode.
+
 _Read this in other languages: [日本語](README-ja.md)._
 
 [![Build Status](https://travis-ci.org/IBM/cognitive-social-crm.svg?branch=master)](https://travis-ci.org/IBM/cognitive-social-crm)
